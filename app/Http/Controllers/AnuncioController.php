@@ -20,7 +20,7 @@ class AnuncioController extends Controller
         $this->middleware('auth');
     }*/
 
-//vamos a crear el anuncio
+//creamos el form
 	public function create(){
 
         if (Auth::user()){
