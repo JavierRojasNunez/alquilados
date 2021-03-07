@@ -33,7 +33,7 @@ class AnuncioController extends Controller
             return redirect()->route('home');
 
         }
-        //setear variables del metodos ediat a false para que no de conflictos las variables pasadas por el metodo editar a la vista
+        //setear variables del metodos edit a false para que no de conflictos con las variables pasadas por el metodo editar a la vista
         $anuncio = false;
         $anounceId = false;
         $images_ = false;
