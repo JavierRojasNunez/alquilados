@@ -10,9 +10,7 @@ use Intervention\Image\ImageManagerStatic as Image;
 use App\Models\Anounces;
 use App\Models\Imagen;
 use App\Http\Controllers\ProvincesController;
-use GuzzleHttp\ToArrayInterface;
-use Illuminate\Http\Response;
-use Illuminate\Support\Facades\DB;
+
 
 class AnuncioController extends Controller
 {
