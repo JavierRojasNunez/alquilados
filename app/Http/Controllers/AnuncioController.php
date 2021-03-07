@@ -414,9 +414,7 @@ class AnuncioController extends Controller
                     mkdir($dir, 0777, true);
                 }
 
-                //vamos a fijar a cinco las imagenes que se puedan subir si o si
                 $totalImages = count($files);
-                //$totalImages = 5;
                 for($i = 0; $i < $totalImages; $i++){
 
                        // $fileUpName = $files[$i]->getClientOriginalName();
