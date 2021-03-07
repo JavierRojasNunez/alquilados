@@ -20,7 +20,7 @@ class AnuncioController extends Controller
         $this->middleware('auth');
     }*/
 
-//creamos el form
+
 	public function create(){
 
         if (Auth::user()){
