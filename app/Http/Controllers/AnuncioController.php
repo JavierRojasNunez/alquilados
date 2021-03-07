@@ -16,9 +16,9 @@ use Illuminate\Support\Facades\DB;
 
 class AnuncioController extends Controller
 {
-   /* public function __construct(){
+    public function __construct(){
         $this->middleware('auth');
-    }*/
+    }
 
 
 	public function create(){
@@ -399,7 +399,7 @@ class AnuncioController extends Controller
                     $anounceId  = NULL;
                 }
 
-            //vamos a guardar los datos en caso de que no venga $request->file('foto1') o $anounceId si no editar anncio
+            //vamos a guardar los datos en caso de que  venga $request->file('foto1') o $anounceId si no editar anncio
             if( $request->file('foto1') !== NULL || $anounceId === NULL) {
 
             //guardamos datos form en bd y subimos files e introducimos en su tabla images
