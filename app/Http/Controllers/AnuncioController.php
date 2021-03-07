@@ -16,7 +16,7 @@ use Illuminate\Support\Facades\DB;
 
 class AnuncioController extends Controller
 {
-    //proteger la clase a users no identificados
+    //proteger la clase a users no identificados mediante >middleware('auth')
     public function __construct(){
         $this->middleware('auth');
     }
