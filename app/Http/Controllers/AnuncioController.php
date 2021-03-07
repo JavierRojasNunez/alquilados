@@ -20,6 +20,7 @@ class AnuncioController extends Controller
         $this->middleware('auth');
     }*/
 
+//vamos a crear el anuncio
 	public function create(){
 
         if (Auth::user()){
@@ -122,7 +123,7 @@ class AnuncioController extends Controller
         $anuncio = Anounces::findOrFail($anounceId);
 
         if($anuncio){
-             $imagenes = Imagen::all()->where( 'anounces_id', '=', $anounceId )->where('user_id', '=', Auth::user()->id); 
+             $imagenes = Imagen::all()->where( 'anounces_id', '=', $anounceId )->where('user_id', '=', Auth::user()->id);
         }
 
         if($imagenes && Auth::user()->id === $anuncio->user_id){
@@ -135,7 +136,7 @@ class AnuncioController extends Controller
                 //buscamos la imagen
                 $imagenEliminar = Imagen::findOrFail($imagen->id);
 
-                
+
                 //eliminamos primero las imagenes de la carpeta y despues de la bbdd
                 if (file_exists($imageDelete)) {
                     $ok = unlink($imageDelete);
@@ -147,7 +148,7 @@ class AnuncioController extends Controller
                     $errores_ = true;
                 }
 
-                
+
             }
 
             if(!$errores_){
