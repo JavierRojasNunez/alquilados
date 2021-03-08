@@ -288,7 +288,21 @@ class AnuncioController extends Controller
             $anuncio->province_rent    = $province_;
             $anuncio->city_rent        = $request->input('city_rent');
             $anuncio->street_rent      = $request->input('street_rent');
-            $anuncio->adress_rent      = $request->input('adress_rent');
+                       
+            $direccion = htmlentities($request->input('adress_rent'));
+            $direccion = strtolower($direccion);
+            $direccion = explode(' ', $direccion);
+            $direccionAcentos = [];
+
+            foreach($direccion as $key => $value){
+                $direccionAcentos[] =  ucfirst($value);
+            }
+
+            $direccion = implode(' ', $direccionAcentos);
+            $direccion = html_entity_decode ( $direccion );
+
+            $anuncio->adress_rent      = $direccion;
+
             $anuncio->num_street_rent  = $request->input('num_street_rent');
             $anuncio->flat_street_rent = $request->input('flat_street_rent');
             $anuncio->cp_rent          = $request->input('cp_rent');

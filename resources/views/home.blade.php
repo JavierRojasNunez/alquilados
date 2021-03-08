@@ -36,7 +36,7 @@
         ?>
 
          {{--dd($anuncio)--}}
-        <div class="col-md-8">
+        <div class="col-md-10">
             <div class="card">
                 <div class="card-header">{{ __($anuncio->titulo) }}</div>
 
@@ -94,10 +94,21 @@
                         }
                         ?>
 
-                   <p>{{$anuncio->type_rent}} {{$tipo_}}   por {{$anuncio->price}} €. </p>
-                   <p>Esta en   {{$anuncio->city_rent}} en la  {{$anuncio->street_rent}}  {{$anuncio->adress_rent}}   nº {{$anuncio->num_street_rent}}. </p>
+                    <div class="data-1">
+                    <span class="price">{{$anuncio->price}} € </span> <span class="city">{{$anuncio->city_rent}}</span>
+                    </div>
+                    <div class="data-2">
+                        {{$anuncio->type_rent}} en {{$anuncio->payment_period}}
+                    </div>
+                    <div class="data-precio">
+                    {{$anuncio->price}} €. 
+                    </div>
+                   
+                   <p>Esta en  {{$anuncio->street_rent}}  {{$anuncio->adress_rent}}   nº {{$anuncio->num_street_rent}}. </p>
                    <p>Tiene   {{$anuncio->num_rooms}} habitacion/es y  {{$anuncio->num_baths}} baño/s   </p>
-                    </div> 
+                    
+                
+                </div> 
                     </div>              
                 </div>
             </div>

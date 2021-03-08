@@ -1,3 +1,7 @@
+.py-4{
+  margin-top: 70px !important;
+}
+
 .invoiceBox > input {
     display: none;
   }
@@ -196,4 +200,18 @@ input:checked + .slide:before {
 }
 .slide.round:before {
   border-radius: 50%;
+}
+
+.data-1{
+  margin-top: 7px;
+  font-size: x-large;
+}
+.price{ 
+  padding: 3px;
+  background-color: #f18520;
+  font-weight: bolder;
+  padding-left: 9px;
+}
+.city{
+  margin-left: 20px;
 }

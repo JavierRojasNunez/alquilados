@@ -147,7 +147,7 @@ if(!$anounce_id ){
                       <option>{{ __('alquiler semanal') }}</option>
                       <option> {{ __('alquiler mensual') }}</option>
                       <option> {{ __('alquiler anual') }}</option>
-                      <option> {{ __('alquiler temporada') }}</option>
+                      <option> {{ __('alquiler de temporada') }}</option>
                       <option> {{ __('aquiler con opción a compra') }}</option>
                       <option> {{ __('traspaso') }}</option>
                       <option>{{ __('venta') }}</option>
@@ -346,7 +346,7 @@ if(!$anounce_id ){
         
                 <div class="col-md-9">
                     <br />
-                <div class="card" style="" >
+                <div class="card" >
                     <div class="card-header" >{{ __('¿Que perfil buscas?') }}</div>
     
                     <div class="card-body">
