@@ -15,7 +15,7 @@ use App\Http\Controllers\ProvincesController;
 class AnuncioController extends Controller
 {
 
-    
+    //proteger el controlador
     public function __construct(){
         $this->middleware('auth');
     }
