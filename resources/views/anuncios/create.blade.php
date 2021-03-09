@@ -665,15 +665,19 @@ if(!$anounce_id ){
             <br />
         
                   @if(isset($images_)  )
-                  @include('includes.formImages')
-                  
+                  @include('includes.formImages')                 
                   @endif
-                  
-                  
-          <div style="text-align: center">       
-        <button  type="submit" id="submit1" class="btn btn-primary" style="width: 50%;text-align:center ">{{ __('Enviar') }}</button>
-        </div> 
+                 @if (!isset ($numAnounces) || $numAnounces < 2)
+            <div class="row justify-content-center">       
+            <button  type="submit" id="submit1" class="btn btn-primary" style="width: 50%;text-align:center ">{{ __('Enviar') }}</button>
+            </div> 
+            @endif             
             </div>
+            
+           
+                
+            
+        
         </div>
 </form>
 </div>       

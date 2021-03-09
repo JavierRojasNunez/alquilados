@@ -203,16 +203,52 @@ input:checked + .slide:before {
 }
 
 .data-1{
-  margin-top: 7px;
   font-size: x-large;
 }
 .price{ 
-  padding: 3px;
-  background-color: #f18520;
+  color: #f18520;
   font-weight: bolder;
-  padding-left: 9px;
+
 }
 .city{
   margin-left: 20px;
 }
 
+.card-phone{
+  height: 50%;
+}
+.data-caracteristicas{
+  font-size: 16px;
+  margin-bottom: 10px;
+
+}
+
+.icons{
+  width: 35px;
+  height: 35px;
+  color: #f18520;
+}
+
+.icons-small{
+  width: 25px;
+  height: 25px;
+  color: #f18520;
+}
+
+.col-md-2.right-card{
+  text-align: right;
+}
+
+.data-1{
+  margin-bottom: 10px;
+}
+
+.data-2{
+  margin-bottom: 10px;
+  font-size: 18px;
+}
+
+.data-3{
+  margin-bottom: 10px;
+  font-size: 18px;
+}

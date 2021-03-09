@@ -84,7 +84,7 @@
                  
                    
                 </div> 
-                    <div class="col-md-8">
+                    <div class="col-md-6">
 
                         <?php
                         if ($anuncio->payment_period == 'Venta') {
@@ -100,15 +100,28 @@
                     <div class="data-2">
                         {{$anuncio->type_rent}} en {{$anuncio->payment_period}}
                     </div>
-                    <div class="data-precio">
-                    {{$anuncio->price}} €. 
+                    <div class="data-caracteristicas">
+                        <img src="icons/dormitorio.png" class="icons-small"> {{$anuncio->num_rooms}}
+                        &nbsp;&nbsp;
+                        <img src="icons/bath.png" class="icons-small"> {{$anuncio->num_baths}}
+                        &nbsp;&nbsp;
+                        <img src="icons/superficie.png" class="icons-small"> {{$anuncio->meter2}}m<sup>2</sup>
                     </div>
-                   
-                   <p>Esta en  {{$anuncio->street_rent}}  {{$anuncio->adress_rent}}   nº {{$anuncio->num_street_rent}}. </p>
-                   <p>Tiene   {{$anuncio->num_rooms}} habitacion/es y  {{$anuncio->num_baths}} baño/s   </p>
-                    
-                
+                    <div class="data-3">
+                   Situada en  {{$anuncio->street_rent}}  {{$anuncio->adress_rent}}   nº {{$anuncio->num_street_rent}}. 
+                    </div>
+                    <div class="data-4">
+                   {{ Str::limit($anuncio->descripcion, 100)}}
+                    </div>
                 </div> 
+                <div class="col-md-2 right-card" >
+                    <div class="card-phone">
+                        <img src="icons/phone.png" class="icons">
+                    </div>
+                    <div class="">
+                        <img src="icons/email.png" class="icons">
+                    </div>
+                </div>
                     </div>              
                 </div>
             </div>
