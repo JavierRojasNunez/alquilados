@@ -18,7 +18,7 @@ class Anounces extends Model
      */
     protected $fillable = [
         'user_id', 'type_rent', 'price', 'min_time_ocupation', 'payment_period', 'meter2', 'num_roomms_for_rent', 'num_rooms',
-        'num_baths', 'deposit', 'available_date', 'titulo', 'descripcion', 'num_people_in', 'people_in_job', 'people_in_sex',
+        'num_baths', 'deposit', 'phone' ,'available_date', 'titulo', 'descripcion', 'num_people_in', 'people_in_job', 'people_in_sex',
         'people_in_tabaco', 'people_in_pet', 'lookfor_who_job', 'lookfor_who_sex', 'lookfor_who_tabaco', 'lookfor_who_pet',
         'cauntry_rent', 'province_rent', 'city_rent', 'street_rent', 'adress_rent', 'num_street_rent', 'flat_street_rent',
         'cp_rent', 'funiture', 'ascensor', 'calefaction', 'balcon', 'terraza', 'gas', 'swiming', 'internet', 'washing_machine',

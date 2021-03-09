@@ -516,7 +516,7 @@ if(!$anounce_id ){
 
                   <div class="form-group col-md-3">
                     <label for="phone">{{ __('Tu teléfono') }}<sup style="color:red; font-size:16px">*</sup></label>
-                    <input type="number"  id="phone" name="phone" class="form-control @error('phone') is-invalid @enderror"  value="{{ $anuncio ? $anuncio->phone :  old('phone') }}" required  autocomplete="phone" >
+                    <input type="text"  id="phone" name="phone" class="form-control @error('phone') is-invalid @enderror"  value="{{ $anuncio ? $anuncio->phone :  old('phone') }}" required  autocomplete="phone" >
                     @error('phone')
                     <span class="invalid-feedback" role="alert">
                         <strong>{{ $message }}</strong>

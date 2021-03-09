@@ -46,6 +46,7 @@ class CreateAnouncesTable extends Migration
             $table->string('num_street_rent')->nullable(true);
             $table->string('flat_street_rent')->nullable(true);
             $table->string('cp_rent')->nullable(true);
+            $table->integer('phone', 10)->nullable(true);
             $table->boolean('funiture')->nullable(true);
             $table->boolean('ascensor')->nullable(true);
             $table->boolean('calefaction')->nullable(true);

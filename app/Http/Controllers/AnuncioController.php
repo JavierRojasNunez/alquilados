@@ -226,6 +226,7 @@ class AnuncioController extends Controller
                 'street_rent' => 'nullable|string|max:100',
                 'adress_rent' => 'required|string|max:255',
                 'num_street_rent' => 'required|string|max:255',
+                'phone' => 'required|numeric|max:999999999',
                 'observations' => 'max:3500',
 
 
@@ -242,6 +243,7 @@ class AnuncioController extends Controller
             $anuncio->num_rooms           = $request->input('num_rooms');
             $anuncio->num_baths           = $request->input('num_baths');
             $anuncio->deposit             = $request->input('deposit');
+            $anuncio->phone               = $request->input('phone');
             $anuncio->available_date      = $request->input('available_date');
             $anuncio->titulo              = $request->input('titulo');
             $anuncio->descripcion         = $request->input('descripcion');
@@ -288,6 +290,7 @@ class AnuncioController extends Controller
             $anuncio->province_rent    = $province_;
             $anuncio->city_rent        = $request->input('city_rent');
             $anuncio->street_rent      = $request->input('street_rent');
+            
                        
             $direccion = htmlentities($request->input('adress_rent'));
             $direccion = strtolower($direccion);
@@ -450,8 +453,8 @@ class AnuncioController extends Controller
                         $img = Image::make($files[$i])
                         ->fit(800, 600, function ($constraint) {
                             $constraint->upsize();
-                        })
-                        ->save(   public_path  ('/anounces/' . Auth::user()->id . '/' .$newName), 90 );
+                        })->orientate()
+                        ->save(   public_path  ('/anounces/' . Auth::user()->id . '/' .$newName), 80 );
                         /*
                         ->resize(650, 650, function ($constraint) {
                             $constraint->aspectRatio();
@@ -500,7 +503,7 @@ class AnuncioController extends Controller
                 if($anuncio->user_id !== Auth::user()->id){
                     return redirect()->route('home');
                 }
-
+                //dd($values = $anuncio->toArray());
                 $values = $anuncio->toArray();
                 $anuncio = false;
                 $anuncio = Anounces::findOrFail($anounceId);
@@ -509,6 +512,7 @@ class AnuncioController extends Controller
                 foreach($values as $key => $value){
 
                     $updateData = [$key => $value];
+                    
 
                     $ok = $anuncio->update($updateData);
                         if(!$ok){
