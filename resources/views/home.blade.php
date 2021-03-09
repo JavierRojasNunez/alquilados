@@ -5,7 +5,7 @@
     <div class="row justify-content-center">
        
         
-        <div class="col-md-8">
+        <div class="col-md-10">
         <h1>Últimas publicaciones interesantes.</h1>
         </div>
         
@@ -36,7 +36,7 @@
         ?>
 
          {{--dd($anuncio)--}}
-        <div class="col-md-10">
+        <div class="col-md-12">
             <div class="card">
                 <div class="card-header">{{ __($anuncio->titulo) }}</div>
 
@@ -111,7 +111,7 @@
                    Situada en  {{$anuncio->street_rent}}  {{$anuncio->adress_rent}}   nº {{$anuncio->num_street_rent}}. 
                     </div>
                     <div class="data-4">
-                   {{ Str::limit($anuncio->descripcion, 100)}}
+                   {{ Str::limit($anuncio->descripcion, 250)}}
                     </div>
                 </div> 
                 <div class="col-md-2 right-card" >
