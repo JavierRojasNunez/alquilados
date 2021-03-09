@@ -101,11 +101,11 @@
                         {{$anuncio->type_rent}} en {{$anuncio->payment_period}}
                     </div>
                     <div class="data-caracteristicas">
-                        <img src="icons/dormitorio.png" class="icons-small"> {{$anuncio->num_rooms}}
-                        &nbsp;&nbsp;
-                        <img src="icons/bath.png" class="icons-small"> {{$anuncio->num_baths}}
-                        &nbsp;&nbsp;
-                        <img src="icons/superficie.png" class="icons-small"> {{$anuncio->meter2}}m<sup>2</sup>
+                        <img src="icons/dormitorio.png" class="icons-small"> &nbsp; {{$anuncio->num_rooms}}
+                        &nbsp; &nbsp; &nbsp; 
+                        <img src="icons/bath.png" class="icons-small"> &nbsp; {{$anuncio->num_baths}}
+                        &nbsp; &nbsp; &nbsp; 
+                        <img src="icons/superficie.png" class="icons-small"> &nbsp; {{$anuncio->meter2}}m2</sup>
                     </div>
                     <div class="data-3">
                    Situada en  {{$anuncio->street_rent}}  {{$anuncio->adress_rent}}   nº {{$anuncio->num_street_rent}}. 
@@ -115,11 +115,16 @@
                     </div>
                 </div> 
                 <div class="col-md-2 right-card" >
+                    
                     <div class="card-phone">
+                     
                         <img src="icons/phone.png" class="icons">
                     </div>
-                    <div class="">
+                   
+                    <div class="card-mail">
+                      
                         <img src="icons/email.png" class="icons">
+            
                     </div>
                 </div>
                     </div>              
