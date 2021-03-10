@@ -6,7 +6,7 @@
        
         
         <div class="col-md-10">
-        <h1>Últimas publicaciones interesantes.</h1>
+        <h1>Últimos anuncios.</h1>
         </div>
         
   
@@ -46,7 +46,7 @@
               
                         
 
-                        <div style="margin-bottom:30px" >
+                        
                         <div id="carouselExampleControls{{$anuncio->id}}" class="carousel slide" data-ride="carousel" data-interval="false" style="background-color: white">
                             
                             <div class="carousel-inner" >
@@ -61,7 +61,7 @@
                             }
                             ?>
                               <div class="carousel-item {{$active}}">
-                              <img  width="100%" src="anounces/{{$anuncio->user_id}}/{{$imagenes->imageName}}" alt="{{$anuncio->titulo}}">
+                              <img  width="100%" src="anounces/{{$anuncio->user_id}}/{{$imagenes->imageName}}" title="{{$anuncio->titulo}}"  alt="{{$anuncio->titulo}}">
                               </div>
                             <?php   $i++ ?>
                               @endforeach
@@ -79,8 +79,7 @@
                             </a>
                           </div>
                         </div>
-                     </div>
-                        <img  width="100%" src="anounces/{{$anuncio->user_id}}/{{$imagenes->imageName}}" alt="Card image cap">
+                    
                  
                    
                 </div> 
@@ -100,12 +99,12 @@
                     <div class="data-2">
                         {{$anuncio->type_rent}} en {{$anuncio->payment_period}} - <b>{{$anuncio->province_rent}}</b>
                     </div>
-                    <div class="data-caracteristicas">
-                        <img src="icons/dormitorio.png" class="icons-small"> &nbsp; {{$anuncio->num_rooms}}
+                    <div class="d-flex p-1 data-caracteristicas">
+                        <img src="icons/dormitorio.png" class="icons-small" title="Dormitorios" alt="Dormitorios"> &nbsp; {{$anuncio->num_rooms}}
                         &nbsp; &nbsp; &nbsp; 
-                        <img src="icons/bath.png" class="icons-small"> &nbsp; {{$anuncio->num_baths}}
+                        <img src="icons/bath.png" class="icons-small" title="Baños" alt="Baños"> &nbsp; {{$anuncio->num_baths}}
                         &nbsp; &nbsp; &nbsp; 
-                        <img src="icons/superficie.png" class="icons-small"> &nbsp; {{$anuncio->meter2}}m2</sup>
+                        <img src="icons/superficie.png" class="icons-small" title="Superficie" alt="Superficie"> &nbsp; {{$anuncio->meter2}} m&sup2;
                     </div>
                     <div class="data-3">
                    Situada en  {{$anuncio->street_rent}}  {{$anuncio->adress_rent}}   nº {{$anuncio->num_street_rent}}. 
@@ -118,12 +117,12 @@
                     
                     <div class="card-phone">
                      
-                        <img src="icons/phone.png" class="icons">
+                        <img src="icons/phone.png" class="icons"  title="Ver teléfono" alt="Ver teléfono">
                     </div>
                    
                     <div class="card-mail">
                       
-                        <img src="icons/email.png" class="icons">
+                        <img src="icons/email.png" class="icons"  title="Enviar mensaje" alt="Enviar mensaje">
             
                     </div>
                 </div>
