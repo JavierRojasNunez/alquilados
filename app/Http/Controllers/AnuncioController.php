@@ -17,7 +17,7 @@ class AnuncioController extends Controller
 
     //proteger controlador
     public function __construct(){
-        $this->middleware(['auth','verified']);
+        $this->middleware('auth');
     }
 
 

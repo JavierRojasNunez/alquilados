@@ -1,9 +1,6 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use Illuminate\Foundation\Auth\EmailVerificationRequest;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,23 +13,20 @@ use Illuminate\Support\Facades\Auth;
 |
 */
 
-Auth::routes(['verify' => true]);
+
+
+Auth::routes();
+
+
 Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 Route::post('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
-
-
-
-
-
-
 //anuncios
-Route::get('/nuevo-anuncio', [App\Http\Controllers\AnuncioController::class, 'create'])->middleware(['auth','verified'])->name('create.anounce');
-
-Route::post('/publicar', [App\Http\Controllers\AnuncioController::class, 'save'])->middleware(['auth','verified'])->name('save.anounce');
-Route::get('/mis-anuncios', [App\Http\Controllers\AnuncioController::class, 'getAnounces'])->middleware('verified')->name('my.anounce');
-Route::get('/editar-anuncio/{id}', [App\Http\Controllers\AnuncioController::class, 'edit'])->middleware('verified')->name('edit.anounce');
-Route::get('/eliminar-anuncio/{id}', [App\Http\Controllers\AnuncioController::class, 'delete'])->middleware('verified')->name('delete.anounce');
+Route::get('/nuevo-anuncio', [App\Http\Controllers\AnuncioController::class, 'create'])->name('create.anounce');
+Route::post('/publicar', [App\Http\Controllers\AnuncioController::class, 'save'])->name('save.anounce');
+Route::get('/mis-anuncios', [App\Http\Controllers\AnuncioController::class, 'getAnounces'])->name('my.anounce');
+Route::get('/editar-anuncio/{id}', [App\Http\Controllers\AnuncioController::class, 'edit'])->name('edit.anounce');
+Route::get('/eliminar-anuncio/{id}', [App\Http\Controllers\AnuncioController::class, 'delete'])->name('delete.anounce');
 
 // imagenes de los anuncios
 Route::get('/eliminar-imagenes/{id}/{anounce_id}', [App\Http\Controllers\ImagenController::class, 'deleteImage'])->name('delete.image');
