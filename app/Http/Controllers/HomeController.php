@@ -20,9 +20,10 @@ class HomeController extends Controller
      *
      * @return void
      */
-   /* public function __construct()
+
+    /*public function __construct()
     {
-        $this->middleware('auth');
+        $this->middleware('verified');
     }*/
 
     /**
@@ -33,24 +34,6 @@ class HomeController extends Controller
     public function index()
     {
    
-
-      /*  $heyApiGeoapi = '9fa3078bcede6cd5f69741fd0b198a36c440b8d0e920a3872c6264305e8f6487';
-        $word = 'mossen';
-        $url = "https://apiv1.geoapi.es/qcalles?QUERY=$word&type=JSON&key=$heyApiGeoapi";
-
-        $calles = file_get_contents($url);
-        $calles = json_decode($calles, true);
-
-        $calles_ =  $calles['data'];
-
-        for ($i = 0; $i < count($calles_); $i++){
-            echo $calles_[$i]['NVIAC'].' - tipo via; '.  $calles_[$i]['TVIA'].' - CP: '. $calles_[$i]['CPOS'].'<br>';
-        }
-       
-dd($calles);*/
-        
-
-
 
 
         $anuncios = Anounces::paginate(5);
