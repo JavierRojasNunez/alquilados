@@ -75,7 +75,7 @@
                             </a>
                           </div>
                         </div>
-                    
+                        <img  width="100%" style="margin-bottom: 25px" src="anounces/{{$anuncio->user_id}}/{{$imagenes->imageName}}" title="{{$anuncio->titulo}}"  alt="{{$anuncio->titulo}}">
                  
                    
                 </div> 
