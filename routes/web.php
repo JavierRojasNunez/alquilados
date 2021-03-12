@@ -14,28 +14,11 @@ use Illuminate\Foundation\Auth\EmailVerificationRequest;
 */
 
 
-//Auth::routes();
 Auth::routes(['verify' => true]);
-
-/*Route::get('/email/verify', function () {
-    return view('auth.verify');
-})->middleware('auth')->name('verification.notice');
-
-Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
-    $request->fulfill();
-
-    return redirect('/');
-})->middleware(['auth', 'signed'])->name('verification.verify');
-
-Route::post('/email/verification-notification', function (Request $request) {
-    $request->user()->sendEmailVerificationNotification();
-
-    return back()->with('message', 'Verification link sent!')->with('resent', 'Verification link sent!');
-})->middleware(['auth', 'throttle:6,1'])->name('verification.send');*/
 
 
 Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-Route::post('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+//Route::post('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 Route::get('/confirmation', [App\Http\Controllers\HomeController::class, 'redirectRegister']);
 //anuncios
 //Route::get('/nuevo-anuncio', [App\Http\Controllers\AnuncioController::class, 'create'])->name('create.anounce');

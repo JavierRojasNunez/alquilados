@@ -24,25 +24,7 @@
        
         @foreach ($anuncios as $anuncio)
 
-        <?php     
-
-        //vamos a recorrer el array de imagenes del anuncio y si no hay ponemos por defecto
-            foreach ($anuncio->imagen as $key2 => $imagenes){
-                
-                if(isset($imagenes->imageName) && $imagenes->imageName !== NULL && $imagenes->imageName != ''){
-
-                    $anounceImage = $imagenes->imageName;
-                    break;
-
-                }else{
-
-                    //incluir imagen defecto
-                    $anounceImage = 'sin_imagen';
-                }
-                
-            }  
-        
-        ?>
+  
 
          
         <div class="col-md-12">
@@ -55,7 +37,12 @@
               
                         
 
-                        
+                        <div class="num-images">
+                        <span class="num-images-span">
+                            {{ count($anuncio->imagen) }}&nbsp; 
+                            <img src="icons/photo.png" class="icons-small-2" title="Baños" alt="Baños"> 
+                            </span>
+                        </div>
                         <div id="carouselExampleControls{{$anuncio->id}}" class="carousel slide" data-ride="carousel" data-interval="false" style="background-color: white">
                             
                             <div class="carousel-inner" >
@@ -78,16 +65,19 @@
                             </div>
 
                             <div >
-                            <a class="carousel-control-prev" style="margin-top:105px; margin-left:3px" href="#carouselExampleControls{{$anuncio->id}}" role="button" data-slide="prev">
+                            <a class="carousel-control-prev" style=" margin-left:3px" href="#carouselExampleControls{{$anuncio->id}}" role="button" data-slide="prev">
                               <span class="carousel-control-prev-icon" aria-hidden="true"></span>
                               <span class="sr-only">Previous</span>
                             </a>
-                            <a class="carousel-control-next" style="margin-top:105px; margin-right:3px" href="#carouselExampleControls{{$anuncio->id}}" role="button" data-slide="next">
+                            <a class="carousel-control-next" style="margin-right:3px" href="#carouselExampleControls{{$anuncio->id}}" role="button" data-slide="next">
                               <span class="carousel-control-next-icon" aria-hidden="true"></span>
                               <span class="sr-only">Next</span>
                             </a>
                           </div>
                         </div>
+
+                      
+
                         <img  width="100%" style="margin-bottom: 25px" src="anounces/{{$anuncio->user_id}}/{{$imagenes->imageName}}" title="{{$anuncio->titulo}}"  alt="{{$anuncio->titulo}}">
                  
                    
@@ -144,8 +134,65 @@
 @endforeach
  
     </div>
-    <div id="links-nav">
-    {{$anuncios->links()}}
-</div>
+  
+    <div class="col-md-12">
+        <h1>Últimos anuncios en tu zona.</h1>
+        <br>
+    <div class="row">
+
+    @foreach ($selections as $anuncio)
+
+    <?php     
+
+        //vamos a recorrer el array de imagenes del anuncio y si no hay ponemos por defecto
+            foreach ($anuncio->imagen as $key2 => $imagenes){
+                
+                if(isset($imagenes->imageName) && $imagenes->imageName !== NULL && $imagenes->imageName != ''){
+
+                    $anounceImage = $imagenes->imageName;
+                    break;
+
+                }else{
+
+                    //incluir imagen defecto
+                    $anounceImage = 'sin_imagen';
+                }
+                
+            }  
+        
+        ?>
+
+    <div class="col-md-3">
+    <div class="card-deck">
+        <div class="card">
+          <img class="card-img-top" src="anounces/{{$anuncio->user_id}}/{{$anounceImage}}" title="{{$anuncio->titulo}}"  alt="{{$anuncio->titulo}}" alt="Card image cap">
+          <div class="card-body">
+            <div class="data-1-small">
+                <span class="price">{{$anuncio->price}} € </span> <span class="city-small">{{$anuncio->city_rent}}</span>
+                </div>
+            <p class="card-text">{{ Str::limit($anuncio->descripcion, 100)}}</p>
+          </div>
+          
+            <div class="data-caracteristicas-small">
+                <img src="icons/dormitorio.png" class="icons-small-2" title="Dormitorios" alt="Dormitorios"> &nbsp; {{$anuncio->num_rooms}}
+                &nbsp; &nbsp; &nbsp; 
+                <img src="icons/bath.png" class="icons-small-2" title="Baños" alt="Baños"> &nbsp; {{$anuncio->num_baths}}
+                &nbsp; &nbsp; &nbsp; 
+                <img src="icons/superficie.png" class="icons-small-2" title="Superficie" alt="Superficie"> &nbsp; {{$anuncio->meter2}} m&sup2;
+            </div>
+          
+        </div>
+    </div>
+       
+    </div>
+
+    @endforeach
+
+    </div>
+    
+
+      <div id="links-nav">
+        {{$anuncios->links()}}
+        </div>
 </div>
 @endsection

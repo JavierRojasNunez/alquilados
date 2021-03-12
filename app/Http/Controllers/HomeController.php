@@ -32,7 +32,15 @@ class HomeController extends Controller
    
 
         $anuncios = Anounces::paginate(5);
+        $selections = Anounces::select('*')
+        ->limit(4)
+        ->orderByDesc('id')
+        ->get();
 
+        return view('home', [           
+            'anuncios' => $anuncios,
+            'selections' => $selections,
+        ]);
 
        /* $imagenes = DB::table('images')
 
@@ -52,22 +60,25 @@ class HomeController extends Controller
         ->get();*/
 
 
-        return view('home', [           
-            'anuncios' => $anuncios,
-        ]);
+        
         
     }
 
     public function redirectRegister(){
 
         $anuncios = Anounces::paginate(5);
+        $selections = Anounces::select('*')
+        ->limit(4)
+        ->orderByDesc('id')
+        ->get();
 
-       return redirect()->route('home')->with(['statuss_' => 'Problemas al editar el anuncio, intentalo de nuevo por favor.']);
+        
         $mensaje = 'Genial!! el registro fué bien. Te hemos enviado un email para que verifiques tu cuenta.';
         return view('home', [           
             'anuncios' => $anuncios,
-            
-        ])->with(['statuss_' => 'Genial!! el registro fué bien. Te hemos enviado un email para que verifiques tu cuenta.']);
+            'registro_ok' => $mensaje,
+            'selections' => $selections,
+        ])->with(['statuss_' => $mensaje]);
         
     }
 }

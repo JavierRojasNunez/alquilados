@@ -215,16 +215,29 @@ input:checked + .slide:before {
   margin-left: 20px;
 }
 
+.city-small{
+  margin-left: 8px;
+}
+
 .col-md-6.card-phone{
   height: 50%;
 }
 .data-caracteristicas{
   display: flex;
-
   font-size: 16px;
   margin-bottom: 10px;
-  
+}
 
+
+
+.data-caracteristicas-small{
+  margin-left: 22px;
+  margin-right: 10px;
+  padding: 5px;
+  text-align: center !important;
+  display:inline-flex;
+  margin-bottom: 10px;
+  
 }
 
 .icons{
@@ -236,7 +249,16 @@ input:checked + .slide:before {
 .icons-small{
   width: 25px;
   height: 25px;
-  color: #f18520;
+}
+
+.icons-small-2{
+  width: 20px;
+  height: 20px;
+}
+
+.icons-small-3{
+  width: 15px;
+  height: 15px;
 }
 
 .col-md-2.right-card{
@@ -245,6 +267,12 @@ input:checked + .slide:before {
 }
 
 .data-1{
+  margin-bottom: 10px;
+}
+
+.data-1-small{
+  text-align: center;
+  font-size: 14px;
   margin-bottom: 10px;
 }
 
@@ -266,4 +294,26 @@ float: left;
 .card-mail{
   width: 50%;
   float: left;
+}
+
+.num-images{
+  margin-top: 10px;
+  top: auto;
+  bottom: 0;
+  display: block !important;
+  color: #fff;
+  position: absolute;
+  width: 100%;
+  top: 0;
+  padding: 10px;
+  z-index: 1;
+}
+
+.num-images-span{
+background-color: #f3f1f1ce;
+color: #000000;
+padding: 3px 5px;
+font-size: 14px;
+font-size: .7rem;
+border-radius: 2px;
 }
