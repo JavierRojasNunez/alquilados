@@ -31,25 +31,6 @@ class HomeController extends Controller
     {
    
 
-      /*  $heyApiGeoapi = '9fa3078bcede6cd5f69741fd0b198a36c440b8d0e920a3872c6264305e8f6487';
-        $word = 'mossen';
-        $url = "https://apiv1.geoapi.es/qcalles?QUERY=$word&type=JSON&key=$heyApiGeoapi";
-
-        $calles = file_get_contents($url);
-        $calles = json_decode($calles, true);
-
-        $calles_ =  $calles['data'];
-
-        for ($i = 0; $i < count($calles_); $i++){
-            echo $calles_[$i]['NVIAC'].' - tipo via; '.  $calles_[$i]['TVIA'].' - CP: '. $calles_[$i]['CPOS'].'<br>';
-        }
-       
-dd($calles);*/
-        
-
-
-
-
         $anuncios = Anounces::paginate(5);
 
 
@@ -70,19 +51,23 @@ dd($calles);*/
         ->groupBy('images.anounces_id')
         ->get();*/
 
-        //dd($imagenes);
 
-        //$images = Imagen::
-
-        //$imagenes = Imagen::all();
-        //$imagenes = Imagen::orderBy('id', 'desc')->get();
-        //$imagenes = Imagen::all()->groupBy('anounces_id');
-        //dd($anuncios);
-        //return view('home');
-        //return View::View('home',compact('users'));
         return view('home', [           
-            'anuncios' =>$anuncios,
-        ] );
+            'anuncios' => $anuncios,
+        ]);
+        
+    }
+
+    public function redirectRegister(){
+
+        $anuncios = Anounces::paginate(5);
+
+       return redirect()->route('home')->with(['statuss_' => 'Problemas al editar el anuncio, intentalo de nuevo por favor.']);
+        $mensaje = 'Genial!! el registro fué bien. Te hemos enviado un email para que verifiques tu cuenta.';
+        return view('home', [           
+            'anuncios' => $anuncios,
+            
+        ])->with(['statuss_' => 'Genial!! el registro fué bien. Te hemos enviado un email para que verifiques tu cuenta.']);
         
     }
 }

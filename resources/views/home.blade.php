@@ -5,8 +5,21 @@
     <div class="row justify-content-center">
        
         
+
+        @include('includes.mensajes')
+
+        
         <div class="col-md-10">
         <h1>Últimos anuncios.</h1>
+        <br>
+        @if(isset($registro_ok))
+            <div class="alert alert-success">
+                {{$registro_ok}}
+                @php
+                $registro_ok = false; 
+                @endphp
+            </div>
+        @endif
         </div>
        
         @foreach ($anuncios as $anuncio)

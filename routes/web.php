@@ -36,7 +36,7 @@ Route::post('/email/verification-notification', function (Request $request) {
 
 Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 Route::post('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-
+Route::get('/confirmation', [App\Http\Controllers\HomeController::class, 'redirectRegister']);
 //anuncios
 //Route::get('/nuevo-anuncio', [App\Http\Controllers\AnuncioController::class, 'create'])->name('create.anounce');
 Route::get('/nuevo-anuncio', [App\Http\Controllers\AnuncioController::class, 'create'])->name('create.anounce')->middleware('verified');
