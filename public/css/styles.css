@@ -78,6 +78,8 @@
   }
 
   #links-nav{
+    margin-top: 40px;
+    margin-bottom: 40px;
     position: absolute;
     left: 50%;
     transform: translatex(-50%);

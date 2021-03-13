@@ -1,11 +1,3 @@
-
-
-
-
-
-
-
-
 $(document).ready(function(){
 
     var url = 'http://localhost/alquilados/public';   
@@ -357,4 +349,41 @@ $(document).ready(function(){
       });
 
 
+
+
     });
+
+    function currentPhoto(anounce_id){
+
+        var currentPhoto;
+        var currentPhoto_id;
+        var totalPhotos;
+        currentPhoto = $(".carousel-item." + anounce_id + ".active").attr("data-current-photo");
+        currentPhoto_id = parseInt(currentPhoto)+1;
+        totalPhotos = $("#total-photo" + anounce_id).attr("data-total");
+        $(".carousel-control-prev."+anounce_id).show();
+        $("#current-photo"+anounce_id).html(currentPhoto_id);
+
+        if(currentPhoto_id == totalPhotos){
+            $(".carousel-control-next."+anounce_id).hide();
+        }else{
+            $(".carousel-control-next."+anounce_id).show();
+        }
+    }
+
+    function currentPhotoPrev(anounce_id){
+     
+        var currentPhoto;
+        var currentPhoto_id;
+        currentPhoto = $(".carousel-item." + anounce_id + ".active").attr("data-current-photo");
+        currentPhoto_id = parseInt(currentPhoto)-1;
+        totalPhotos = $("#total-photo" + anounce_id).attr("data-total");
+        $("#current-photo"+anounce_id).text(currentPhoto_id);
+        $(".carousel-control-next."+anounce_id).show();
+
+        if(currentPhoto_id == 1){
+            $(".carousel-control-prev."+anounce_id).hide();
+        }else{
+            $(".carousel-control-prev."+anounce_id).show();
+        }
+    }
