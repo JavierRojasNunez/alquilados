@@ -271,7 +271,6 @@ input:checked + .slide:before {
 }
 
 .data-1-small{
-  text-align: center;
   font-size: 14px;
   margin-bottom: 10px;
 }
