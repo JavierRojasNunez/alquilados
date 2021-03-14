@@ -2,20 +2,18 @@
 
 <?php
 
-
-/*if(!isset($anuncio) || !$anuncio){
-  $anuncio  = false;
-}
-
-if(!isset($anounce_id) || !$anounce_id){
-  $anounce_id  = false;
-}*/
-
-//dd($anuncio)
 if(!$anounce_id ){
   $h1Title = 'Publicar anuncio.';
 }else{
   $h1Title = 'Editar anuncio.';
+}
+
+if($type == 'alquiler'){
+  $alquilar_ = true;
+  $vender_ = false;
+}else if ($type == 'venta'){
+  $alquilar_ = false;
+  $vender_ = true;
 }
 
 
@@ -273,6 +271,9 @@ if(!$anounce_id ){
 
 
 </div>
+@if ($alquilar_)
+    
+
 <div class="col-md-9">
   <br />
 <div class="card">
@@ -413,7 +414,12 @@ if(!$anounce_id ){
   </div>
 
     </div>
-</div><br />
+</div>
+</div>
+@endif
+<div class="col-md-9">
+
+<br />
 <div class="card">
 <div class="card-header" >{{ __('Dirección y datos extra') }}</div>
 

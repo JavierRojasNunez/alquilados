@@ -7,7 +7,7 @@
         
 
         @include('includes.mensajes')
-
+        
         
         <div class="col-md-10">
         <h1>Últimos anuncios.</h1>

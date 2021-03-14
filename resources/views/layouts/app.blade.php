@@ -68,7 +68,7 @@
                             </li>
                             
                             <li class="nav-item">
-                                <a href="{{ route('create.anounce') }}" class="nav-link">Publicar anuncio</a>
+                                <a href="{{ route('create.anounce') }}" id="anounce-add" class="nav-link">Publicar anuncio</a>
                             </li>
                             
                             <li class="nav-item dropdown">
@@ -97,7 +97,7 @@
                 </div>
             </div>
         </nav>
-
+        @include('includes.anounceTypeModal')
         <main class="py-4">
             @yield('content')
         </main>

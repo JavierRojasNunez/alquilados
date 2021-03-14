@@ -4,10 +4,17 @@ $(document).ready(function(){
     //servidor
     //var url = 'https://azimutweb.es/alquilados/public/index.php'; 
 
+    $("#anounce-add").click(function(e){
+        
+        e.preventDefault();
+        $('#exampleModalCenter').modal('show');
+
+    });
+
     $(".btn.btn-danger.delete").click(function(e){
+
         e.preventDefault();
         var anuncio_id = $(this).attr('data-id');
-        console.log(anuncio_id);
         $('#delete-anounce-modal-'+anuncio_id).modal('show');
 
     });

@@ -21,7 +21,9 @@ class AnuncioController extends Controller
     }
 
 
-	public function create(){
+	public function create($type){
+
+        
 
         if (Auth::user()){
             $user_id = Auth::user()->id;
@@ -44,6 +46,7 @@ class AnuncioController extends Controller
             'anuncio' =>  $anuncio,
             'anounce_id' => $anounceId,
             'images_' => $images_,
+            'type' => $type,
             ]);
 
 	}
