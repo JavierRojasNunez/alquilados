@@ -240,6 +240,15 @@ if(!$anounce_id ){
         </span>
     @enderror
       </div>
+    </div>
+  </div>
+</div>
+<br>
+      <div class="card">
+        <div class="card-header">{{ __('El título y la descripción hacen mas atractivo tu anuncio.') }}</div>
+
+<div class="card-body">
+<div class="form-row">       
       
       <div class="form-group col-md-12">
         <label for="titulo">{{__('Titulo')}}<sup style="color:red; font-size:16px">*</sup></label>
@@ -258,6 +267,11 @@ if(!$anounce_id ){
         
  </div>
     </div>
+
+
+
+
+
 </div>
 <div class="col-md-9">
   <br />
