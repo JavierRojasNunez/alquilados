@@ -8,6 +8,7 @@ if(!$anounce_id ){
   $h1Title = 'Editar anuncio.';
 }
 
+
 if($type == 'alquiler'){
   $alquilar_ = true;
   $vender_ = false;
@@ -74,173 +75,24 @@ if($type == 'alquiler'){
             </button>
           </div>
           @endif
-            <div class="card">
-                <div class="card-header">{{ __('Empecemos a rellenar los datos.') }}</div>
 
-  <div class="card-body">
-                    
-                    
-
-<div class="alert alert-warning alert-dismissible fade show" role="alert" >
-    Los campos con un asterisco rojo son obligatorios. Los demas campos puede dejarlos vacios y rellenar solo los que 
-    creas que son los mas importantes. A más datos, mas posibilidad de conseguir tu propósito. Hay que incluir minimo una imagen
-    y maximo 5.
-
-    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-      <span aria-hidden="true">&times;</span>
-    </button>
-  </div>
-
-
-  
-    <div class="form-row">
+          <div class="alert alert-warning alert-dismissible fade show" role="alert" >
+            Los campos con un asterisco rojo son obligatorios. Los demas campos puede dejarlos vacios y rellenar solo los que 
+            creas que son los mas importantes. A más datos, mas posibilidad de conseguir tu propósito. Hay que incluir minimo una imagen
+            y maximo 5.
         
-        <div class="form-group col-md-4">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
 
-          @if (isset($anounce_id) && $anounce_id)
-            <input type="hidden" value="{{$anounce_id}}" name="anounce_id">
+
+          @if ($alquilar_)
+          @include('includes.anounceRent')
+          @elseif($vender_)
+          @include('includes.anounceSell')
           @endif
 
-          <label for="type_rent">{{ __('Que ofreces') }}<sup style="color:red; font-size:16px">*</sup></label>
-          
-          <select id="type_rent" name="type_rent" class="form-control @error('type_rent') is-invalid @enderror"    required  >
-            <option selected > {{ $anuncio ? $anuncio->type_rent :  old('type_rent') }} </option>                                   
-            <option>{{ __('Piso') }}</option>
-            <option>{{ __('Casa') }}</option>
-            <option>{{ __('Habitación') }}</option>
-            <option>{{ __('Apartamento') }}</option>
-            <option>{{ __('Compartir apartamento') }}</option>
-            <option>{{ __('Local') }}</option>
-            <option>{{ __('Casa rural') }}</option>
-            <option>{{ __('Apartamento rural') }}</option>
-            <option>{{ __('Terreno') }}</option>
-            <option>{{ __('Loft') }}</option>
-            <option>{{ __('Estudio') }}</option>
-            <option>{{ __('Dúplex') }}</option>
-            <option>{{ __('Ático') }}</option>
-            <option>{{ __('Masía') }}</option>
-            <option>{{ __('Bungalow') }}</option>
-          </select>
-          @error('type_rent')
-          <span class="invalid-feedback" role="alert">
-              <strong>{{ $message }}</strong>
-          </span>
-      @enderror
-        </div>
-        <div class="form-group col-md-4">
-          <label for="price">{{ __('Por cuanto (€)') }}<sup style="color:red; font-size:16px">*</sup></label>
-          <input type="number" id="price" name="price" class="form-control @error('price') is-invalid @enderror"   value="{{ $anuncio ? $anuncio->price :   old('price') }}" required autocomplete="price"  >
-          @error('price')
-          <span class="invalid-feedback" role="alert">
-              <strong>{{ $message }}</strong>
-          </span>
-      @enderror
-        </div>
-        <div class="form-group col-md-4">
-            <label for="payment_period">{{ __('Alquiler o Venta') }}<sup style="color:red; font-size:16px">*</sup></label>
-            <select id="payment_period" name="payment_period" class="form-control @error('payment_period') is-invalid @enderror"   value="{{ old('payment_period') }}" required autocomplete="payment_period" >
-              <option   selected>{{  $anuncio ? $anuncio->payment_period :  old('payment_period') }}</option>
-              <option>{{ __('alquiler diario') }}</option>
-              <option>{{ __('alquiler semanal') }}</option>
-              <option> {{ __('alquiler mensual') }}</option>
-              <option> {{ __('alquiler anual') }}</option>
-              <option> {{ __('alquiler de temporada') }}</option>
-              <option> {{ __('aquiler con opción a compra') }}</option>
-              <option> {{ __('traspaso') }}</option>
-              <option>{{ __('venta') }}</option>
-            </select>
-            @error('payment_period')
-          <span class="invalid-feedback" role="alert">
-              <strong>{{ $message }}</strong>
-          </span>
-      @enderror
-        </div>
-      </div>
-    <div class="form-row">
-    <div class="form-group col-md-3">
-        <label for="num_rooms">{{ __('Habitaciones totales') }}</label>
-        <input type="number"  id="num_rooms" placeholder="0"  name="num_rooms" class="form-control @error('num_rooms') is-invalid @enderror"   value="{{ $anuncio ? $anuncio->num_rooms :   old('num_rooms') }}"  autocomplete="num_rooms" >
-        @error('num_rooms')
-        <span class="invalid-feedback" role="alert">
-            <strong>{{ $message }}</strong>
-        </span>
-    @enderror
-      </div>
-      <div class="form-group col-md-3">
-        <label for="num_rooms_for_rent">{{ __('Habitaciones disp.') }}</label>
-        <input type="number" id="num_rooms_for_rent" placeholder="0"  name="num_rooms_for_rent" class="form-control @error('num_rooms_for_rent') is-invalid @enderror"   value="{{ $anuncio ? $anuncio->num_roomms_for_rent :   old('num_rooms_for_rent') }}"  autocomplete="num_rooms_for_rent" >
-      
-        @error('num_rooms_for_rent')
-        <span class="invalid-feedback" role="alert">
-            <strong>{{ $message }}</strong>
-        </span>
-    @enderror</div>
-      <div class="form-group col-md-3">
-        <label for="num_baths">{{ __('Nº baños') }}</label>
-        <input type="number"  id="num_baths" placeholder="0"  name="num_baths" class="form-control @error('num_baths') is-invalid @enderror"   value="{{ $anuncio ? $anuncio->num_baths :   old('num_baths') }}"  autocomplete="num_baths" >
-        @error('num_baths')
-        <span class="invalid-feedback" role="alert">
-            <strong>{{ $message }}</strong>
-        </span>
-    @enderror
-      </div>
-      <div class="form-group col-md-3">
-        <label for="meter2">{{ __('Superficie ') }}m<sup>2</sup></label>
-        <input type="number" id="meter2" placeholder="0"  name="meter2" class="form-control @error('meter2') is-invalid @enderror"   value="{{  $anuncio ? $anuncio->meter2 :   old('meter2') }}"  autocomplete="meter2" >
-        @error('meter2')
-        <span class="invalid-feedback" role="alert">
-            <strong>{{ $message }}</strong>
-        </span>
-    @enderror
-      </div>
-    </div>
-    <div class="form-row">
-      <div class="form-group col-md-3">
-        <label for="minimum_stay">{{ __('Estancia minima ->') }}</label>
-        <input type="number"  id="minimum_stay" name="minimum_stay"  class="form-control @error('minimum_stay') is-invalid @enderror"   value="{{  $anuncio ? $anuncio->minimun_stay :   old('minimum_stay') }}"  autocomplete="minimum_stay" >
-        @error('minimum_stay')
-        <span class="invalid-feedback" role="alert">
-            <strong>{{ $message }}</strong>
-        </span>
-    @enderror
-      </div>
-      
-      <div class="form-group col-md-3">
-        <label for="minimum_stay_type">{{ __('Por') }}</label>
-        <select id="minimum_stay_type" name="minimum_stay_type" class="form-control @error('minimum_stay_type') is-invalid @enderror"   value="{{ $anuncio ? $anuncio->minimun_stay_type :   old('minimum_stay_type') }}"  autocomplete="minimum_stay_type"  >
-          <option  selected>{{  $anuncio ? $anuncio->minimum_stay_type :   old('minimum_stay_type') }}</option>
-          <option>Días</option>
-          <option>Semanas</option>
-          <option>Meses</option>
-          <option>Años</option>
-        </select>
-        @error('minimum_stay_type')
-        <span class="invalid-feedback" role="alert">
-            <strong>{{ $message }}</strong>
-        </span>
-    @enderror
-      </div>
-      <div class="form-group col-md-3">
-        <label for="deposit">{{ __('¿Deposito inicial? (€)') }}</label>
-        <input type="number"  id="deposit" name="deposit"  class="form-control @error('deposit') is-invalid @enderror"   value="{{ $anuncio ? $anuncio->deposit :   old('deposit') }}"  autocomplete="deposit" >
-        @error('deposit')
-        <span class="invalid-feedback" role="alert">
-            <strong>{{ $message }}</strong>
-        </span>
-    @enderror
-      </div>
-      <div class="form-group col-md-3">
-        <label for="available_date">{{ __('Fecha disponibilidad') }}</label>
-        <input type="date"  name="available_date" id="available_date" class="form-control @error('available_date') is-invalid @enderror"   value="{{  $anuncio ? $anuncio->available_date :   old('available_date') }}"  autocomplete="available_date" >
-        @error('available_date')
-        <span class="invalid-feedback" role="alert">
-            <strong>{{ $message }}</strong>
-        </span>
-    @enderror
-      </div>
-    </div>
-  </div>
-</div>
 <br>
       <div class="card">
         <div class="card-header">{{ __('El título y la descripción hacen mas atractivo tu anuncio.') }}</div>
@@ -274,83 +126,12 @@ if($type == 'alquiler'){
 @if ($alquilar_)
     
 
-<div class="col-md-9">
-  <br />
-<div class="card">
-  <div class="card-header">{{ __('Perfil de los ocupantes actuales') }}</div>
 
-  <div class="card-body">
 
-  <div class="form-row">
-      <div class="form-group col-md-4">
-          <label for="num_people_in">{{ __('Numero personas ahora') }}</label>
-          
-          <input type="number"  id="num_people_in" name="num_people_in" placeholder="0" class="form-control @error('num_people_in') is-invalid @enderror"   value="{{  $anuncio ? $anuncio->num_people_in :    old('num_people_in') }}"  autocomplete="num_people_in" >
-          @error('num_people_in')
-          <span class="invalid-feedback" role="alert">
-              <strong>{{ $message }}</strong>
-          </span>
-      @enderror
-        </div>
-        
-      <div class="form-group col-md-4">
-        <label for="people_in_sex">{{ __('Quien vive en ella') }}</label>                 
-        <select id="people_in_sex" class="form-control @error('people_in_sex') is-invalid @enderror" name="people_in_sex"  value="{{ old('people_in_sex') }}"  autocomplete="people_in_sex" >
-          <option selected >{{   $anuncio ? $anuncio->people_in_sex :    old('people_in_sex')  }}</option>
-          <option>{{ __('Chicas') }}</option>
-          <option>{{ __('Chicos') }}</option>
-          <option>{{ __('Mixto') }}</option>
-          <option>{{ __('Indiferente') }}</option>
-          <option>{{ __('Nadie') }}</option>
-        </select>
-        @error('people_in_sex')
-        <span class="invalid-feedback" role="alert">
-            <strong>{{ $message }}</strong>
-        </span>
-    @enderror
-      </div>
-      
-      <div class="form-group col-md-4">
-          <label for="people_in_job">{{ __('Ocupación')}}</label>
-          <select id="people_in_job"  class="form-control @error('people_in_job') is-invalid @enderror" name="people_in_job"  value="{{ old('people_in_job') }}"  autocomplete="people_in_job" >
-            <option selected>{{   $anuncio ? $anuncio->people_in_job :    old('people_in_job') }}</option>
-            <option>{{ __('Profesional') }}</option>
-            <option>{{ __('Estudiantes') }}</option>
-            <option>{{ __('Mixto') }}</option>
-            <option>{{ __('Indiferente') }}</option>
-          </select>
-          @error('people_in_job')
-          <span class="invalid-feedback" role="alert">
-              <strong>{{ $message }}</strong>
-          </span>
-      @enderror
-        </div>
-        
-    </div>
-    <br /> 
-    <div class="form-row">
-      <div class="form-group col-md-6">
-        <label class="switchBtn">
-          <input class="form-check-input" type="checkbox" id="people_in_tabaco" {{ ( $anuncio and $anuncio->people_in_tabaco) ? 'checked' : ''}} name="people_in_tabaco" class="form-control @error('people_in_tabaco') is-invalid @enderror"    >
-                                          
-          <div class="slide round">{{ __('Fuman') }}</div>
-      </label>
-          
-        </div>
-        <div class="form-group col-md-6">
-          <label class="switchBtn">
-            <input class="form-check-input" type="checkbox" id="people_in_pet" {{ ( $anuncio and $anuncio->people_in_pet )? 'checked' : ''}} name="people_in_pet" class="form-control @error('people_in_pet') is-invalid @enderror"    >
-                                              
-            <div class="slide round">{{ __('Mascotas') }}</div>
-        </label>
-          
-        </div>
-    </div>
 
-  </div>
-</div>
 
-</div>
+
+
 
 <div class="col-md-9">
 <br />

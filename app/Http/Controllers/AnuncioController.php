@@ -17,7 +17,7 @@ class AnuncioController extends Controller
 
     //proteger controlador
     public function __construct(){
-        $this->middleware('verified');
+        $this->middleware(['auth','verified']);
     }
 
 
@@ -208,7 +208,7 @@ class AnuncioController extends Controller
 
                 'type_rent' => 'required|string|max:100',
                 'price' => 'required|numeric|max:100000000',
-                'payment_period' => 'required|string|max:20',
+                'payment_period' => 'nullable|string|max:20',
                 'num_rooms' => 'nullable|numeric|max:100',
                 'num_rooms_for_rent' => 'nullable|numeric|max:100',
                 'num_baths' => 'nullable|numeric|max:100',
