@@ -77,7 +77,7 @@ class AnuncioController extends Controller
 
 
 
-    public function edit($anounceId){
+    public function edit($anounceId, $type){
 
         $provincias = provincesController::getProvinces();
 
@@ -106,6 +106,7 @@ class AnuncioController extends Controller
                 'anuncio' => $anuncio,
                 'provinces' => $provincias,
                 'anounce_id' => $anounceId,
+                'type' => $type,
 
             ] );
         }else{
@@ -170,7 +171,7 @@ class AnuncioController extends Controller
         }
 
 
-        if ( Auth::user()->id === $anuncio->user_id && $anuncio ){
+       /* if ( Auth::user()->id === $anuncio->user_id && $anuncio ){
             dd($imagenes);
             return view('anuncios.images', [
                 'anuncio' => $anuncio,
@@ -180,7 +181,7 @@ class AnuncioController extends Controller
             echo 'no hay anuncio';
             dd($anuncio);
             return redirect()->route('home')->with(['status' => 'Problemas al editar el anuncio, intentalo de nuevo por favor.']);
-        }
+        }*/
 
     }
 
@@ -231,6 +232,7 @@ class AnuncioController extends Controller
                 'num_street_rent' => 'required|string|max:255',
                 'phone' => 'required|numeric|max:999999999',
                 'observations' => 'max:3500',
+                'type' => 'required|string|max:10',
 
 
             ])->validate();
@@ -253,6 +255,7 @@ class AnuncioController extends Controller
             $anuncio->num_people_in       = $request->input('num_people_in');
             $anuncio->people_in_job       = $request->input('people_in_job');
             $anuncio->people_in_sex       = $request->input('people_in_sex');
+            $anuncio->type                = $request->input('type');
 
             if ($request->filled('people_in_tabaco') && $request->input('people_in_tabaco') == 'on') {
                 $anuncio->people_in_tabaco = true;
@@ -506,12 +509,12 @@ class AnuncioController extends Controller
                 if($anuncio->user_id !== Auth::user()->id){
                     return redirect()->route('home');
                 }
-                //dd($values = $anuncio->toArray());
+
                 $values = $anuncio->toArray();
                 $anuncio = false;
                 $anuncio = Anounces::findOrFail($anounceId);
 
-                $i =1;
+                $i = 1;
                 foreach($values as $key => $value){
 
                     $updateData = [$key => $value];

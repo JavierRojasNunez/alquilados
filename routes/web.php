@@ -25,7 +25,7 @@ Route::get('/confirmation', [App\Http\Controllers\HomeController::class, 'redire
 Route::get('/nuevo-anuncio/{type?}', [App\Http\Controllers\AnuncioController::class, 'create'])->name('create.anounce')->middleware('verified');
 Route::post('/publicar', [App\Http\Controllers\AnuncioController::class, 'save'])->name('save.anounce');
 Route::get('/mis-anuncios', [App\Http\Controllers\AnuncioController::class, 'getAnounces'])->name('my.anounce');
-Route::get('/editar-anuncio/{id}', [App\Http\Controllers\AnuncioController::class, 'edit'])->name('edit.anounce');
+Route::get('/editar-anuncio/{id}/{type?}', [App\Http\Controllers\AnuncioController::class, 'edit'])->name('edit.anounce');
 Route::get('/eliminar-anuncio/{id}', [App\Http\Controllers\AnuncioController::class, 'delete'])->name('delete.anounce');
 
 // imagenes de los anuncios

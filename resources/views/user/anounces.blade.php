@@ -51,16 +51,10 @@
                 </div> 
                     <div class="col-md-8">
 
-                        <?php
-                        if ($anuncio->payment_period == 'Venta') {
-                            $tipo_ = 'a la venta';
-                        }else{
-                            $tipo_ = 'alquilado';
-                        }
-                        ?>
+                        
                         <div class="row">
                             <div class="col-md-12" style="padding: 10px">
-                            <p>Tienes  {{$anuncio->type_rent}} {{$tipo_}}   por {{$anuncio->price}} €. </p>
+                            <p>{{$anuncio->type_rent}} en {{$anuncio->type}}   por {{$anuncio->price}} €. </p>
                             </div>
                         </div>
                         <div class="row">
@@ -76,7 +70,7 @@
                    
                    <div class="row">
                    <div class="col-md-6" style="padding: 20px">
-                        <a href="{{ route('edit.anounce', ['id' => $anuncio->id] ) }}" type="buttom" class="btn btn-danger">Editar</a>
+                        <a href="{{ route('edit.anounce', ['id' => $anuncio->id , 'type' => $anuncio->type] )}}" type="buttom" class="btn btn-danger">Editar</a>
                    </div>
                    <div class="col-md-6" style="padding: 20px">
                     <a href="{{ route('delete.anounce', ['id' => $anuncio->id] ) }}" type="buttom" data-id="{{$anuncio->id}}" id="delete-anounce" class="btn btn-danger delete">Eliminar</a>

@@ -28,6 +28,7 @@ if($type == 'alquiler'){
     @include('includes.mensajes')
     <form method="POST" id="form_anuncio" action="{{ route('save.anounce') }}" enctype="multipart/form-data">
         @csrf
+    <input type="hidden" value="{{$type}}" name="type">
     <div class="row justify-content-center">
       @if(!$anounce_id )
       <div class="col-md-9">
@@ -125,14 +126,6 @@ if($type == 'alquiler'){
 </div>
 @if ($alquilar_)
     
-
-
-
-
-
-
-
-
 <div class="col-md-9">
 <br />
 <div class="card" >
