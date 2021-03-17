@@ -34,7 +34,7 @@ if(!$anounce_id ){
         </div>
       <div class="col-md-3">
         <div class="tituloPrincipal-menu-images" >
-          <a href="{{ route('edit.anounce', ['id' => $anounce_id] ) }}">  
+          <a href="{{ route('edit.anounce', ['id' => $anounce_id, 'type' => $type] ) }}">  
           <h5>Datos Principales</h5>
           </a>
           </div>

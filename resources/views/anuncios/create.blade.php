@@ -28,7 +28,7 @@ if($type == 'alquiler'){
     @include('includes.mensajes')
     <form method="POST" id="form_anuncio" action="{{ route('save.anounce') }}" enctype="multipart/form-data">
         @csrf
-    <input type="hidden" value="{{$type}}" name="type">
+        <input type="hidden" value="{{$type}}" name="type">
     <div class="row justify-content-center">
       @if(!$anounce_id )
       <div class="col-md-9">
@@ -49,7 +49,7 @@ if($type == 'alquiler'){
         </div>
         <div class="col-md-3" style="vertical-align: bottom !important;">
           <div class="tituloPrincipal-menu-images" >
-          <a href="{{ route('edit.images', ['id' => $anounce_id]) }}">  
+          <a href="{{ route('edit.images', ['id' => $anounce_id, 'type' => $type]) }}">  
             <h5>Imagenes</h5>
           </a> 
           </div>
@@ -126,6 +126,14 @@ if($type == 'alquiler'){
 </div>
 @if ($alquilar_)
     
+
+
+
+
+
+
+
+
 <div class="col-md-9">
 <br />
 <div class="card" >

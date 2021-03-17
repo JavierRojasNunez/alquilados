@@ -30,7 +30,7 @@ Route::get('/eliminar-anuncio/{id}', [App\Http\Controllers\AnuncioController::cl
 
 // imagenes de los anuncios
 Route::get('/eliminar-imagenes/{id}/{anounce_id}', [App\Http\Controllers\ImagenController::class, 'deleteImage'])->name('delete.image');
-Route::get('/editar-imagenes/{id}', [App\Http\Controllers\ImagenController::class, 'editImages'])->name('edit.images');
+Route::get('/editar-imagenes/{id}/{type?}', [App\Http\Controllers\ImagenController::class, 'editImages'])->name('edit.images');
 Route::get('/anounces/{id?}/{filename?}',  [App\Http\Controllers\ImagenController::class, 'getImage'])->name('image.file');
 Route::post('/guardar/imagenes', [App\Http\Controllers\ImagenController::class, 'saveImages'])->name('save.images');
 //ciudades y provincias

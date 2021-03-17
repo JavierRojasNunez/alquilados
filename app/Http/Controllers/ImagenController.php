@@ -13,7 +13,7 @@ use Intervention\Image\ImageManagerStatic as Image;
 class ImagenController extends Controller
 {
 
-    public function editImages($anounceId){
+    public function editImages($anounceId, $type){
         
         
 
@@ -33,7 +33,8 @@ class ImagenController extends Controller
             return view('anuncios.images', [              
                 'images_' => $imagenes,
                 'anounce_id' => $anounceId,
-                'numImages' => $numImages
+                'numImages' => $numImages,
+                'type' => $type,
             ] );
         }else{
             return redirect()->route('home')->with(['status' => 'Problemas al editar el anuncio, intentalo de nuevo por favor.']); 
