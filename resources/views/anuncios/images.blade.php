@@ -7,7 +7,7 @@ if(!$anounce_id ){
 }else{
   $h1Title = 'Editar anuncio.';
 }
-
+//dd($type);
 ?>
 
 
@@ -61,8 +61,9 @@ if(!$anounce_id ){
                   @if (isset($anounce_id) && $anounce_id)
                     <input type="hidden" value="{{$anounce_id}}" name="anounce_id">
                     <input type="hidden" id="edit-images" value="76345976">
+                    
                   @endif
-
+                  <input type="hidden" id="type" value="{{$type}}" name="type"> 
                   
                     <?php $i = 1; 
                     $user_id = Auth::user()->id; 
@@ -102,7 +103,8 @@ if(!$anounce_id ){
                 <div id="form-images-5"></div>  
                 @if($numImages < 5)
                  @include('includes.formImages')
-                 <div style="text-align: center; margin-top:20px">       
+                 <div style="text-align: center; margin-top:20px">  
+                      
                 <button  type="submit" id="submit1" class="btn btn-primary" style="width: 50%;text-align:center ">{{ __('Enviar') }}</button>
                 </div>
                 @endif

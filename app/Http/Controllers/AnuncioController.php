@@ -205,7 +205,7 @@ class AnuncioController extends Controller
         if ($request->isMethod('post') && Auth::user() )
         {
 
-            $verify = Validator::make($request->except('foto1', 'foto2', 'foto3', 'foto4', 'foto5'), [
+            $verify = Validator::make($request->except('foto2', 'foto3', 'foto4', 'foto5'), [
 
                 'type_rent' => 'required|string|max:100',
                 'price' => 'required|numeric|max:100000000',
@@ -256,7 +256,8 @@ class AnuncioController extends Controller
             $anuncio->people_in_job       = $request->input('people_in_job');
             $anuncio->people_in_sex       = $request->input('people_in_sex');
             $anuncio->type                = $request->input('type');
-
+            $type = $anuncio->type;
+            
             if ($request->filled('people_in_tabaco') && $request->input('people_in_tabaco') == 'on') {
                 $anuncio->people_in_tabaco = true;
             }else{
@@ -479,27 +480,27 @@ class AnuncioController extends Controller
                             if(!$ok){
                                 $mensaje_ = 'Upss! Lo sentimos hubo algun error durante el proceso. Intentelo de nuevo.';
                                 $succes = 'errores_';
-                                return redirect()->route('create.anounce')->with([$succes => $mensaje_])->withInput();
+                                return redirect()->route('create.anounce', ['type' => $type])->with([$succes => $mensaje_])->withInput();
                             }
 
 
                     }else
                     {
-                        return redirect()->route('create.anounce')->with(['errores_' => 'Alguno de los archivos que intenta subir no son válidos'])->withInput();
+                        return redirect()->route('create.anounce', ['type' => $type])->with(['errores_' => 'Alguno de los archivos que intenta subir no son válidos'])->withInput();
                     }
 
                 }
 
             $mensaje_ = 'Perfecto!! Todo se guardo con éxito y el anuncio se ha creado correctamente.';
             $succes = 'statuss_';
-            return redirect()->route('create.anounce')->with([$succes => $mensaje_]);
+            return redirect()->route('create.anounce', ['type' => $type])->with([$succes => $mensaje_]);
 
             }else{
 
 
                 $mensaje_ = 'Upss! Lo sentimos hubo algun error durante el proceso. Intentelo de nuevo.';
                 $succes = 'errores_';
-                return redirect()->route('create.anounce')->with([$succes => $mensaje_])->withInput();
+                return redirect()->route('create.anounce', ['type' => $type])->with([$succes => $mensaje_])->withInput();
             }
 
     }else{
@@ -524,7 +525,7 @@ class AnuncioController extends Controller
                         if(!$ok){
                             $mensaje_ = 'Upss! Lo sentimos hubo algun error durante el proceso: '.$i.' Intentelo de nuevo.';
                             $succes = 'errores_';
-                            return redirect()->route('create.anounce')->with([$succes => $mensaje_])->withInput();
+                            return redirect()->route('create.anounce', ['type' => $type])->with([$succes => $mensaje_])->withInput();
                         }
 
                     $i++;
@@ -534,7 +535,7 @@ class AnuncioController extends Controller
 
         $mensaje_ = 'Perfecto!! Todos los cambios se han efectuado correctamente.';
         $succes = 'statuss_';
-        return redirect()->route('edit.anounce', ['id' => $anounceId])->with([$succes => $mensaje_]);
+        return redirect()->route('edit.anounce', ['id' => $anounceId, 'type' => $type])->with([$succes => $mensaje_]);
 
 
     }

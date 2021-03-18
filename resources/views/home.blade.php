@@ -97,7 +97,7 @@
                     <span class="price">{{$anuncio->price}} € </span> <span class="city">{{$anuncio->city_rent}}</span>
                     </div>
                     <div class="data-2">
-                        {{$anuncio->type_rent}} en {{$anuncio->payment_period}} - <b>{{$anuncio->province_rent}}</b>
+                        {{$anuncio->type_rent}} en {{$anuncio->type}} - <b>{{$anuncio->province_rent}}</b>
                     </div>
                     <div class="d-flex p-1 data-caracteristicas">
                         <img src="icons/dormitorio.png" class="icons-small" title="Dormitorios" alt="Dormitorios"> &nbsp; {{$anuncio->num_rooms}}

@@ -53,6 +53,7 @@ class ImagenController extends Controller
     {
 
       $anounce_id = $request->input('anounce_id');
+      $type = $request->input('type');
       $numImages_baseDatos = Imagen::where('anounces_id', '=', $anounce_id)->count();
       $numImages_form = count($request->file('foto1'));
       $maxImages = 5;
@@ -63,7 +64,7 @@ class ImagenController extends Controller
             $plural = ($numImagesAllow == 1) ? 'imagen' : 'imagenes';
         $mensaje_ ="Upss! No se subieron las imagenes, solo puedes subir $numImagesAllow $plural mas.";
         $succes = 'errores_';
-        return redirect()->route('edit.images', ['id' => $anounce_id])->with([$succes => $mensaje_]); 
+        return redirect()->route('edit.images', ['id' => $anounce_id, 'type' => $type])->with([$succes => $mensaje_]); 
       }
 
       
@@ -75,7 +76,7 @@ class ImagenController extends Controller
       {
         $mensaje_ = 'Upss! Lo sentimos hubo algun error durante el proceso. Intentelo de nuevo.';
         $succes = 'errores_';
-        return redirect()->route('edit.images', ['id' => $anounce_id])->with([$succes => $mensaje_]); 
+        return redirect()->route('edit.images', ['id' => $anounce_id, 'type' => $type])->with([$succes => $mensaje_]); 
       }
         
         
@@ -122,20 +123,20 @@ class ImagenController extends Controller
                         
                         $mensaje_ = 'Upss! Lo sentimos hubo algun error durante el proceso. Intentelo de nuevo.';
                         $succes = 'errores_';
-                        return redirect()->route('edit.images', ['id' => $anounce_id])->with([$succes => $mensaje_])->withInput(); 
+                        return redirect()->route('edit.images', ['id' => $anounce_id, 'type' => $type])->with([$succes => $mensaje_])->withInput(); 
                     }
 
 
             }else
             {
-                return redirect()->route('edit.images', ['id' => $anounce_id])->with(['errores_' => 'Alguno de los archivos que intenta subir no son válidos'])->withInput();
+                return redirect()->route('edit.images', ['id' => $anounce_id, 'type' => $type])->with(['errores_' => 'Alguno de los archivos que intenta subir no son válidos'])->withInput();
             } 
 
         }
 
             $mensaje_ = 'Perfecto!! Las imagenes se guardaron con éxito.';
             $succes = 'statuss_';
-            return redirect()->route('edit.images', ['id' => $anounce_id])->with([$succes => $mensaje_]); 
+            return redirect()->route('edit.images', ['id' => $anounce_id, 'type' => $type])->with([$succes => $mensaje_]); 
     /*else{
         $mensaje_ = 'Upss! Lo sentimos hubo algun error durante el proceso. Intentelo de nuevo.';
         $succes = 'errores_';

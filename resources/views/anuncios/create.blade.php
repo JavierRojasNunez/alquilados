@@ -127,13 +127,6 @@ if($type == 'alquiler'){
 @if ($alquilar_)
     
 
-
-
-
-
-
-
-
 <div class="col-md-9">
 <br />
 <div class="card" >
