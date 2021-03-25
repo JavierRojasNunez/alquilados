@@ -15,7 +15,7 @@ use App\Http\Controllers\ProvincesController;
 class AnuncioController extends Controller
 {
 
-    //proteger controlador
+    
     public function __construct(){
         $this->middleware(['auth','verified']);
     }
@@ -50,6 +50,8 @@ class AnuncioController extends Controller
             ]);
 
 	}
+
+    
 
     public function getAnounces(){
 

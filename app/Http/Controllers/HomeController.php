@@ -3,8 +3,6 @@
 namespace App\Http\Controllers;
 
 use Illuminate\View\View;
-
-
 use App\Models\User;
 use App\Models\Anounces;
 use App\Models\Imagen;
@@ -62,6 +60,23 @@ class HomeController extends Controller
 
         
         
+    }
+
+    public function detail($anounce_id){
+
+        $anuncio = Anounces::where('id', '=', $anounce_id)->first();
+        $selections = Anounces::select('*')
+        ->limit(4)
+        ->orderByDesc('id')
+        ->get();
+
+        return view('anuncios.detail', [           
+            'anuncio' => $anuncio,
+            'selections' => $selections,
+        ]);
+
+       // dd($anuncio);
+
     }
 
     public function redirectRegister(){

@@ -2,6 +2,15 @@
   margin-top: 70px !important;
 }
 
+a{
+  color: #000;
+}
+
+a:hover{
+  color: #000;
+  text-decoration: none;
+}
+
 .invoiceBox > input {
     display: none;
   }
@@ -159,6 +168,8 @@
   height: 34px;
 }
 .switchBtn input {display:none;}
+
+
 .slide {
   position: absolute;
   cursor: pointer;
@@ -317,4 +328,8 @@ padding: 3px 5px;
 font-size: 14px;
 font-size: .7rem;
 border-radius: 2px;
+}
+
+.carousel-control-prev-icon.d, .carousel-control-next-icon.d {
+  margin-top: 200px !important;
 }

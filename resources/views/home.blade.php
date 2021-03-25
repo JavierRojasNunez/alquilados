@@ -41,36 +41,40 @@
                         <span class="num-images-span">
                             <span id="current-photo{{$anuncio->id}}">1</span> /
                             <span data-total="{{ count($anuncio->imagen) }}" id="total-photo{{$anuncio->id}}">{{ count($anuncio->imagen) }}</span>  &nbsp; 
-                            <img src="icons/photo.png" class="icons-small-2" title="Baños" alt="Baños"> 
+                            <img src="icons/photo.png" class="icons-small-2" title="Imagenes" alt="Imagenes"> 
                             </span>
                         </div>
                         <div id="carouselExampleControls{{$anuncio->id}}" class="carousel slide" data-ride="carousel" data-interval="false" style="background-color: white">
                             
+                            
                             <div class="carousel-inner" >
 
+                           
                             <?php    $i = 1 ?>
                             @foreach ($anuncio->imagen as  $imagenes)
                             <?php
-                            if($i == 1){
-                                $active= 'active';
+                            if($i <= 1){
+                                $active = 'active';
                             }else{
-                                $active= '';
+                                $active = '';
                             }
                             ?>
                               <div class="carousel-item {{$active}} {{$anuncio->id}}"   data-current-photo = {{$i}}>
-                              <img  width="100%" src="anounces/{{$anuncio->user_id}}/{{$imagenes->imageName}}" title="{{$anuncio->titulo}}"  alt="{{$anuncio->titulo}}">
-                              </div>
+                                
+                                 <img  width="100%" src="anounces/{{$anuncio->user_id}}/{{$imagenes->imageName}}" title="{{$anuncio->titulo}}"  alt="{{$anuncio->titulo}}">
+                                
+                            </div>
                             <?php   $i++ ?>
                               @endforeach
                             
                             </div>
-
+                            
                             <div >
-                            <a class="carousel-control-prev {{$anuncio->id}}" style=" margin-left:3px;"   href="#carouselExampleControls{{$anuncio->id}}" onclick="currentPhotoPrev({{$anuncio->id}})" role="button" data-slide="prev">
+                            <a class="carousel-control-prev {{$anuncio->id}}"    href="#carouselExampleControls{{$anuncio->id}}" onclick="currentPhotoPrev({{$anuncio->id}})" role="button" data-slide="prev">
                               <span class="carousel-control-prev-icon" aria-hidden="true"></span>
                               <span class="sr-only">Previous</span>
                             </a>
-                            <a class="carousel-control-next {{$anuncio->id}}" style="margin-right:3px"   href="#carouselExampleControls{{$anuncio->id}}" onclick="currentPhoto({{$anuncio->id}})" role="button" data-slide="next">
+                            <a class="carousel-control-next {{$anuncio->id}}"   href="#carouselExampleControls{{$anuncio->id}}" onclick="currentPhoto({{$anuncio->id}})" role="button" data-slide="next">
                               <span class="carousel-control-next-icon" aria-hidden="true"></span>
                               <span class="sr-only">Next</span>
                             </a>
@@ -92,7 +96,7 @@
                             $tipo_ = 'alquilado';
                         }
                         ?>
-
+                    <a href="{{ route('detail.anounce',['anounce_id' => $anuncio->id ]) }}">
                     <div class="data-1">
                     <span class="price">{{$anuncio->price}} € </span> <span class="city">{{$anuncio->city_rent}}</span>
                     </div>
@@ -112,6 +116,7 @@
                     <div class="data-4">
                    {{ Str::limit($anuncio->descripcion, 250)}}
                     </div>
+                    </a>
                 </div> 
                 <div class="col-md-2 right-card" >
                     

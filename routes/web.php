@@ -27,6 +27,7 @@ Route::post('/publicar', [App\Http\Controllers\AnuncioController::class, 'save']
 Route::get('/mis-anuncios', [App\Http\Controllers\AnuncioController::class, 'getAnounces'])->name('my.anounce');
 Route::get('/editar-anuncio/{id}/{type?}', [App\Http\Controllers\AnuncioController::class, 'edit'])->name('edit.anounce');
 Route::get('/eliminar-anuncio/{id}', [App\Http\Controllers\AnuncioController::class, 'delete'])->name('delete.anounce');
+Route::get('/detalles/{anounce_id}', [App\Http\Controllers\HomeController::class, 'detail'])->name('detail.anounce');
 
 // imagenes de los anuncios
 Route::get('/eliminar-imagenes/{id}/{anounce_id}', [App\Http\Controllers\ImagenController::class, 'deleteImage'])->name('delete.image');
