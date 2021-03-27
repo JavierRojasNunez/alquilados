@@ -39,9 +39,3 @@ Route::get('/cities/{city_id}', [App\Http\Controllers\CitiesController::class, '
 Route::get('/adress/{char}/{province_id}', [App\Http\Controllers\CitiesController::class, 'getAdress']);
 
 
-//API
-Route::get('/api/todos-los-anuncios/{limit?}', [App\Http\Controllers\ApiController::class, 'getAll']);
-Route::get('/api/anuncio', [App\Http\Controllers\ApiController::class, 'getOne']);
-Route::get('/api/titulos', [App\Http\Controllers\ApiController::class, 'getTitle']);
-Route::get('/api/todo/{limit?}', [App\Http\Controllers\ApiController::class, 'getAllWithImages']);
-Route::get('/api/filtrado/{arga?}/{argb?}/{argc?}', [App\Http\Controllers\ApiController::class, 'getBy']);

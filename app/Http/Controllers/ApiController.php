@@ -27,7 +27,7 @@ class ApiController extends Controller
             if (!$data){
 
                 $data = false;
-                return response()->json(['status'=>'204','data'=>$data], 200);
+                return response()->json(['status'=>'204','data'=>$data], 204);
 
             }
             
@@ -40,7 +40,7 @@ class ApiController extends Controller
         if (!$data){
 
             $data = false;
-            return response()->json(['status'=>'204','data'=>$data], 200);
+            return response()->json(['status'=>'204','data'=>$data], 204);
             
         }       
 
@@ -53,13 +53,13 @@ class ApiController extends Controller
     public function getOne(){
 
         $data = Anounces::all()->first();
-
-        if (!$data){
+        if(!$data){
 
             $data = false;
-            return response()->json(['status'=>'204','data'=>$data], 200);
-            
-        }  
+            return response()->json(['status'=>'204','data'=>$data], 204);   
+                
+        }
+         
         return response()->json(['status'=>'ok','data'=>$data], 200);
 
     }
@@ -73,7 +73,7 @@ class ApiController extends Controller
         if(!$data){
 
             $data = false;
-            return response()->json(['status'=>'204','data'=>$data], 200);   
+            return response()->json(['status'=>'204','data'=>$data], 204);   
                 
         }
 
@@ -85,7 +85,7 @@ class ApiController extends Controller
     public function getAllWithImages($limit_ = false){
 
         $dataAnounce = [];
-        $dataImages = [];
+        //$dataImages = [];
         $data = [];     
 
        /* $dataAnounce = DB::table('anounces')
@@ -141,8 +141,8 @@ class ApiController extends Controller
             
         }  
              
-
-        return response()->json(['status'=>'ok', 'url'=>$url ,'anuncios'=>$dataAnounce], 200);
+        
+        return response()->json(['status'=>'200', 'url'=>$url ,'anuncios'=>$dataAnounce], 200);
 
     }
 
@@ -154,7 +154,7 @@ class ApiController extends Controller
            
             $dataAnounce = Anounces::find((integer)$arga);
             
-            $url = $_SERVER['SERVER_NAME'];
+            $url = $_SERVER['REMOTE_ADDR'];
 
             
             if (!$dataAnounce){
@@ -164,7 +164,7 @@ class ApiController extends Controller
                 
             }  
             $dataAnounce->imagen;     
-    
+            
             return response()->json(['status'=>'200', 'url'=>$url ,'anuncio'=>$dataAnounce], 200);
             
         }
@@ -173,10 +173,18 @@ class ApiController extends Controller
 
             $url = $_SERVER['SERVER_NAME'];
 
-            if ($arga == 'price'){
+            if ($arga){
                 
-                $dataAnounce = Anounces::where('price', '=', (float)$argb)->get();
+                $dataAnounce = Anounces::where($arga, '=', $argb)->get();
 
+                
+                if (count($dataAnounce) == 0){
+
+                    $data = false;
+                    return response()->json(['status'=>'204','data'=>$data], 204);
+                    
+                }  
+                
                 foreach ($dataAnounce as $anounce){
                    $anounce->imagen; 
                    $anounce->url = $url . '/public/' .$anounce->user_id . '/';
@@ -184,15 +192,8 @@ class ApiController extends Controller
                 
             }
             
-           
-
             
-            if (!$dataAnounce){
-
-                $data = false;
-                return response()->json(['status'=>'204','data'=>$data], 204);
-                
-            }  
+            
                 
     
             return response()->json(['status'=>'200', 'url'=>$url ,'anuncio'=>$dataAnounce], 200);

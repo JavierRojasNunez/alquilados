@@ -11,7 +11,7 @@
                 <input type="hidden" value="{{$anounce_id}}" name="anounce_id">
               @endif
     
-              <label for="type_rent">{{ __('Que ofreces') }}<sup style="color:red; font-size:16px">*</sup></label>
+              <label for="type_rent">{{ __('Que alquilas') }}<sup style="color:red; font-size:16px">*</sup></label>
               
               <select id="type_rent" name="type_rent" class="form-control @error('type_rent') is-invalid @enderror"    required  >
                 <option selected > {{ $anuncio ? $anuncio->type_rent :  old('type_rent') }} </option>                                   
@@ -49,11 +49,13 @@
                 <label for="payment_period">{{ __('Periodo de pago') }}<sup style="color:red; font-size:16px">*</sup></label>
                 <select id="payment_period" name="payment_period" class="form-control @error('payment_period') is-invalid @enderror"   value="{{ old('payment_period') }}" required autocomplete="payment_period" >
                   <option   selected>{{  $anuncio ? $anuncio->payment_period :  old('payment_period') }}</option>
-                  <option>{{ __('alquiler diario') }}</option>
-                  <option>{{ __('alquiler semanal') }}</option>
-                  <option> {{ __('alquiler mensual') }}</option>
-                  <option> {{ __('alquiler anual') }}</option>
-                  <option> {{ __('aquiler con opción a compra') }}</option>
+                  <option>{{ __('diario') }}</option>
+                  <option>{{ __('semanal') }}</option>
+                  <option> {{ __('mensual') }}</option>
+                  <option> {{ __('trimestal') }}</option>
+                  <option> {{ __('semestral') }}</option>
+                  <option> {{ __('anual') }}</option>
+                  <option> {{ __('con opción a compra') }}</option>
                 </select>
                 @error('payment_period')
               <span class="invalid-feedback" role="alert">

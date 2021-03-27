@@ -17,7 +17,6 @@
                 <option selected > {{ $anuncio ? $anuncio->type_rent :  old('type_rent') }} </option>                                   
                 <option>{{ __('Piso') }}</option>
                 <option>{{ __('Casa') }}</option>
-                <option>{{ __('Habitación') }}</option>
                 <option>{{ __('Apartamento') }}</option>
                 <option>{{ __('Local') }}</option>
                 <option>{{ __('Casa rural') }}</option>
