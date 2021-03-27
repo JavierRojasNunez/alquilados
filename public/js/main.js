@@ -4,6 +4,15 @@ $(document).ready(function(){
     //servidor
     //var url = 'https://azimutweb.es/alquilados/public/index.php'; 
 
+    $("#galeria").fancybox({
+        overlayColor:"#797e79",
+        overlayOpacity: 0.5,
+        transitionIn: "elactic",
+        transitionOut: "elastic",
+        titlePosition: "inside",
+        cyclic:true
+      });
+
     $("#anounce-add").click(function(e){
         
         e.preventDefault();

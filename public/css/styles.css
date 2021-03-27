@@ -87,11 +87,9 @@ a:hover{
   }
 
   #links-nav{
-    margin-top: 40px;
-    margin-bottom: 40px;
-    position: absolute;
-    left: 50%;
-    transform: translatex(-50%);
+    margin-top: 60px;
+    margin-bottom: 60px;
+
   }
 
   .pagination li {
@@ -332,4 +330,40 @@ border-radius: 2px;
 
 .carousel-control-prev-icon.d, .carousel-control-next-icon.d {
   margin-top: 200px !important;
+  color: #f18520 i !important;
+}
+
+.card{
+  border: 0px !important;
+}
+
+.card-header{
+  border-radius: 0px !important;
+  border-bottom: 0px !important;
+  background-color: #f18520;
+  color: #7c410a;
+  font-size: large;
+}
+
+.card-header.detail{
+  margin-bottom: 25px;;
+}
+
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+  background-color: #f18520;
+  text-align: center;
+  opacity: 0.9;
+  transition: opacity 0.15s ease;
+  border-radius: 3px !important;
+}
+
+.subTitle{
+  padding: 7px;
+  padding-left: 15px;
+  margin-top: 15px;
+  margin-bottom: 25px;
+  border: 1px solid #f185208a;
+  color: #7c410a;
+  font-size: large;
 }

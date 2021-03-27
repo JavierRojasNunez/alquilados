@@ -2,14 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\View\View;
-use App\Models\User;
 use App\Models\Anounces;
-use App\Models\Imagen;
-use Illuminate\Support\Facades\DB;
-use Database\Seeders\users;
-use Illuminate\Http\Request;
-
 
 class HomeController extends Controller
 {

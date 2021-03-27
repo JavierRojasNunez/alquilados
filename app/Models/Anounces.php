@@ -10,6 +10,7 @@ class Anounces extends Model
     use HasFactory;
 
     protected $table = 'anounces';
+    
  
     /**
      * The attributes that are mass assignable.

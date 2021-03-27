@@ -5910,7 +5910,7 @@ a.close.disabled {
   align-items: center;
   justify-content: center;
   width: 15%;
-  color: #fff;
+  color: #f18520 !important;
   text-align: center;
   opacity: 0.8;
   transition: opacity 0.15s ease;
@@ -5924,7 +5924,7 @@ a.close.disabled {
 .carousel-control-prev:hover, .carousel-control-prev:focus,
 .carousel-control-next:hover,
 .carousel-control-next:focus {
-  color: #fff;
+  color:  #f18520 !important;
   text-decoration: none;
   outline: 0;
   opacity: 0.9;
@@ -5944,6 +5944,7 @@ a.close.disabled {
   width: 20px;
   height: 20px;
   background: 50%/100% 100% no-repeat;
+  color: #f18520 !important;
 }
 
 .carousel-control-prev-icon {

@@ -138,10 +138,13 @@
         </div>
            
 @endforeach
- 
+<div class="row justify-content-center">
+    <div id="links-nav">
+    {{$anuncios->links()}} 
     </div>
-  
-    <div class="col-md-12">
+</div>   
+    <div class="col-md-12" style="clear: both" >
+           
         <h1>Últimos anuncios en tu zona.</h1>
         <br>
     <div class="row">
@@ -195,10 +198,8 @@
     @endforeach
 
     </div>
-    
+   
 
-      <div id="links-nav">
-        {{$anuncios->links()}}
-        </div>
+      
 </div>
 @endsection

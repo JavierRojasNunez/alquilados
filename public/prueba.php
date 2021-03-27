@@ -1,5 +1,45 @@
 <?php
 
+class jsonUtil {
+
+    static $dato;
+
+    static function isJson ($_dato = '')
+    {
+
+        if ($_dato != '')
+        { 
+            self::$dato = $_dato;
+        }
+
+        $result = json_decode(self::$dato);
+
+        if (json_last_error_msg() === 'No error') 
+        {
+            return $result;
+        }
+        else
+        {
+            return false;
+        }
+    
+    }
+}
+$json = file_get_contents('ventas2.csv');
+$json = jsonUtil::isJson($json);
+
+if ($json !== false){
+    echo '<pre>';
+    print_r($json);
+    echo '</pre>';
+    die;
+}else{
+    echo 'El archivo recibido no es un JSON';
+}
+
+
+exit;
+///////////////////////////////////////////////////////////////////////////
 if (isset($argv))
 {    
     $csv = $argv[1];

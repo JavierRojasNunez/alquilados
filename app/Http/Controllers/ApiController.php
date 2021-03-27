@@ -1,0 +1,237 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Models\Anounces;
+use App\Models\Imagen;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Http\Request;
+
+class ApiController extends Controller
+{
+
+    protected $data;
+    /**
+	 * Display a listing of the resource.
+	 *
+	 * @return Response
+	 */
+
+
+	public function getAll($limit_ = false)
+	{
+        if($limit_){
+
+            $data = Anounces::select('*')->limit($limit_)->get();
+
+            if (!$data){
+
+                $data = false;
+                return response()->json(['status'=>'204','data'=>$data], 200);
+
+            }
+            
+            return response()->json(['status'=>'ok','data'=>$data], 200);
+
+        }
+
+        $data = Anounces::all();
+
+        if (!$data){
+
+            $data = false;
+            return response()->json(['status'=>'204','data'=>$data], 200);
+            
+        }       
+
+		return response()->json(['status'=>'ok','data'=> $data], 200);
+
+	}
+
+
+
+    public function getOne(){
+
+        $data = Anounces::all()->first();
+
+        if (!$data){
+
+            $data = false;
+            return response()->json(['status'=>'204','data'=>$data], 200);
+            
+        }  
+        return response()->json(['status'=>'ok','data'=>$data], 200);
+
+    }
+
+
+
+    public function getTitle(){
+
+        $data = DB::table('anounces')->pluck('titulo');
+
+        if(!$data){
+
+            $data = false;
+            return response()->json(['status'=>'204','data'=>$data], 200);   
+                
+        }
+
+        return response()->json(['status'=>'ok','data'=> $data], 200);
+
+    }
+
+
+    public function getAllWithImages($limit_ = false){
+
+        $dataAnounce = [];
+        $dataImages = [];
+        $data = [];     
+
+       /* $dataAnounce = DB::table('anounces')
+                        ->select([ 'id as reference', 'type_rent', 'price', 'min_time_ocupation', 'payment_period', 'meter2', 'num_roomms_for_rent', 'num_rooms',
+                        'num_baths', 'deposit', 'phone' ,'available_date', 'titulo', 'descripcion', 'num_people_in', 'people_in_job', 'people_in_sex as lookinf forb',
+                        'people_in_tabaco', 'people_in_pet', 'lookfor_who_job', 'lookfor_who_sex as looking for', 'lookfor_who_tabaco', 'lookfor_who_pet',
+                        'cauntry_rent', 'province_rent', 'city_rent', 'street_rent as type', 'adress_rent', 'num_street_rent', 'flat_street_rent',
+                        'cp_rent as ZIP code', 'funiture', 'ascensor', 'calefaction', 'balcon', 'terraza', 'gas', 'swiming', 'internet', 'washing_machine',
+                        'fridge', 'kitchen', 'near_bus', 'near_underground', 'near_tren', 'near_school', 'near_airport', 'observations']);
+        if ($limit_) $dataAnounce = $dataAnounce->limit($limit_);
+        $dataAnounce = $dataAnounce->get();         
+
+        
+                    
+                        
+        foreach ( $dataAnounce as  $anounce ){
+           
+            $dataImages =  DB::table('images')
+                    ->where('anounces_id', '=', $anounce->reference)
+                    ->select(['imageName', 'created_at', 'updated_at'])
+                    ->get(); 
+
+            $anounce->imageUrl = $_SERVER['HTTP_HOST'];       
+
+            $anounce->images = $dataImages;        
+                  
+        }    */       
+
+        if (!$limit_){
+
+            $dataAnounce = Anounces::all();
+
+        }else{
+
+            $dataAnounce = Anounces::limit($limit_)->get();
+
+        }
+
+        
+        foreach ( $dataAnounce as  $anounce ){
+
+            $anounce->imagen; 
+
+        }
+
+        $url = $_SERVER['HTTP_HOST'];
+
+        if (!$dataAnounce){
+
+            $data = false;
+
+            return response()->json(['status'=>'204','data'=>$data], 204);
+            
+        }  
+             
+
+        return response()->json(['status'=>'ok', 'url'=>$url ,'anuncios'=>$dataAnounce], 200);
+
+    }
+
+
+    public function getBy($arga = false, $argb = false, $argc = false){
+
+
+        if ($arga && !$argb && !$argc){
+           
+            $dataAnounce = Anounces::find((integer)$arga);
+            
+            $url = $_SERVER['SERVER_NAME'];
+
+            
+            if (!$dataAnounce){
+
+                $data = false;
+                return response()->json(['status'=>'204','data'=>$data], 204);
+                
+            }  
+            $dataAnounce->imagen;     
+    
+            return response()->json(['status'=>'200', 'url'=>$url ,'anuncio'=>$dataAnounce], 200);
+            
+        }
+
+        if ($arga && $argb && !$argc){
+
+            $url = $_SERVER['SERVER_NAME'];
+
+            if ($arga == 'price'){
+                
+                $dataAnounce = Anounces::where('price', '=', (float)$argb)->get();
+
+                foreach ($dataAnounce as $anounce){
+                   $anounce->imagen; 
+                   $anounce->url = $url . '/public/' .$anounce->user_id . '/';
+                }               
+                
+            }
+            
+           
+
+            
+            if (!$dataAnounce){
+
+                $data = false;
+                return response()->json(['status'=>'204','data'=>$data], 204);
+                
+            }  
+                
+    
+            return response()->json(['status'=>'200', 'url'=>$url ,'anuncio'=>$dataAnounce], 200);
+            
+        }
+
+        if ($arga && $argb && $argc){
+
+            $url = $_SERVER['SERVER_NAME'];
+
+            if ($arga == 'price'){
+                
+                $dataAnounce = Anounces::whereBetween('price', [(float)$argb, (float)$argc])->get();
+
+                foreach ($dataAnounce as $anounce){
+                   $anounce->imagen; 
+                   $anounce->url = $url . '/public/' .$anounce->user_id . '/';
+                   unset($anounce->user_id);
+                }               
+                
+            }
+            
+            
+
+            
+            if (!$dataAnounce){
+
+                $data = false;
+                return response()->json(['status'=>'204','data'=>$data], 204);
+                
+            }  
+                
+    
+            return response()->json(['status'=>'200', 'url'=>$url ,'anuncio'=>$dataAnounce], 200);
+            
+        }
+
+
+    }
+
+
+}
