@@ -153,21 +153,24 @@
 
     <?php     
 
-        //vamos a recorrer el array de imagenes del anuncio y si no hay ponemos por defecto
-            foreach ($anuncio->imagen as $key2 => $imagenes){
+
+        if( !$anuncio->imagen  ){
+            //vamos a recorrer el array de imagenes del anuncio y si no hay ponemos por defecto
+            foreach ($anuncio->imagen as  $imagenes){
                 
-                if(isset($imagenes->imageName) && $imagenes->imageName !== NULL && $imagenes->imageName != ''){
+                
 
                     $anounceImage = $imagenes->imageName;
                     break;
 
-                }else{
-
-                    //incluir imagen defecto
-                    $anounceImage = 'sin_imagen';
                 }
                 
-            }  
+            } else{
+
+                    //incluir imagen defecto
+                    $anounceImage = 'sin_imagen.jpg';
+                    
+                } 
         
         ?>
 

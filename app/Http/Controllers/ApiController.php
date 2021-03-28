@@ -27,20 +27,19 @@ class ApiController extends Controller
 
         
         if ($request->isJson()){
-            $data = $request->json()->all();
             
-            if (Auth::check() ){
-                dd($request);  
-                $dataToBeSaved = [
-                    'user_id' => Auth::id(),
-                    'title' => $data['title'],
-                    'price' => (float)$data['price'],
-                ];
+            
+            if (!Auth::check() ){
+                  
+                
+                $data = $request->all();
 
-                $anuncio = Anounces::create($dataToBeSaved);
+               
+                
+                $anuncio = Anounces::create($data);
                 return response()->json($anuncio, 201);
             }else{
-                return response()->json(['error' => 'Unautoriced'], 401);
+                return response()->json(['error' => 'Unauthorized'], 401);
             }
 
 
