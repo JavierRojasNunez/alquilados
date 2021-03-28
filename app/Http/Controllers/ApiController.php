@@ -3,7 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Anounces;
-use App\Models\Imagen;
+use App\Models\User;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -34,11 +35,27 @@ class ApiController extends Controller
                 
                 $data = $request->all();
 
-               
+                $dataToBeSaved = $data['data'][0];
                 
-                $anuncio = Anounces::create($data);
-                return response()->json($anuncio, 201);
+                $userExists = User::where("id", $dataToBeSaved['user_id'])->exists();
+                
+                    if (!$userExists){
+
+                        $anuncio = false;
+
+                        return response()->json(['status'=>'Not created.', $anuncio], 400);
+
+                    }else{
+
+                        $anuncio = Anounces::create($dataToBeSaved);
+
+                        return response()->json(['status'=>'Created.', $anuncio], 201);
+
+                    }
+
+
             }else{
+
                 return response()->json(['error' => 'Unauthorized'], 401);
             }
 
@@ -58,7 +75,7 @@ class ApiController extends Controller
             if (!$data){
 
                 $data = false;
-                return response()->json(['status'=>'204','data'=>$data], 204);
+                return response()->json(['status'=>'No data found.','data'=>$data], 204);
 
             }
             
@@ -66,7 +83,7 @@ class ApiController extends Controller
 
         }
 
-        $data = Anounces::all();
+        $data = Anounces::paginate(10);
 
         if (!$data){
 
@@ -147,7 +164,7 @@ class ApiController extends Controller
 
         if (!$limit_){
 
-            $dataAnounce = Anounces::all();
+            $dataAnounce = Anounces::paginate(10);
 
         }else{
 
