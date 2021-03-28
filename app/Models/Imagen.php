@@ -15,6 +15,11 @@ class Imagen extends Model
         'user_id', 'anounces_id', 'imageName',
     ];
 
+    protected $hidden = [
+        
+        'remember_token', 'user_id',
+    ];
+
     public function user(){
         return $this->belongsTo(User::class);
     }

@@ -6,6 +6,8 @@ use App\Models\Anounces;
 use App\Models\Imagen;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use PhpParser\Node\Expr\FuncCall;
 
 class ApiController extends Controller
 {
@@ -17,6 +19,21 @@ class ApiController extends Controller
 	 * @return Response
 	 */
 
+
+  
+
+
+     public function create(Request $request){
+
+        if ($request->isJson()){
+            $data = $request->json()->all();
+            
+            if (Auth::check()){
+                return response()->json(['error' => 'Invalid parameter'], 406);
+            }
+        }
+
+     }
 
 	public function getAll($limit_ = false)
 	{

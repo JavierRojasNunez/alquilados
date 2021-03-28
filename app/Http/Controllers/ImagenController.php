@@ -149,7 +149,7 @@ class ImagenController extends Controller
 
     public function deleteImage($image_id, $anounce_id){
 
-        //dd($image_id);
+       
         $response = 0;
         $imagen = Imagen::findOrFail($image_id);
         $user_id = Auth::user()->id;
@@ -189,7 +189,7 @@ class ImagenController extends Controller
     }
         
 
-        return response()->json([
+          return response()->json([
             'respuesta' => $response,
             'numImages' => $numImages,
         ]);
