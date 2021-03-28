@@ -30,7 +30,7 @@ class ApiController extends Controller
         if ($request->isJson()){
             
             
-            if (!Auth::check() ){
+            if (Auth::check() ){
                   
                 
                 $data = $request->all();
