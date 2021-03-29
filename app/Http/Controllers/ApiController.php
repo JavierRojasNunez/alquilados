@@ -212,7 +212,8 @@ class ApiController extends Controller
                 $data = false;
                 return response()->json(['status'=>'204','data'=>$data], 204);
                 
-            }  
+            } 
+             
             $dataAnounce->imagen;     
             
             return response()->json(['status'=>'200', 'url'=>$url ,'anuncio'=>$dataAnounce], 200);
@@ -240,7 +241,7 @@ class ApiController extends Controller
                 if (count($dataAnounce) == 0){
 
                     $data = false;
-                    return response()->json(['status'=>'204','data'=>$data], 204);
+                    return response()->json(['status'=>'No data found','data'=>$data], 204);
                     
                 }  
                 
@@ -250,10 +251,7 @@ class ApiController extends Controller
                 }               
                 
             }
-            
-            
-            
-                
+                           
     
             return response()->json(['status'=>'200', 'url'=>$url ,'anuncio'=> $dataAnounce], 200);
             
