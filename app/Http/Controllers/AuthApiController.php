@@ -17,7 +17,7 @@ class AuthApiController extends Controller
 
         if($userExists){
             return response()->json([
-                'message' => 'Not created, user allready exist! .'], 406);
+                'message' => 'Not created, user allready exist!.'], 406);
         }
 
 

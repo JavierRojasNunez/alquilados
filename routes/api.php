@@ -18,13 +18,13 @@ use Illuminate\Support\Facades\Route;
     return $request->user();
 });*/
 
-/*Route::post('/v1/create', [App\Http\Controllers\ApiController::class, 'create']);
+Route::post('/v1/create', [App\Http\Controllers\ApiController::class, 'create']);
 Route::delete('/v1/anuncio/{id}', [App\Http\Controllers\ApiController::class, 'delete']);
 Route::put('/v1/edit/{id}', [App\Http\Controllers\ApiController::class, 'update']);
 Route::get('/v1/anuncios/{limit?}', [App\Http\Controllers\ApiController::class, 'getAll']);
 Route::get('/v1/anuncio/{id?}', [App\Http\Controllers\ApiController::class, 'getOne']);
 Route::get('/v1/titulos/{id?}', [App\Http\Controllers\ApiController::class, 'getTitle']);
-Route::get('/v1/filtrado/{arga?}/{argb?}/{argc?}', [App\Http\Controllers\ApiController::class, 'getBy']);*/
+Route::get('/v1/filter/{arga?}/{argb?}/{argc?}', [App\Http\Controllers\ApiController::class, 'getBy']);
 
 
 Route::group(['prefix' => 'v1/auth'], function () {

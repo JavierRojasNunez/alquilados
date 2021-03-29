@@ -224,13 +224,17 @@ class ApiController extends Controller
            $url = $_SERVER['SERVER_NAME'];
  
             if (!empty($arga)){
-               //dd($arga); 
-               // $argb = ($arga == 'funiture') ? (Boolean)$argb : $argb;
-
-                $argb = ($arga == 'funiture' && $argb == 'on')  ?: true ;
-                dd($argb) ;
+             
+                if($arga == 'funiture' ){
+                    if($argb == 'yes') {
+                        $argb = true;
+                    }else{
+                        $argb = false;
+                    }
+                }
+                
            
-                $dataAnounce = Anounces::where($arga, '=', $argb)->get();
+                $dataAnounce = Anounces::where($arga, '=', $argb)->paginate(10);
 
                 
                 if (count($dataAnounce) == 0){
