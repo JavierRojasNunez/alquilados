@@ -14,15 +14,39 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
+/*Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
-});
+});*/
 
-Route::post('/v1/create', [App\Http\Controllers\ApiController::class, 'create']);
+/*Route::post('/v1/create', [App\Http\Controllers\ApiController::class, 'create']);
 Route::delete('/v1/anuncio/{id}', [App\Http\Controllers\ApiController::class, 'delete']);
 Route::put('/v1/edit/{id}', [App\Http\Controllers\ApiController::class, 'update']);
 Route::get('/v1/anuncios/{limit?}', [App\Http\Controllers\ApiController::class, 'getAll']);
 Route::get('/v1/anuncio/{id?}', [App\Http\Controllers\ApiController::class, 'getOne']);
 Route::get('/v1/titulos/{id?}', [App\Http\Controllers\ApiController::class, 'getTitle']);
-Route::get('/v1/todo/{limit?}', [App\Http\Controllers\ApiController::class, 'getAllWithImages']);
-Route::get('/v1/filtrado/{arga?}/{argb?}/{argc?}', [App\Http\Controllers\ApiController::class, 'getBy']);
+Route::get('/v1/filtrado/{arga?}/{argb?}/{argc?}', [App\Http\Controllers\ApiController::class, 'getBy']);*/
+
+
+Route::group(['prefix' => 'v1/auth'], function () {
+    Route::post('login',  [App\Http\Controllers\authApiController::class, 'login']);
+    Route::post('signup', [App\Http\Controllers\authApiController::class, 'signup']);
+    
+    
+    // Las siguientes rutas además del prefijo requieren que el usuario tenga un token válido
+    Route::group(['middleware' => 'auth:api'], function() {
+        Route::get('logout', 'AuthApiController@logout');
+        Route::get('user', 'AuthApiController@user');
+        // Aquí agrega tus rutas de la API. En mi caso (EN MI CASO, EL TUYO PUEDE VARIAR) he agregado una de productos
+        Route::get("productos", function () {
+           // return response()->json(\App\Producto::all());
+        });
+        Route::get('todo/{limit?}', [App\Http\Controllers\ApiController::class, 'getAllWithImages']);
+        Route::post('create', [App\Http\Controllers\ApiController::class, 'create']);
+        Route::delete('anuncio/{id}', [App\Http\Controllers\ApiController::class, 'delete']);
+        Route::put('edit/{id}', [App\Http\Controllers\ApiController::class, 'update']);
+        Route::get('anuncios/{limit?}', [App\Http\Controllers\ApiController::class, 'getAll']);
+        Route::get('anuncio/{id?}', [App\Http\Controllers\ApiController::class, 'getOne']);
+        Route::get('titulos/{id?}', [App\Http\Controllers\ApiController::class, 'getTitle']);
+        Route::get('filter/{arga?}/{argb?}/{argc?}', [App\Http\Controllers\ApiController::class, 'getBy']);
+    });
+});

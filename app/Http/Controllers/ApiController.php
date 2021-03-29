@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use phpDocumentor\Reflection\Types\Boolean;
 use PhpParser\Node\Expr\FuncCall;
 
 class ApiController extends Controller
@@ -43,7 +44,7 @@ class ApiController extends Controller
 
                         $anuncio = false;
 
-                        return response()->json(['status'=>'Not created.', $anuncio], 400);
+                        return response()->json(['status'=>'Not created. Bad user credentials', $anuncio], 400);
 
                     }else{
 
@@ -197,12 +198,13 @@ class ApiController extends Controller
 
     public function getBy($arga = false, $argb = false, $argc = false){
 
+        
 
         if ($arga && !$argb && !$argc){
            
             $dataAnounce = Anounces::find((integer)$arga);
             
-            $url = $_SERVER['REMOTE_ADDR'];
+            $url = $_SERVER['SERVER_NAME'];
 
             
             if (!$dataAnounce){
@@ -218,11 +220,16 @@ class ApiController extends Controller
         }
 
         if ($arga && $argb && !$argc){
+            
+           $url = $_SERVER['SERVER_NAME'];
+ 
+            if (!empty($arga)){
+               //dd($arga); 
+               // $argb = ($arga == 'funiture') ? (Boolean)$argb : $argb;
 
-            $url = $_SERVER['SERVER_NAME'];
-
-            if ($arga){
-                
+                $argb = ($arga == 'funiture' && $argb == 'on')  ?: true ;
+                dd($argb) ;
+           
                 $dataAnounce = Anounces::where($arga, '=', $argb)->get();
 
                 
@@ -244,7 +251,7 @@ class ApiController extends Controller
             
                 
     
-            return response()->json(['status'=>'200', 'url'=>$url ,'anuncio'=>$dataAnounce], 200);
+            return response()->json(['status'=>'200', 'url'=>$url ,'anuncio'=> $dataAnounce], 200);
             
         }
 
