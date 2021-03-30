@@ -15,12 +15,15 @@ class AuthApiController extends Controller
 
     public function signup(Request $request)
     {
+
+        if(!$request){
+            return response()->json(['message' => 'You don´t send any data.'], 200);
+        }
         
         $userExists = User::where("email", $request->email)->exists();
 
         if($userExists){
-            return response()->json([
-                'message' => 'Not created, user allready exist!.'], 406);
+            return response()->json(['message' => 'Not created, user allready exist!.'], 406);
         }
 
         //dd($request->all());
@@ -45,9 +48,15 @@ class AuthApiController extends Controller
 
         ]);
         
-        $user->save();
-        return response()->json([
-            'message' => 'Successfully created user! You can login.'], $this->HttpstatusCode);
+        
+        if ($user->save()){
+
+            return response()->json(['message' => 'Successfully created user! You can login.'], $this->HttpstatusCode);
+
+        }else{
+
+            return response()->json(['message' => 'Not created, Try again!.'], 406);
+        }
             
     }
 
