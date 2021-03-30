@@ -75,7 +75,7 @@ class ApiController extends Controller
             $offSet = isset($limits[1]) ? (integer)$limits[1] : 0;
 
         }
-        
+        voy por aqui optimizar busqueda con join o usando elocuent
         $data = DB::table('anounces')
                 ->offset($offSet)
                 ->limit($limit)
@@ -91,20 +91,21 @@ class ApiController extends Controller
             return response()->json(['status'=> 'No data found.', 'results' => $numAdds ], 204);
 
         }
-        $data[0]->user = [];
+       
 
         foreach($data as $anuncio){
             
-            $user = User::find($anuncio->user_id);
+            $user = User::where('id', '=', $anuncio->user_id)->first();
+
             if($user){
              
-                $data[0]->user = [
+                $anuncio->userData[] = [
                     'userName' => $user->name,
                     'userSurname' => $user->surname,
                     'userEmail' => $user->email,
                 ];   
 
-                unset($data[0]->user_id);
+                unset($anuncio->user_id);
                 
             }
         }
