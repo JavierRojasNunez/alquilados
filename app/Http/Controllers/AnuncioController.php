@@ -425,6 +425,9 @@ class AnuncioController extends Controller
                     $anounceId  = NULL;
                 }
 
+
+                
+
             //vamos a guardar los datos en caso de que  venga $request->file('foto1') o $anounceId si no editar anncio
             if( $request->file('foto1') !== NULL || $anounceId === NULL) {
 
@@ -515,7 +518,7 @@ class AnuncioController extends Controller
 
                 $values = $anuncio->toArray();
                 $anuncio = false;
-                $anuncio = Anounces::findOrFail($anounceId);
+                $anuncio = Anounces::find($anounceId);
 
                 $i = 1;
                 foreach($values as $key => $value){

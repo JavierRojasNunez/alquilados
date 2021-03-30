@@ -25,6 +25,7 @@ class ImagenController extends Controller
             //$anuncio = Imagen::select(['imageName', 'user_id'])->where('anounces_id', '=', $anounceId)->get();  
             $imagenes = Imagen::all()->where('anounces_id', '=', $anounceId)->where('user_id', '=', Auth::user()->id);  
             $numImages = Imagen::where('anounces_id', '=', $anounceId)->count();
+            //$numImages = count($imagenes);
             //$anuncio = Imagen::find($id);                         
                    
         }               
@@ -51,9 +52,17 @@ class ImagenController extends Controller
 
     public function saveImages(Request $request)
     {
+        $anounce_id = $request->input('anounce_id');
+        $type = $request->input('type');
 
-      $anounce_id = $request->input('anounce_id');
-      $type = $request->input('type');
+        if ((!$request->isMethod('post') && Auth::user() ) || !$request->hasFile('foto1'))
+        {
+            $mensaje_ = 'Upss! Ha de seleccionar una imagen como minimo.';
+            $succes = 'errores_';
+            return redirect()->route('edit.images', ['id' => $anounce_id, 'type' => $type])->with([$succes => $mensaje_])->withInput(); 
+        }
+
+      
       $numImages_baseDatos = Imagen::where('anounces_id', '=', $anounce_id)->count();
       $numImages_form = count($request->file('foto1'));
       $maxImages = 5;
@@ -78,7 +87,7 @@ class ImagenController extends Controller
         $succes = 'errores_';
         return redirect()->route('edit.images', ['id' => $anounce_id, 'type' => $type])->with([$succes => $mensaje_]); 
       }
-        
+      
         
         $files = $request->file('foto1');
         $dir = public_path( '/anounces/' .Auth::user()->id . '/');
@@ -103,6 +112,7 @@ class ImagenController extends Controller
                 ->fit(800, 600, function ($constraint) {
                     $constraint->upsize();
                 })
+                ->orientate()
                 ->save(   public_path  ('/anounces/' . Auth::user()->id . '/' .$newName), 90 );
                 /*
                 ->resize(650, 650, function ($constraint) {

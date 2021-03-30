@@ -12,11 +12,11 @@
         <div class="invoiceBox">
         <label for="foto1">
           <div class="boxFile" id="boxFile" data-text="Seleccionar archivo">
-            {{ __('Imagenes (una como minimo). ') }}
+            {{ __('Imagenes.') }}
           </div>
         </label>
         
-        <input type="file" id="foto1" name="foto1[]" multiple=""  >
+        <input type="file" id="foto1" name="foto1[]" multiple="" required  >
         <div style="color: red"  id="errorFiles"></div>
         @error('foto1')
         <span class="invalid-feedback" role="alert">

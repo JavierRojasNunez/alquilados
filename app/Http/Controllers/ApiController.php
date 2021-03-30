@@ -29,38 +29,28 @@ class ApiController extends Controller
      public function create(Request $request){
 
         
-        if ($request->isJson()){
+        if ($request->isJson())
+        {
+                            
+            $data = $request->all();
+
+            $dataToBeSaved = $data['data'][0];
             
+            $userExists = User::where("id", $dataToBeSaved['user_id'])->exists();
             
-            if (Auth::check() ){
-                  
-                
-                $data = $request->all();
+            if (!$userExists){
 
-                $dataToBeSaved = $data['data'][0];
-                
-                $userExists = User::where("id", $dataToBeSaved['user_id'])->exists();
-                
-                    if (!$userExists){
+                $anuncio = false;
 
-                        $anuncio = false;
-
-                        return response()->json(['status'=>'Not created. Bad user credentials', $anuncio], 400);
-
-                    }else{
-
-                        $anuncio = Anounces::create($dataToBeSaved);
-
-                        return response()->json(['status'=>'Created.', $anuncio], 201);
-
-                    }
-
+                return response()->json(['status'=>'Not created. Bad user credentials', $anuncio], 400);
 
             }else{
 
-                return response()->json(['error' => 'Unauthorized'], 401);
-            }
+                $anuncio = Anounces::create($dataToBeSaved);
 
+                return response()->json(['status'=>'Created.', $anuncio], 201);
+
+            }           
 
         }else{
             return response()->json(['error' => 'No valid JSON'], 406);
@@ -72,7 +62,7 @@ class ApiController extends Controller
 	{
         if($limit_){
 
-            $data = Anounces::select('*')->limit($limit_)->get();
+            $data = Anounces::select('*')->limit($limit_)->paginate(10);
 
             if (!$data){
 
@@ -90,7 +80,7 @@ class ApiController extends Controller
         if (!$data){
 
             $data = false;
-            return response()->json(['status'=>'204','data'=>$data], 204);
+            return response()->json(['status'=>'No data found'], 204);
             
         }       
 
@@ -106,7 +96,7 @@ class ApiController extends Controller
         if(!$data){
 
             $data = false;
-            return response()->json(['status'=>'204','data'=>$data], 204);   
+            return response()->json(['status'=>'204'], 204);   
                 
         }
          
