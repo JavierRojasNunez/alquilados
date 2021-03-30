@@ -6,10 +6,13 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
-use DateTime;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Hash;
 class AuthApiController extends Controller
 {
+    
+    private $HttpstatusCode = 201;
+
     public function signup(Request $request)
     {
         
@@ -20,15 +23,19 @@ class AuthApiController extends Controller
                 'message' => 'Not created, user allready exist!.'], 406);
         }
 
-
-        $request->validate([
-            'name' => 'required|string',
-            'email' => 'required|string|email|unique:users',
-            'password' => 'required|string',
+        //dd($request->all());
+        $verify = Validator::make($request->all(), [
+            'name' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'password' => ['required', 'string', 'min:8'],
         ]);
 
-        
-        
+  
+
+        if ($verify->fails()) { 
+            return response()->json(['error'=>$verify->errors()], 401);            
+        }
+       
         $user = new User([
             'name' => $request->name,
             'email' => $request->email,
@@ -40,18 +47,27 @@ class AuthApiController extends Controller
         
         $user->save();
         return response()->json([
-            'message' => 'Successfully created user! You can login.'], 201);
+            'message' => 'Successfully created user! You can login.'], $this->HttpstatusCode);
             
     }
 
     public function login(Request $request)
     {
         
-        $request->validate([
-            'email' => 'required|string|email',
-            'password' => 'required|string|min:8',
-            'remember_me' => 'boolean',
+        
+        $verify = Validator::make($request->all(), [
+            'email' => ['required', 'string', 'email'],
+            'password' => ['required', 'string', 'min:8'],
+            'remember_me' => ['boolean'],
         ]);
+
+  
+
+        if ($verify->fails()) { 
+            return response()->json(['error'=>$verify->errors()], 401);            
+        }
+
+
         $credentials = request(['email', 'password']);
         if (!Auth::attempt($credentials)) {
             return response()->json([

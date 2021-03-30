@@ -15,6 +15,7 @@ class ApiController extends Controller
 {
 
     protected $data;
+    public $HttpstatusCode = 200;
     /**
 	 * Display a listing of the resource.
 	 *
@@ -80,7 +81,7 @@ class ApiController extends Controller
 
             }
             
-            return response()->json(['status'=>'ok','data'=>$data], 200);
+            return response()->json(['status'=>'ok','data'=>$data], $this->HttpstatusCode);
 
         }
 
@@ -93,7 +94,7 @@ class ApiController extends Controller
             
         }       
 
-		return response()->json(['status'=>'ok','data'=> $data], 200);
+		return response()->json(['status'=>'ok','data'=> $data], $this->HttpstatusCode);
 
 	}
 
@@ -109,7 +110,7 @@ class ApiController extends Controller
                 
         }
          
-        return response()->json(['status'=>'ok','data'=>$data], 200);
+        return response()->json(['status'=>'ok','data'=>$data], $this->HttpstatusCode);
 
     }
 
@@ -126,7 +127,7 @@ class ApiController extends Controller
                 
         }
 
-        return response()->json(['status'=>'ok','data'=> $data], 200);
+        return response()->json(['status'=>'ok','data'=> $data], $this->HttpstatusCode);
 
     }
 
@@ -169,7 +170,7 @@ class ApiController extends Controller
 
         }else{
 
-            $dataAnounce = Anounces::limit($limit_)->get();
+            $dataAnounce = Anounces::limit($limit_)->paginate(10);
 
         }
 
@@ -177,10 +178,10 @@ class ApiController extends Controller
         foreach ( $dataAnounce as  $anounce ){
 
             $anounce->imagen; 
-
-        }
-
-        $url = $_SERVER['HTTP_HOST'];
+            $url = $_SERVER['HTTP_HOST'] . '/public/' . $anounce->user_id . '/' ;
+            $anounce->image_url = $url;
+            unset ($anounce->user_id);
+        }     
 
         if (!$dataAnounce){
 
@@ -191,7 +192,7 @@ class ApiController extends Controller
         }  
              
         
-        return response()->json(['status'=>'200', 'url'=>$url ,'anuncios'=>$dataAnounce], 200);
+        return response()->json(['status'=>'200', 'anuncios'=>$dataAnounce], $this->HttpstatusCode);
 
     }
 
@@ -204,7 +205,7 @@ class ApiController extends Controller
            
             $dataAnounce = Anounces::find((integer)$arga);
             
-            $url = $_SERVER['SERVER_NAME'];
+            $url = $_SERVER['SERVER_NAME'] . '/public';
 
             
             if (!$dataAnounce){
@@ -216,13 +217,13 @@ class ApiController extends Controller
              
             $dataAnounce->imagen;     
             
-            return response()->json(['status'=>'200', 'url'=>$url ,'anuncio'=>$dataAnounce], 200);
+            return response()->json(['status'=>'200', 'url'=>$url ,'anuncio'=>$dataAnounce], $this->HttpstatusCode);
             
         }
 
         if ($arga && $argb && !$argc){
             
-           $url = $_SERVER['SERVER_NAME'];
+           $url = $_SERVER['SERVER_NAME'] . '/public';
  
             if (!empty($arga)){
              
@@ -253,7 +254,7 @@ class ApiController extends Controller
             }
                            
     
-            return response()->json(['status'=>'200', 'url'=>$url ,'anuncio'=> $dataAnounce], 200);
+            return response()->json(['status'=>'200', 'url'=>$url ,'anuncio'=> $dataAnounce], $this->HttpstatusCode);
             
         }
 
@@ -284,7 +285,7 @@ class ApiController extends Controller
             }  
                 
     
-            return response()->json(['status'=>'200', 'url'=>$url ,'anuncio'=>$dataAnounce], 200);
+            return response()->json(['status'=>'200', 'url'=>$url ,'anuncio'=>$dataAnounce], $this->HttpstatusCode);
             
         }
 

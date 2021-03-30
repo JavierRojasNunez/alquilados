@@ -28,18 +28,16 @@ Route::get('/v1/filter/{arga?}/{argb?}/{argc?}', [App\Http\Controllers\ApiContro
 
 
 Route::group(['prefix' => 'v1/auth'], function () {
-    Route::post('login',  [App\Http\Controllers\authApiController::class, 'login']);
-    Route::post('signup', [App\Http\Controllers\authApiController::class, 'signup']);
+    Route::post('login',  [App\Http\Controllers\AuthApiController::class, 'login']);
+    Route::post('signup', [App\Http\Controllers\AuthApiController::class, 'signup']);
     
     
     // Las siguientes rutas además del prefijo requieren que el usuario tenga un token válido
     Route::group(['middleware' => 'auth:api'], function() {
-        Route::get('logout', 'AuthApiController@logout');
-        Route::get('user', 'AuthApiController@user');
-        // Aquí agrega tus rutas de la API. En mi caso (EN MI CASO, EL TUYO PUEDE VARIAR) he agregado una de productos
-        Route::get("productos", function () {
-           // return response()->json(\App\Producto::all());
-        });
+        Route::get('logout', [App\Http\Controllers\AuthApiController::class, 'logout']);
+        Route::get('user', [App\Http\Controllers\AuthApiController::class, 'user']);
+        
+        //api
         Route::get('todo/{limit?}', [App\Http\Controllers\ApiController::class, 'getAllWithImages']);
         Route::post('create', [App\Http\Controllers\ApiController::class, 'create']);
         Route::delete('anuncio/{id}', [App\Http\Controllers\ApiController::class, 'delete']);
