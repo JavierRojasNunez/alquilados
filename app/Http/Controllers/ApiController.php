@@ -58,33 +58,58 @@ class ApiController extends Controller
 
      }
 
-	public function getAll($limit_ = false)
+	public function getAll($limit = 1000)
 	{
-        if($limit_){
+        
 
-            $data = Anounces::select('*')->limit($limit_)->paginate(10);
+        if( is_array($limit) ){
 
-            if (!$data){
-
-                $data = false;
-                return response()->json(['status'=>'No data found.','data'=>$data], 204);
-
-            }
+            $limit = (integer)$limit[0] ;
+            $offSet = isset($limits[1]) ? (integer)$limits[1] : 0;
             
-            return response()->json(['status'=>'ok','data'=>$data], $this->HttpstatusCode);
+        }else{
+
+            $limits = explode(' ', $limit);
+            $limit = (integer)$limits[0] ;
+            $limit = ($limit == 0) ? $limit = 10 : $limit;
+            $offSet = isset($limits[1]) ? (integer)$limits[1] : 0;
 
         }
+        
+        $data = DB::table('anounces')
+                ->offset($offSet)
+                ->limit($limit)
+                ->get();
 
-        $data = Anounces::paginate(10);
-
-        if (!$data){
-
-            $data = false;
-            return response()->json(['status'=>'No data found'], 204);
+        
             
-        }       
+         $numAdds = count($data);
 
-		return response()->json(['status'=>'ok','data'=> $data], $this->HttpstatusCode);
+        if ($numAdds == 0){
+
+            
+            return response()->json(['status'=> 'No data found.', 'results' => $numAdds ], 204);
+
+        }
+        $data[0]->user = [];
+
+        foreach($data as $anuncio){
+            
+            $user = User::find($anuncio->user_id);
+            if($user){
+             
+                $data[0]->user = [
+                    'userName' => $user->name,
+                    'userSurname' => $user->surname,
+                    'userEmail' => $user->email,
+                ];   
+
+                unset($data[0]->user_id);
+                
+            }
+        }
+        
+        return response()->json(['status'=>'ok', 'results' => $numAdds ,'data'=>$data], $this->HttpstatusCode);
 
 	}
 
@@ -128,6 +153,7 @@ class ApiController extends Controller
         //$dataImages = [];
         $data = [];     
 
+        dd($limit_);
        /* $dataAnounce = DB::table('anounces')
                         ->select([ 'id as reference', 'type_rent', 'price', 'min_time_ocupation', 'payment_period', 'meter2', 'num_roomms_for_rent', 'num_rooms',
                         'num_baths', 'deposit', 'phone' ,'available_date', 'titulo', 'descripcion', 'num_people_in', 'people_in_job', 'people_in_sex as lookinf forb',

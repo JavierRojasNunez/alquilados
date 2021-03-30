@@ -19,6 +19,7 @@ use Illuminate\Support\Facades\Route;
 });*/
 
 Route::post('/v1/create', [App\Http\Controllers\ApiController::class, 'create']);
+Route::get('/v1/todo/{limit?}', [App\Http\Controllers\ApiController::class, 'getAllWithImages']);
 Route::delete('/v1/anuncio/{id}', [App\Http\Controllers\ApiController::class, 'delete']);
 Route::put('/v1/edit/{id}', [App\Http\Controllers\ApiController::class, 'update']);
 Route::get('/v1/anuncios/{limit?}', [App\Http\Controllers\ApiController::class, 'getAll']);
