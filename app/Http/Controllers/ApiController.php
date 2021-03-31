@@ -83,7 +83,7 @@ class ApiController extends Controller
                 ->limit($limit)
                 ->get();*/
 
-        
+        $data = [];
         $data = Anounces::paginate(10);
         $data->load('user');
         $data->load('imagen');  
@@ -121,24 +121,28 @@ class ApiController extends Controller
 
 
 
-    public function getOne($id){
+    public function getOne($id = false){
 
         
-        $data = Anounces::find($id);
-        $data->user;
-        unset($data->user->id);
-        $data->imagen;
+        if(!$id){
 
-        
-        
+            return response()->json(['error'=>'Parameter passed 0 expects 1 integer'], 406); 
+        }
+
+        $data = Anounces::find((integer)$id);
+            
         if($data == NULL){
-
-            $data = false;
-            return response()->json(['status'=>'204'], 204);   
+            
+            return response()->json(['status'=>'Not data found'], 200);   
                 
         }
-         
-        return response()->json(['status'=>'ok','data'=>$data], $this->HttpstatusCode);
+        
+        $data->user;
+        $data->imagen;
+        $data->imageUrl = $_SERVER['HTTP_HOST'] . '/public/anounces/' . $data->user->id . '/';
+        $data->currency = '€';
+        unset($data->user->id);
+        return response()->json(['status'=>'Data found','data'=>$data], $this->HttpstatusCode);
 
     }
 
@@ -155,25 +159,37 @@ class ApiController extends Controller
                 
         }
 
-        return response()->json(['status'=>'ok','data'=> $data], $this->HttpstatusCode);
+        return response()->json(['status'=>'Data found','data'=> $data], $this->HttpstatusCode);
 
     }
 
 
-    public function getResumeWithImages($limit_ = 100){
+    //sepuede pasar dos parametros separados por espacio para tenet primero limite y segundo offset
+   // vamos a poner dos variablesa recibir por la funcion
+    public function getResumeWithImages($limit_ = 1000, $id_ = false){
 
         $limit_ = ($limit_ > 5000) ? 5000 : $limit_;
 
-           if( is_array($limit_) ){
+        $offSet = false;
+        $limits = explode(' ', $limit_);
 
-            $limit = isset($limits[0]) ? (integer)$limits[0] : 10;
-            $offSet = isset($limits[1]) ? (integer)$limits[1] : 0;
+           if( $limits[0] == 'id' && $id_ ){
+
+            $limit = false;
+            $offSet = false;
+
             
         }else{
 
-            $limits = explode(' ', $limit_);
+           
+            if ((isset($limits[0] ) && !is_numeric($limits[0])) ||  ( isset($limits[1]) && !is_numeric($limits[1]) ) ){
+                return response()->json(['error'=>'Parameters must to be integers'], 406);
+            }
+            
             $limit = (integer)$limits[0] ;
-            $limit = ($limit == 0) ? $limit = 10 : $limit;
+            
+            $limit = ($limit == 0) ? $limit = 10 : (integer)$limit;
+            
             $offSet = isset($limits[1]) ? (integer)$limits[1] : 0;
 
         }
@@ -188,16 +204,22 @@ class ApiController extends Controller
                         ->select([ 'id as reference', 'user_id', 'type_rent', 'price',  'payment_period', 'meter2', 'num_rooms',
                         'cauntry_rent', 'province_rent', 'phone', 'city_rent', 'street_rent as type_street', 'adress_rent', 'num_street_rent', 'flat_street_rent',
                         'cp_rent as ZIP code', 'observations']);
-        $dataAnounce->orderBy('id', 'desc');
-        $dataAnounce->offset($offSet);
-        if ($limit_) $dataAnounce = $dataAnounce->limit($limit_);
-        $dataAnounce = $dataAnounce->get();         
+                                              
+        if ($id_) $dataAnounce->where('id', '=', $id_);
+                
+        if ($limit) $dataAnounce->orderBy('id', 'desc');
+
+        if ($offSet) $dataAnounce->offset($offSet);
+
+        if ($limit) $dataAnounce = $dataAnounce->limit($limit);
+        
+         $dataAnounce = $dataAnounce->get();         
 
         
                     
                         
         foreach ( $dataAnounce as  $anounce ){
-           
+          // dd($anounce->user_id);
             $dataImages =  DB::table('images')
                     ->where('anounces_id', '=', $anounce->reference)
                     ->select(['imageName', 'created_at', 'updated_at'])
@@ -212,11 +234,15 @@ class ApiController extends Controller
                     
             $anounce->imageUrl = $_SERVER['HTTP_HOST'] . '/anounces/' . $anounce->user_id . '/' ;       
             unset($anounce->user_id);
+            
             $anounce->currency = '€';
             $anounce->userData = $dataUser;
             $anounce->images = $dataImages;        
                   
         }           
+
+        $totalResults = count($dataAnounce);
+
 
        /* if (!$limit_){
 
@@ -237,16 +263,15 @@ class ApiController extends Controller
             unset ($anounce->user_id);
         } */    
 
-        if (!$dataAnounce){
+        if ($totalResults == 0){
 
-            $data = false;
 
-            return response()->json(['status'=>'204','data'=>$data], 204);
+            return response()->json(['status'=>'No data found'], $this->HttpstatusCode);
             
         }  
              
         
-        return response()->json(['status'=>'200', 'anuncios'=>$dataAnounce], $this->HttpstatusCode);
+        return response()->json(['status'=>'200', 'totalResults'=>$totalResults , 'anuncios'=>$dataAnounce], $this->HttpstatusCode);
 
     }
 
