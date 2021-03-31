@@ -359,11 +359,11 @@ class ApiController extends Controller
 
                 foreach ($dataAnounce as $anounce){
                    $anounce->imagen; 
-                   $anounce->urlImageExample = $url . '/public/anounces/' .$anounce->user_id . '/[imageName]';
+                   $anounce->urlImageExample = basename(public_path()) . '/anounces/' .$anounce->user_id . '/[imageName]';
                    $anounce->urlImage = $url . '/public/anounces/' .$anounce->user_id . '/';
                                      
                    foreach($anounce->imagen as $imagen){
-                       $imagen->imagenUrl = $url . '/public/anounces/' .$anounce->user_id . '/' . $imagen->imageName;
+                       $imagen->imagenUrl = $url . '/alquilados/public/anounces/' .$anounce->user_id . '/' . $imagen->imageName;
                        unset($imagen->id);
                        unset($imagen->anounces_id);
                    }
