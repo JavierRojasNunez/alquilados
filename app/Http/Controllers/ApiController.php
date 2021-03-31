@@ -58,32 +58,35 @@ class ApiController extends Controller
 
      }
 
-	public function getAll($limit = 1000)
+	public function getAll()
 	{
         
 
-        if( is_array($limit) ){
+    
+        //voy por aqui optimizar busqueda con join o usando elocuent
 
-            $limit = (integer)$limit[0] ;
-            $offSet = isset($limits[1]) ? (integer)$limits[1] : 0;
-            
-        }else{
+        $data = Anounces::paginate(10)->each(function($data){
 
-            $limits = explode(' ', $limit);
-            $limit = (integer)$limits[0] ;
-            $limit = ($limit == 0) ? $limit = 10 : $limit;
-            $offSet = isset($limits[1]) ? (integer)$limits[1] : 0;
+            $data->user;
+            $data->imagen;
+            $data->imageUrl = $_SERVER['HTTP_HOST'] . '/public/anounces/'. $data->user->id . '/';
+        });
 
-        }
-        voy por aqui optimizar busqueda con join o usando elocuent
-        $data = DB::table('anounces')
-                ->offset($offSet)
-                ->limit($limit)
-                ->get();
 
         
-            
-         $numAdds = count($data);
+        
+    
+       /* $data = DB::table('anounces')
+                ->offset($offSet)
+                ->limit($limit)
+                ->get();*/
+
+        
+        $data = Anounces::paginate(10);
+        $data->load('user');
+        $data->load('imagen');  
+        
+        $numAdds = count($data);
 
         if ($numAdds == 0){
 
@@ -93,7 +96,7 @@ class ApiController extends Controller
         }
        
 
-        foreach($data as $anuncio){
+        /*foreach($data as $anuncio){
             
             $user = User::where('id', '=', $anuncio->user_id)->first();
 
@@ -108,18 +111,25 @@ class ApiController extends Controller
                 unset($anuncio->user_id);
                 
             }
-        }
+        }*/
         
-        return response()->json(['status'=>'ok', 'results' => $numAdds ,'data'=>$data], $this->HttpstatusCode);
+        return response()->json(['status'=>'ok', 'results' => $numAdds ,'collection'=>$data], $this->HttpstatusCode);
 
 	}
 
 
 
-    public function getOne(){
+    public function getOne($id){
 
-        $data = Anounces::all()->first();
-        if(!$data){
+        
+        $data = Anounces::find($id);
+        $data->user;
+        unset($data->user->id);
+        $data->imagen;
+
+        
+        
+        if($data == NULL){
 
             $data = false;
             return response()->json(['status'=>'204'], 204);   
@@ -148,20 +158,36 @@ class ApiController extends Controller
     }
 
 
-    public function getAllWithImages($limit_ = false){
+    public function getResumeWithImages($limit_ = 100){
+
+        $limit_ = ($limit_ > 5000) ? 5000 : $limit_;
+
+           if( is_array($limit_) ){
+
+            $limit = isset($limits[0]) ? (integer)$limits[0] : 10;
+            $offSet = isset($limits[1]) ? (integer)$limits[1] : 0;
+            
+        }else{
+
+            $limits = explode(' ', $limit_);
+            $limit = (integer)$limits[0] ;
+            $limit = ($limit == 0) ? $limit = 10 : $limit;
+            $offSet = isset($limits[1]) ? (integer)$limits[1] : 0;
+
+        }
+
 
         $dataAnounce = [];
         //$dataImages = [];
         $data = [];     
 
-        dd($limit_);
-       /* $dataAnounce = DB::table('anounces')
-                        ->select([ 'id as reference', 'type_rent', 'price', 'min_time_ocupation', 'payment_period', 'meter2', 'num_roomms_for_rent', 'num_rooms',
-                        'num_baths', 'deposit', 'phone' ,'available_date', 'titulo', 'descripcion', 'num_people_in', 'people_in_job', 'people_in_sex as lookinf forb',
-                        'people_in_tabaco', 'people_in_pet', 'lookfor_who_job', 'lookfor_who_sex as looking for', 'lookfor_who_tabaco', 'lookfor_who_pet',
-                        'cauntry_rent', 'province_rent', 'city_rent', 'street_rent as type', 'adress_rent', 'num_street_rent', 'flat_street_rent',
-                        'cp_rent as ZIP code', 'funiture', 'ascensor', 'calefaction', 'balcon', 'terraza', 'gas', 'swiming', 'internet', 'washing_machine',
-                        'fridge', 'kitchen', 'near_bus', 'near_underground', 'near_tren', 'near_school', 'near_airport', 'observations']);
+        
+        $dataAnounce = DB::table('anounces')
+                        ->select([ 'id as reference', 'user_id', 'type_rent', 'price',  'payment_period', 'meter2', 'num_rooms',
+                        'cauntry_rent', 'province_rent', 'phone', 'city_rent', 'street_rent as type_street', 'adress_rent', 'num_street_rent', 'flat_street_rent',
+                        'cp_rent as ZIP code', 'observations']);
+        $dataAnounce->orderBy('id', 'desc');
+        $dataAnounce->offset($offSet);
         if ($limit_) $dataAnounce = $dataAnounce->limit($limit_);
         $dataAnounce = $dataAnounce->get();         
 
@@ -174,14 +200,23 @@ class ApiController extends Controller
                     ->where('anounces_id', '=', $anounce->reference)
                     ->select(['imageName', 'created_at', 'updated_at'])
                     ->get(); 
+            
+            $dataUser =  DB::table('users')
+                    ->where('id', '=', $anounce->user_id)
+                    ->select(['name', 'surname', 'email'])
+                    ->get(); 
 
-            $anounce->imageUrl = $_SERVER['HTTP_HOST'];       
-
+                  
+                    
+            $anounce->imageUrl = $_SERVER['HTTP_HOST'] . '/anounces/' . $anounce->user_id . '/' ;       
+            unset($anounce->user_id);
+            $anounce->currency = '€';
+            $anounce->userData = $dataUser;
             $anounce->images = $dataImages;        
                   
-        }    */       
+        }           
 
-        if (!$limit_){
+       /* if (!$limit_){
 
             $dataAnounce = Anounces::paginate(10);
 
@@ -195,10 +230,10 @@ class ApiController extends Controller
         foreach ( $dataAnounce as  $anounce ){
 
             $anounce->imagen; 
-            $url = $_SERVER['HTTP_HOST'] . '/public/' . $anounce->user_id . '/' ;
-            $anounce->image_url = $url;
+            $imageUrl = $_SERVER['HTTP_HOST'] . '/public/' . $anounce->user_id . '/' ;
+            $anounce->image_url = $imageUrl;
             unset ($anounce->user_id);
-        }     
+        } */    
 
         if (!$dataAnounce){
 
