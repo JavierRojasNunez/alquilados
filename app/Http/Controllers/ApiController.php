@@ -173,7 +173,7 @@ class ApiController extends Controller
         $offSet = false;
         $limits = explode(' ', $limit_);
 
-           if( $limits[0] == 'id' && $id_ ){
+        if( $limits[0] == 'id' && $id_ ){
 
             $limit = false;
             $offSet = false;
