@@ -285,35 +285,16 @@ class ApiController extends Controller
     }
 
 
-    public function getBy($arga = false, $argb = false, $argc = false){
+    public function getBy($arga, $argb = false, $argc = false){
 
-        
-
-        if ($arga && !$argb && !$argc){
-           
-            $dataAnounce = Anounces::find((integer)$arga);
-            
-            $url = $_SERVER['SERVER_NAME'] . '/public';
-
-            
-            if (!$dataAnounce){
-
-                $data = false;
-                return response()->json(['status'=>'204','data'=>$data], 204);
-                
-            } 
-             
-            $dataAnounce->imagen;     
-            
-            return response()->json(['status'=>'200', 'url'=>$url ,'anuncio'=>$dataAnounce], $this->HttpstatusCode);
-            
-        }
 
         if ($arga && $argb && !$argc){
             
            $url = $_SERVER['SERVER_NAME'] . '/public';
  
-            if (!empty($arga)){
+           if($arga != 'funiture' ||  $arga != 'province'   ||  $arga != 'city'   ||  $arga != 'country'){
+            return response()->json(['status'=>'Invalid arguments'], 406);
+           }
              
                 if($arga == 'funiture' ){
                     if($argb == 'yes') {
@@ -339,7 +320,7 @@ class ApiController extends Controller
                    $anounce->url = $url . '/public/' .$anounce->user_id . '/';
                 }               
                 
-            }
+            
                            
     
             return response()->json(['status'=>'200', 'url'=>$url ,'anuncio'=> $dataAnounce], $this->HttpstatusCode);

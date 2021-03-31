@@ -25,7 +25,7 @@ Route::put('/v1/edit/{id}', [App\Http\Controllers\ApiController::class, 'update'
 Route::get('/v1/anuncios', [App\Http\Controllers\ApiController::class, 'getAll']);
 Route::get('/v1/anuncio/{id?}', [App\Http\Controllers\ApiController::class, 'getOne']);
 Route::get('/v1/basics/{id?}', [App\Http\Controllers\ApiController::class, 'getBasics']);
-Route::get('/v1/filter/{arga?}/{argb?}/{argc?}', [App\Http\Controllers\ApiController::class, 'getBy']);
+Route::get('/v1/by/{arga?}/{argb?}/{argc?}', [App\Http\Controllers\ApiController::class, 'getBy']);
 
 
 Route::group(['prefix' => 'v1/auth'], function () {
@@ -50,6 +50,6 @@ Route::group(['prefix' => 'v1/auth'], function () {
         Route::get('anuncio/{id?}', [App\Http\Controllers\ApiController::class, 'getOne']);//metodo completo
 
         Route::get('basics/{id?}', [App\Http\Controllers\ApiController::class, 'getBasics']);//acabado muestra todos con titulo y descripcion y provincia
-        Route::get('filter/{arga?}/{argb?}/{argc?}', [App\Http\Controllers\ApiController::class, 'getBy']);
+        Route::get('by/{arga}/{argb?}/{argc?}', [App\Http\Controllers\ApiController::class, 'getBy']);
     });
 });
