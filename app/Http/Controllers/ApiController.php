@@ -60,10 +60,6 @@ class ApiController extends Controller
 
 	public function getAll()
 	{
-        
-
-    
-        //voy por aqui optimizar busqueda con join o usando elocuent
 
        /*$data = Anounces::get()->each(function($data){
 
@@ -72,12 +68,7 @@ class ApiController extends Controller
             $data->imageUrl = $_SERVER['HTTP_HOST'] . '/public/anounces/'. $data->user->id . '/';
             
         });*/
-       
-
-
-
-        
-        
+          
        /* $data = DB::table('anounces')
                 ->offset($offSet)
                 ->limit($limit)
@@ -226,9 +217,10 @@ class ApiController extends Controller
 
         
         $dataAnounce = DB::table('anounces')
-                        ->select([ 'id as reference', 'user_id', 'type_rent', 'price',  'payment_period', 'meter2', 'num_rooms',
-                        'cauntry_rent', 'province_rent', 'phone', 'city_rent', 'street_rent as type_street', 'adress_rent', 'num_street_rent', 'flat_street_rent',
-                        'cp_rent as ZIP code', 'observations']);
+        ->select([ 'id as reference', 'user_id', 'type_rent', 'price',  'payment_period', 
+        'meter2', 'num_rooms', 'cauntry_rent', 'province_rent', 'phone', 'city_rent', 
+        'street_rent as type_street', 'adress_rent', 'num_street_rent', 'flat_street_rent',
+        'cp_rent as ZIP code', 'observations']);
                                               
         if ($id_) $dataAnounce->where('id', '=', $id_);
                 
@@ -260,12 +252,13 @@ class ApiController extends Controller
             return response()->json(['status'=>'No data found'], $this->HttpstatusCode);
             
         }  
-             
+        
+        $url = $_SERVER['HTTP_HOST'];
         foreach ( $dataAnounce as  $anounce ){
             
                   $dataImages =  DB::table('images')
                           ->where('anounces_id', '=', $anounce->reference)
-                          ->select(['imageName', 'created_at', 'updated_at'])
+                          ->select(['user_id', 'imageName', 'created_at', 'updated_at'])
                           ->get(); 
                   
                   $dataUser =  DB::table('users')
@@ -273,14 +266,18 @@ class ApiController extends Controller
                           ->select(['name', 'surname', 'email'])
                           ->get(); 
       
-                        
+                 foreach($dataImages as $image){
+                     //dd($image);
+                     $image->imageName = $url . '/alquilados/public/anounces/' . $image->user_id. '/' . $image->imageName;
+                 }       
                           
-                  $anounce->imageUrl = $_SERVER['HTTP_HOST'] . '/anounces/' . $anounce->user_id . '/' ;       
-                  unset($anounce->user_id);
+                 
                   
                   $anounce->currency = '€';
                   $anounce->userData = $dataUser;
-                  $anounce->images = $dataImages;        
+                  $anounce->images = $dataImages;      
+                  $anounce->imageUrl = $_SERVER['HTTP_HOST'] . '/public/anounces/' . $anounce->user_id . '/' ;       
+                  unset($anounce->user_id);  
                         
               } 
         return response()->json(['status'=>'200', 'totalResults'=>$totalResults , 'anuncios'=>$dataAnounce], $this->HttpstatusCode);
