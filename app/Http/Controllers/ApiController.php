@@ -65,17 +65,19 @@ class ApiController extends Controller
     
         //voy por aqui optimizar busqueda con join o usando elocuent
 
-        $data = Anounces::paginate(10)->each(function($data){
+       /*$data = Anounces::get()->each(function($data){
 
             $data->user;
             $data->imagen;
             $data->imageUrl = $_SERVER['HTTP_HOST'] . '/public/anounces/'. $data->user->id . '/';
-        });
+            
+        });*/
+       
+
 
 
         
         
-    
        /* $data = DB::table('anounces')
                 ->offset($offSet)
                 ->limit($limit)
