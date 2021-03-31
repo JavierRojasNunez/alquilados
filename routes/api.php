@@ -19,12 +19,12 @@ use Illuminate\Support\Facades\Route;
 });*/
 
 Route::post('/v1/create', [App\Http\Controllers\ApiController::class, 'create']);
-Route::get('/v1/todo/{limit?}/{id?}', [App\Http\Controllers\ApiController::class, 'getResumeWithImages']);
+Route::get('/v1/resume/{limit?}/{id?}', [App\Http\Controllers\ApiController::class, 'getResumeWithImages']);
 Route::delete('/v1/eliminar/anuncio/{id}', [App\Http\Controllers\ApiController::class, 'delete']);
 Route::put('/v1/edit/{id}', [App\Http\Controllers\ApiController::class, 'update']);
 Route::get('/v1/anuncios', [App\Http\Controllers\ApiController::class, 'getAll']);
 Route::get('/v1/anuncio/{id?}', [App\Http\Controllers\ApiController::class, 'getOne']);
-Route::get('/v1/titulos/{id?}', [App\Http\Controllers\ApiController::class, 'getTitle']);
+Route::get('/v1/basics/{id?}', [App\Http\Controllers\ApiController::class, 'getBasics']);
 Route::get('/v1/filter/{arga?}/{argb?}/{argc?}', [App\Http\Controllers\ApiController::class, 'getBy']);
 
 
@@ -39,7 +39,7 @@ Route::group(['prefix' => 'v1/auth'], function () {
         Route::get('user', [App\Http\Controllers\AuthApiController::class, 'user']);
         
         //api
-        Route::get('todo/{limit?}/{id?}', [App\Http\Controllers\ApiController::class, 'getResumeWithImages']);//metodo completo
+        Route::get('resume/{limit?}/{id?}', [App\Http\Controllers\ApiController::class, 'getResumeWithImages']);//metodo completo
 
         Route::post('create', [App\Http\Controllers\ApiController::class, 'create']);
         Route::delete('eliminar/anuncio/{id}', [App\Http\Controllers\ApiController::class, 'delete']);
@@ -49,7 +49,7 @@ Route::group(['prefix' => 'v1/auth'], function () {
 
         Route::get('anuncio/{id?}', [App\Http\Controllers\ApiController::class, 'getOne']);//metodo completo
 
-        Route::get('titulos/{id?}', [App\Http\Controllers\ApiController::class, 'getTitle']);
+        Route::get('basics/{id?}', [App\Http\Controllers\ApiController::class, 'getBasics']);//acabado muestra todos con titulo y descripcion y provincia
         Route::get('filter/{arga?}/{argb?}/{argc?}', [App\Http\Controllers\ApiController::class, 'getBy']);
     });
 });

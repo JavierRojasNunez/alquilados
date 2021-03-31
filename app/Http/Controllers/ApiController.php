@@ -86,8 +86,9 @@ class ApiController extends Controller
         $data = [];
         $data = Anounces::paginate(10);
         $data->load('user');
-        $data->load('imagen');  
-        
+        $data->load('imagen'); 
+        $url = $_SERVER['HTTP_HOST']. '/public/anounces/';
+        $urlExample =  $_SERVER['HTTP_HOST']. '/public/anounces/[user_id]/[imageName]/';
         $numAdds = count($data);
 
         if ($numAdds == 0){
@@ -115,7 +116,7 @@ class ApiController extends Controller
             }
         }*/
         
-        return response()->json(['status'=>'ok', 'results' => $numAdds ,'collection'=>$data], $this->HttpstatusCode);
+        return response()->json(['status'=>'ok', 'urlExample'=> $urlExample , 'imageUrl'=> $url , 'results' => $numAdds ,'collection'=>$data], $this->HttpstatusCode);
 
 	}
 
@@ -126,7 +127,7 @@ class ApiController extends Controller
         
         if(!$id){
 
-            return response()->json(['error'=>'Parameter passed 0 expects 1 integer'], 406); 
+            return response()->json(['error'=>'Parameter passed 0 expects exactly 1 | integer'], 406); 
         }
 
         $data = Anounces::find((integer)$id);
@@ -139,23 +140,46 @@ class ApiController extends Controller
         
         $data->user;
         $data->imagen;
+        $data->imageUrlExample = $_SERVER['HTTP_HOST'] . '/public/anounces/' . $data->user->id . '/[imageName]';
         $data->imageUrl = $_SERVER['HTTP_HOST'] . '/public/anounces/' . $data->user->id . '/';
         $data->currency = '€';
+        unset($data->user_id);
         unset($data->user->id);
+        unset($data->id);
+        for($i = 0; $i < count($data->imagen); $i++){
+            unset($data->imagen[$i]->id);
+            unset($data->imagen[$i]->anounces_id); 
+        }
+        
         return response()->json(['status'=>'Data found','data'=>$data], $this->HttpstatusCode);
 
     }
 
 
 
-    public function getTitle(){
+    public function getBasics($id_ = false){
 
-        $data = DB::table('anounces')->pluck('titulo');
+        $data = [];
 
-        if(!$data){
+        if ( !is_numeric($id_) && $id_  ){
+            return response()->json(['error'=>'Parameters must to be integers'], 406);   
+        }
 
-            $data = false;
-            return response()->json(['status'=>'204','data'=>$data], 204);   
+        if($id_){
+            $data = DB::table('anounces')
+            ->select(['titulo', 'descripcion as description', 'cauntry_rent as country', 'province_rent as province', 'city_rent as city', 'phone'])
+            ->where('id' , '=', (integer)$id_)
+            ->get();
+        }else{
+           $data = DB::table('anounces')
+           ->select(['titulo as title', 'descripcion as description', 'cauntry_rent as country', 'province_rent as province', 'city_rent as city', 'phone'])
+           ->paginate(10); 
+        }
+
+        $numData = count($data);
+        if($numData < 1){
+
+            return response()->json(['status'=>'No data found'], 200);   
                 
         }
 
@@ -164,16 +188,17 @@ class ApiController extends Controller
     }
 
 
-    //sepuede pasar dos parametros separados por espacio para tenet primero limite y segundo offset
+    //sepuede pasar dos parametros separados por espacio para tene primero limite y segundo offset
    // vamos a poner dos variablesa recibir por la funcion
     public function getResumeWithImages($limit_ = 1000, $id_ = false){
 
         $limit_ = ($limit_ > 5000) ? 5000 : $limit_;
 
         $offSet = false;
+
         $limits = explode(' ', $limit_);
 
-        if( $limits[0] == 'id' && $id_ ){
+           if( $limits[0] == 'id' && $id_ ){
 
             $limit = false;
             $offSet = false;
@@ -213,36 +238,23 @@ class ApiController extends Controller
 
         if ($limit) $dataAnounce = $dataAnounce->limit($limit);
         
-         $dataAnounce = $dataAnounce->get();         
-
-        
-                    
-                        
-                  
+         $dataAnounce = $dataAnounce->get();                          
 
         $totalResults = count($dataAnounce);
 
 
-       /* if (!$limit_){
-
-            $dataAnounce = Anounces::paginate(10);
-
-        }else{
-
-            $dataAnounce = Anounces::limit($limit_)->paginate(10);
-
-        }
 
         
-        foreach ( $dataAnounce as  $anounce ){
+       /* foreach ( $dataAnounce as  $anounce ){
 
             $anounce->imagen; 
             $imageUrl = $_SERVER['HTTP_HOST'] . '/public/' . $anounce->user_id . '/' ;
             $anounce->image_url = $imageUrl;
             unset ($anounce->user_id);
-        } */    
+        }  */
 
-        if ($totalResults == 0){
+
+        if ($totalResults < 1){
             
 
             return response()->json(['status'=>'No data found'], $this->HttpstatusCode);
@@ -250,7 +262,7 @@ class ApiController extends Controller
         }  
              
         foreach ( $dataAnounce as  $anounce ){
-                // dd($anounce->user_id);
+            
                   $dataImages =  DB::table('images')
                           ->where('anounces_id', '=', $anounce->reference)
                           ->select(['imageName', 'created_at', 'updated_at'])
@@ -343,11 +355,19 @@ class ApiController extends Controller
 
             if ($arga == 'price'){
                 
-                $dataAnounce = Anounces::whereBetween('price', [(float)$argb, (float)$argc])->get();
+                $dataAnounce = Anounces::whereBetween('price', [(float)$argb, (float)$argc])->paginate(10);
 
                 foreach ($dataAnounce as $anounce){
                    $anounce->imagen; 
-                   $anounce->url = $url . '/public/' .$anounce->user_id . '/';
+                   $anounce->urlImageExample = $url . '/public/anounces/' .$anounce->user_id . '/[imageName]';
+                   $anounce->urlImage = $url . '/public/anounces/' .$anounce->user_id . '/';
+                                     
+                   foreach($anounce->imagen as $imagen){
+                       $imagen->imagenUrl = $url . '/public/anounces/' .$anounce->user_id . '/' . $imagen->imageName;
+                       unset($imagen->id);
+                       unset($imagen->anounces_id);
+                   }
+                   unset($anounce->id);
                    unset($anounce->user_id);
                 }               
                 
@@ -364,7 +384,7 @@ class ApiController extends Controller
             }  
                 
     
-            return response()->json(['status'=>'200', 'url'=>$url ,'anuncio'=>$dataAnounce], $this->HttpstatusCode);
+            return response()->json(['status'=>'200' ,'anuncio'=>$dataAnounce], $this->HttpstatusCode);
             
         }
 
