@@ -218,28 +218,7 @@ class ApiController extends Controller
         
                     
                         
-        foreach ( $dataAnounce as  $anounce ){
-          // dd($anounce->user_id);
-            $dataImages =  DB::table('images')
-                    ->where('anounces_id', '=', $anounce->reference)
-                    ->select(['imageName', 'created_at', 'updated_at'])
-                    ->get(); 
-            
-            $dataUser =  DB::table('users')
-                    ->where('id', '=', $anounce->user_id)
-                    ->select(['name', 'surname', 'email'])
-                    ->get(); 
-
                   
-                    
-            $anounce->imageUrl = $_SERVER['HTTP_HOST'] . '/anounces/' . $anounce->user_id . '/' ;       
-            unset($anounce->user_id);
-            
-            $anounce->currency = '€';
-            $anounce->userData = $dataUser;
-            $anounce->images = $dataImages;        
-                  
-        }           
 
         $totalResults = count($dataAnounce);
 
@@ -264,13 +243,34 @@ class ApiController extends Controller
         } */    
 
         if ($totalResults == 0){
-
+            
 
             return response()->json(['status'=>'No data found'], $this->HttpstatusCode);
             
         }  
              
-        
+        foreach ( $dataAnounce as  $anounce ){
+                // dd($anounce->user_id);
+                  $dataImages =  DB::table('images')
+                          ->where('anounces_id', '=', $anounce->reference)
+                          ->select(['imageName', 'created_at', 'updated_at'])
+                          ->get(); 
+                  
+                  $dataUser =  DB::table('users')
+                          ->where('id', '=', $anounce->user_id)
+                          ->select(['name', 'surname', 'email'])
+                          ->get(); 
+      
+                        
+                          
+                  $anounce->imageUrl = $_SERVER['HTTP_HOST'] . '/anounces/' . $anounce->user_id . '/' ;       
+                  unset($anounce->user_id);
+                  
+                  $anounce->currency = '€';
+                  $anounce->userData = $dataUser;
+                  $anounce->images = $dataImages;        
+                        
+              } 
         return response()->json(['status'=>'200', 'totalResults'=>$totalResults , 'anuncios'=>$dataAnounce], $this->HttpstatusCode);
 
     }
