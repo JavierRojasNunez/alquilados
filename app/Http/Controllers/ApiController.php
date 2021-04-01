@@ -29,10 +29,16 @@ class ApiController extends Controller
         
         if ($request->isJson())
         {
-                         
-            $data = $request->all();
 
-            $dataToBeSaved = $data['data'][0];
+            $data = $request->all();
+            $dataToBeSaved = isset($data['data'][0]) ? $data['data'][0] : false ;
+            if(!$dataToBeSaved || empty($dataToBeSaved)  || !isset($dataToBeSaved)){
+                return response()->json(['status'=>'Not created. No data send.'], 200);
+            }
+                         
+            
+
+            
             $dataUserId = $dataToBeSaved['user_id']; 
             $userId = $request->user()->id;
             $userExists = User::where("id", $userId)->exists();
@@ -73,9 +79,28 @@ class ApiController extends Controller
                     'type' => ['required', 'string', 'max:100'],                 
                     
                     ]);
+                $whiteListIndexs = [
+                    "user_id","type_rent","price","min_time_ocupation","payment_period","meter2",
+                    "num_roomms_for_rent", "num_rooms","num_baths", "deposit", "phone", "available_date",
+                    "titulo", "descripcion","num_people_in","people_in_job","people_in_sex","people_in_tabaco",
+                    "people_in_pet", "lookfor_who_job", "lookfor_who_sex", "lookfor_who_tabaco", "lookfor_who_pet",
+                    "cauntry_rent", "province_rent", "city_rent","street_rent", "adress_rent", "num_street_rent",
+                    "flat_street_rent", "cp_rent","funiture","ascensor", "calefaction","balcon", "terraza","gas",
+                    "swiming","internet", "washing_machine","fridge","kitchen","near_bus","near_underground",
+                    "near_tren", "near_school", "near_airport", "observations","type","foto2", "foto3", "foto4",
+                    "foto5",              
+                ];
+
+
+                    foreach($dataToBeSaved as $key => $value){
+
+
+
+
+                    }
 
                    // me queda dejar  solo en el array $dataToBeSaved solo los elementos que quiero y eliminar los demas con un bucle
-                   
+
                     if ($verify->fails()) { 
                         return response()->json(['error'=>$verify->errors()], 401);            
                     }
