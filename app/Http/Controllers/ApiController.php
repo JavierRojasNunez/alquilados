@@ -46,8 +46,16 @@ class ApiController extends Controller
 
             }else{
 
+                
+
+                if (empty($dataToBeSaved)){
+                    return response()->json(['error' => 'Not created. Try again in 10 seconds.'], 200);
+                }
+
                 $anuncio = Anounces::create($dataToBeSaved);
 
+                
+               
                 return response()->json(['status'=>'Created.', $anuncio], 201);
 
             }           
@@ -285,16 +293,26 @@ class ApiController extends Controller
     }
 
 
-    public function getBy($arga, $argb = false, $argc = false){
+    public function getBy($arga, $argb, $argc = false){
 
 
+        if (!$arga && !$argb && !$argc || is_numeric($arga)){
+            return response()->json(['status'=>'Parameter 0 passed  expects exactly 2 | OR bad parameters, parameter 1 must to be string, parameter 2 must to be string or integer'], 406);
+        }
+        
         if ($arga && $argb && !$argc){
             
-           $url = $_SERVER['SERVER_NAME'] . '/public';
+           $url = $_SERVER['SERVER_NAME'] . '/alquilados/public/anounces/';
  
-           if($arga != 'funiture' ||  $arga != 'province'   ||  $arga != 'city'   ||  $arga != 'country'){
-            return response()->json(['status'=>'Invalid arguments'], 406);
+
+           $ok = preg_match('/(^country$)|(^city$)|(^province$)|(^price$)|(^funiture$)/', $arga);
+           if(!$ok){
+            return response()->json([
+                                    'status'=>'Invalid arguments',
+                                    'arguments'=>['country', 'city', 'provinces', 'price'],
+                                    ], 406);
            }
+
              
                 if($arga == 'funiture' ){
                     if($argb == 'yes') {
@@ -303,7 +321,30 @@ class ApiController extends Controller
                         $argb = false;
                     }
                 }
-                
+
+                if($arga == 'city' ){
+
+                    $arga = 'city_rent';
+                    $argb = (string)$argb;
+
+                }
+
+                if($arga == 'province' ){
+                    
+                    $arga = 'province_rent';
+                    $argb = (string)$argb;
+
+                }
+
+               
+
+                if($arga == 'country' ){
+                    
+                    $arga = 'cauntry_rent';
+                    $argb = (string)$argb;
+
+                }
+
            
                 $dataAnounce = Anounces::where($arga, '=', $argb)->paginate(10);
 
@@ -311,19 +352,28 @@ class ApiController extends Controller
                 if (count($dataAnounce) == 0){
 
                     $data = false;
-                    return response()->json(['status'=>'No data found','data'=>$data], 204);
+                    return response()->json(['status'=>'No data found','data'=>$data], 200);
                     
                 }  
                 
                 foreach ($dataAnounce as $anounce){
-                   $anounce->imagen; 
-                   $anounce->url = $url . '/public/' .$anounce->user_id . '/';
+                   
+                    $anounce->user;
+                    $anounce->imagen;
+
+                   foreach($anounce->imagen as $imagen){
+                    $imagen->imageName = $url .  $anounce->user_id . '/' . $imagen->imageName;
+                    unset($imagen->id, $imagen->anounces_id);
+                   } 
+
+                   unset($anounce->user->id);
+                   
                 }               
                 
             
                            
     
-            return response()->json(['status'=>'200', 'url'=>$url ,'anuncio'=> $dataAnounce], $this->HttpstatusCode);
+            return response()->json(['status'=>'200','anuncio'=> $dataAnounce], $this->HttpstatusCode);
             
         }
 
@@ -336,12 +386,11 @@ class ApiController extends Controller
                 $dataAnounce = Anounces::whereBetween('price', [(float)$argb, (float)$argc])->paginate(10);
 
                 foreach ($dataAnounce as $anounce){
+
                    $anounce->imagen; 
-                   $anounce->urlImageExample = basename(public_path()) . '/anounces/' .$anounce->user_id . '/[imageName]';
-                   $anounce->urlImage = $url . '/public/anounces/' .$anounce->user_id . '/';
                                      
                    foreach($anounce->imagen as $imagen){
-                       $imagen->imagenUrl = $url . '/alquilados/public/anounces/' .$anounce->user_id . '/' . $imagen->imageName;
+                       $imagen->url = $url . '/alquilados/public/anounces/' .$anounce->user_id . '/' . $imagen->imageName;
                        unset($imagen->id);
                        unset($imagen->anounces_id);
                    }
