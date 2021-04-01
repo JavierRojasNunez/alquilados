@@ -94,7 +94,12 @@ class ApiController extends Controller
 
                     foreach($dataToBeSaved as $key => $value){
 
+                        if (array_key_exists ( $whiteListIndexs, $dataToBeSaved  ) ){
 
+                            dd('existe');
+                        }else{
+                            dd('no existe');
+                        }
 
 
                     }
