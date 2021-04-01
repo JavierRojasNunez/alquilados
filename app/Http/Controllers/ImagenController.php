@@ -55,6 +55,7 @@ class ImagenController extends Controller
         $anounce_id = $request->input('anounce_id');
         $type = $request->input('type');
 
+       
         if ((!$request->isMethod('post') && Auth::user() ) || !$request->hasFile('foto1'))
         {
             $mensaje_ = 'Upss! Ha de seleccionar una imagen como minimo.';

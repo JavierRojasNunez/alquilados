@@ -4,12 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Models\Anounces;
 use App\Models\User;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use phpDocumentor\Reflection\Types\Boolean;
-use PhpParser\Node\Expr\FuncCall;
+
 
 class ApiController extends Controller
 {
@@ -31,34 +29,62 @@ class ApiController extends Controller
         
         if ($request->isJson())
         {
-                            
+                         
             $data = $request->all();
 
             $dataToBeSaved = $data['data'][0];
-            
-            $userExists = User::where("id", $dataToBeSaved['user_id'])->exists();
-            
-            if (!$userExists){
+            $dataUserId = $dataToBeSaved['user_id']; 
+            $userId = $request->user()->id;
+            $userExists = User::where("id", $userId)->exists();
 
-                $anuncio = false;
-
-                return response()->json(['status'=>'Not created. Bad user credentials', $anuncio], 400);
-
-            }else{
-
+            if(trim($dataUserId) != trim($userId) || !$userExists){
+                return response()->json(['status'=>'Not created. Bad user credentials'], 400);
+            }
                 
-
                 if (empty($dataToBeSaved)){
                     return response()->json(['error' => 'Not created. Try again in 10 seconds.'], 200);
                 }
 
-                $anuncio = Anounces::create($dataToBeSaved);
+                
+
+                if (strtolower($dataToBeSaved['type']) == 'alquiler' || strtolower($dataToBeSaved['type']) == 'venta'){
+                   
+                }else{
+                    $dataToBeSaved['type'] = 'alquiler';
+                }
 
                 
-               
+
+                $verify = Validator::make($dataToBeSaved, [
+                    'user_id' =>['required', 'integer', 'max:255'],
+                    'price' => ['required', 'numeric', 'between:0,1000000000000000'],
+                    'payment_period' => ['required', 'string', 'max:60'],
+                    'meter2' => ['required', 'numeric', 'max:255'],
+                    'titulo' => ['required', 'string', 'max:255'],
+                    'descripcion' => ['required', 'string', 'max:3500'],
+                    'cauntry_rent' => ['required', 'string', 'max:60'],
+                    'province_rent' => ['required', 'string', 'max:60'],
+                    'city_rent' => ['required', 'string', 'max:60'],
+                    'street_rent' => ['required', 'string', 'max:60'],
+                    'adress_rent' => ['required', 'string', 'max:60'],
+                    'num_street_rent' => ['required', 'integer', 'max:100'],
+                    'flat_street_rent' => ['required', 'string', 'max:100'], 
+                    'cp_rent' => ['required', 'string', 'max:100'], 
+                    'type' => ['required', 'string', 'max:100'],                 
+                    
+                    ]);
+
+                   // me queda dejar  solo en el array $dataToBeSaved solo los elementos que quiero y eliminar los demas con un bucle
+                   
+                    if ($verify->fails()) { 
+                        return response()->json(['error'=>$verify->errors()], 401);            
+                    }
+
+                $anuncio = Anounces::create($dataToBeSaved);
+             
                 return response()->json(['status'=>'Created.', $anuncio], 201);
 
-            }           
+                       
 
         }else{
             return response()->json(['error' => 'No valid JSON'], 406);
@@ -284,7 +310,6 @@ class ApiController extends Controller
                   $anounce->currency = '€';
                   $anounce->userData = $dataUser;
                   $anounce->images = $dataImages;      
-                  $anounce->imageUrl = $_SERVER['HTTP_HOST'] . '/public/anounces/' . $anounce->user_id . '/' ;       
                   unset($anounce->user_id);  
                         
               } 

@@ -57,6 +57,7 @@ class AnuncioController extends Controller
 
         if (Auth::user()){
 
+
             $user_id = Auth::user()->id;
             $anuncios = Anounces::all()->where('user_id', '=', $user_id);
 
@@ -79,7 +80,7 @@ class AnuncioController extends Controller
 
 
 
-    public function edit($anounceId, $type){
+    public function edit($anounceId, $type = ''){
 
         $provincias = provincesController::getProvinces();
 

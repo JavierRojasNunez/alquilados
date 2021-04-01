@@ -24,7 +24,7 @@ class Anounces extends Model
         'cauntry_rent', 'province_rent', 'city_rent', 'street_rent', 'adress_rent', 'num_street_rent', 'flat_street_rent',
         'cp_rent', 'funiture', 'ascensor', 'calefaction', 'balcon', 'terraza', 'gas', 'swiming', 'internet', 'washing_machine',
         'fridge', 'kitchen', 'near_bus', 'near_underground', 'near_tren', 'near_school', 'near_airport', 'observations',
-        'foto1', 'foto2', 'foto3', 'foto4', 'foto5',
+        'type', 'foto2', 'foto3', 'foto4', 'foto5',
 
     ];
 

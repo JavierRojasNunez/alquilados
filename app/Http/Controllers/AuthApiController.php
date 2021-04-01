@@ -27,7 +27,6 @@ class AuthApiController extends Controller
             return response()->json(['message' => 'Not created, user allready exist!.'], 406);
         }
 
-        //dd($request->all());
         $verify = Validator::make($request->all(), [
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
