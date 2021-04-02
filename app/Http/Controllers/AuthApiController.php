@@ -77,7 +77,7 @@ class AuthApiController extends Controller
         }
 
 
-        $credentials = request(['email', 'password']);
+        $credentials = $request->only(['email', 'password']);
         if (!Auth::attempt($credentials)) {
             return response()->json([
                 'message' => 'Unauthorized'], 401);

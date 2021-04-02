@@ -7,7 +7,7 @@ use App\Models\User;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Facades\Auth;
 
 class ApiController extends Controller
 {
@@ -29,90 +29,92 @@ class ApiController extends Controller
         
         if ($request->isJson())
         {
-
-            $data = $request->all();
-            $dataToBeSaved = isset($data['data'][0]) ? $data['data'][0] : false ;
-            if(!$dataToBeSaved || empty($dataToBeSaved)  || !isset($dataToBeSaved)){
-                return response()->json(['status'=>'Not created. No data send.'], 200);
-            }
-                         
-            
-
-            
-            $dataUserId = $dataToBeSaved['user_id']; 
             $userId = $request->user()->id;
-            $userExists = User::where("id", $userId)->exists();
 
-            if(trim($dataUserId) != trim($userId) || !$userExists){
+            $authUserId = Auth::id();
+
+            $userExists = User::where('id', Auth::id())->exists();
+
+            if(trim($authUserId) != trim($userId) || !$userExists){
                 return response()->json(['status'=>'Not created. Bad user credentials'], 400);
             }
-                
-                if (empty($dataToBeSaved)){
-                    return response()->json(['error' => 'Not created. Try again in 10 seconds.'], 200);
-                }
 
-                
+            $data = $request->all();
 
-                if (strtolower($dataToBeSaved['type']) == 'alquiler' || strtolower($dataToBeSaved['type']) == 'venta'){
-                   
-                }else{
-                    $dataToBeSaved['type'] = 'alquiler';
-                }
+            $dataToBeSaved = isset($data['data'][0]) ? $data['data'][0] : false ;
 
-                
+            if(!$dataToBeSaved || empty($dataToBeSaved)  || !isset($dataToBeSaved)){
+                return response()->json(['status'=>'Not created. No data sent.'], 200);
+            }
+                         
+            $whiteListIndexs = [
+                'type_rent' => '','price' => '','min_time_ocupation' => '','payment_period' => '','meter2' => '',
+                'num_roomms_for_rent' => '', 'num_rooms' => '','num_baths' => '', 'deposit' => '', 'phone' => '', 'available_date' => '',
+                'titulo' => '', 'descripcion' => '','num_people_in' => '','people_in_job' => '','people_in_sex' => '','people_in_tabaco' => '',
+                'people_in_pet' => '', 'lookfor_who_job' => '', 'lookfor_who_sex' => '', 'lookfor_who_tabaco' => '', 'lookfor_who_pet' => '',
+                'cauntry_rent' => '', 'province_rent' => '', 'city_rent' => '','street_rent' => '', 'adress_rent' => '', 'num_street_rent' => '',
+                'flat_street_rent' => '', 'cp_rent' => '','funiture' => '','ascensor' => '', 'calefaction' => '','balcon' => '', 'terraza' => '','gas' => '',
+                'swiming' => '','internet' => '', 'washing_machine' => '','fridge' => '','kitchen' => '','near_bus' => '','near_underground' => '',
+                'near_tren' => '', 'near_school' => '', 'near_airport' => '', 'observations' => '','type' => '',              
+            ];
 
-                $verify = Validator::make($dataToBeSaved, [
-                    'user_id' =>['required', 'integer', 'max:255'],
-                    'price' => ['required', 'numeric', 'between:0,1000000000000000'],
-                    'payment_period' => ['required', 'string', 'max:60'],
-                    'meter2' => ['required', 'numeric', 'max:255'],
-                    'titulo' => ['required', 'string', 'max:255'],
-                    'descripcion' => ['required', 'string', 'max:3500'],
-                    'cauntry_rent' => ['required', 'string', 'max:60'],
-                    'province_rent' => ['required', 'string', 'max:60'],
-                    'city_rent' => ['required', 'string', 'max:60'],
-                    'street_rent' => ['required', 'string', 'max:60'],
-                    'adress_rent' => ['required', 'string', 'max:60'],
-                    'num_street_rent' => ['required', 'integer', 'max:100'],
-                    'flat_street_rent' => ['required', 'string', 'max:100'], 
-                    'cp_rent' => ['required', 'string', 'max:100'], 
-                    'type' => ['required', 'string', 'max:100'],                 
+            // eliminar indices no permitidos
+            foreach($dataToBeSaved as $key => $value){
+
+                if (!array_key_exists ( $key, $whiteListIndexs  ) ){
+                                        
+                    unset( $dataToBeSaved[$key] );
                     
-                    ]);
-                $whiteListIndexs = [
-                    "user_id","type_rent","price","min_time_ocupation","payment_period","meter2",
-                    "num_roomms_for_rent", "num_rooms","num_baths", "deposit", "phone", "available_date",
-                    "titulo", "descripcion","num_people_in","people_in_job","people_in_sex","people_in_tabaco",
-                    "people_in_pet", "lookfor_who_job", "lookfor_who_sex", "lookfor_who_tabaco", "lookfor_who_pet",
-                    "cauntry_rent", "province_rent", "city_rent","street_rent", "adress_rent", "num_street_rent",
-                    "flat_street_rent", "cp_rent","funiture","ascensor", "calefaction","balcon", "terraza","gas",
-                    "swiming","internet", "washing_machine","fridge","kitchen","near_bus","near_underground",
-                    "near_tren", "near_school", "near_airport", "observations","type","foto2", "foto3", "foto4",
-                    "foto5",              
-                ];
+                }                           
+                    
+            }
 
+            $valueInsert = ['user_id' =>  Auth::id()];
+            $dataToBeSaved = array_merge($dataToBeSaved, $valueInsert);
 
-                    foreach($dataToBeSaved as $key => $value){
+                           
 
-                        if (array_key_exists ( $whiteListIndexs, $dataToBeSaved  ) ){
+            if (strtolower($dataToBeSaved['type']) != 'alquiler' && strtolower($dataToBeSaved['type']) != 'venta'){
+                $dataToBeSaved['type'] = 'alquiler';
+            }
 
-                            dd('existe');
-                        }else{
-                            dd('no existe');
-                        }
+            $verify = Validator::make($dataToBeSaved, [
+                'user_id' =>['required', 'integer', 'max:255'],
+                'price' => ['required', 'numeric', 'between:0,1000000000000000'],
+                'payment_period' => ['required', 'string', 'max:60'],
+                'meter2' => ['required', 'numeric', 'max:255'],
+                'titulo' => ['required', 'string', 'max:255'],
+                'descripcion' => ['required', 'string', 'max:3500'],
+                'cauntry_rent' => ['required', 'string', 'max:60'],
+                'province_rent' => ['required', 'string', 'max:60'],
+                'city_rent' => ['required', 'string', 'max:60'],
+                'street_rent' => ['required', 'string', 'max:60'],
+                'adress_rent' => ['required', 'string', 'max:60'],
+                'num_street_rent' => ['required', 'integer', 'max:100'],
+                'flat_street_rent' => ['required', 'string', 'max:100'], 
+                'cp_rent' => ['required', 'string', 'max:100'], 
+                'type' => ['required', 'string', 'max:100'],
+                'num_people_in' => ['boolean', 'nullable'],'people_in_job' => ['boolean', 'nullable'],'people_in_sex' => ['boolean', 'nullable'],
+                'people_in_tabaco' => ['boolean'],'people_in_pet' => ['boolean'],'lookfor_who_job' => ['boolean', 'nullable'],
+                'lookfor_who_sex' => ['boolean', 'nullable'],'lookfor_who_pet' => ['boolean', 'nullable'],'funiture' => ['boolean', 'nullable'],
+                'ascensor' => ['boolean', 'nullable'],'calefaction' => ['boolean', 'nullable'],'balcon' => ['boolean', 'nullable'],
+                'terraza' => ['boolean', 'nullable'],'gas' => ['boolean', 'nullable'],'swiming' => ['boolean', 'nullable'],
+                'internet' => ['boolean', 'nullable'],'washing_machine' => ['boolean', 'nullable'],'fridge' => ['boolean', 'nullable'],
+                'kitchen' => ['boolean', 'nullable'],'near_bus' => ['boolean', 'nullable'],'near_underground' => ['boolean', 'nullable'],
+                'near_tren' => ['boolean', 'nullable'],'near_school' => ['boolean', 'nullable'],'near_airport' => ['boolean', 'nullable'], 
+                'observations' => ['string', 'max:3500', 'nullable'],                
+                
+                ]);
+    
+                           
+            if ($verify->fails()) { 
+                return response()->json(['error'=>$verify->errors()], 401);            
+            }
 
-
-                    }
-
-                   // me queda dejar  solo en el array $dataToBeSaved solo los elementos que quiero y eliminar los demas con un bucle
-
-                    if ($verify->fails()) { 
-                        return response()->json(['error'=>$verify->errors()], 401);            
-                    }
-
-                $anuncio = Anounces::create($dataToBeSaved);
-             
-                return response()->json(['status'=>'Created.', $anuncio], 201);
+            
+            $anuncio = Anounces::create($dataToBeSaved);
+            
+            return response()->json(['status'=>'Created.', $anuncio], 201);
 
                        
 
@@ -350,6 +352,9 @@ class ApiController extends Controller
 
     public function getBy($arga, $argb, $argc = false){
 
+        if ($arga && !$argb && !$argc){
+            return response()->json(['status'=>'Parameter 1 passed  expects exactly 2.'], 406);
+        }
 
         if (!$arga && !$argb && !$argc || is_numeric($arga)){
             return response()->json(['status'=>'Parameter 0 passed  expects exactly 2 | OR bad parameters, parameter 1 must to be string, parameter 2 must to be string or integer'], 406);
@@ -364,17 +369,19 @@ class ApiController extends Controller
            if(!$ok){
             return response()->json([
                                     'status'=>'Invalid arguments',
-                                    'arguments'=>['country', 'city', 'provinces', 'price'],
+                                    'Valid arguments 1'=>['country', 'city', 'provinces', 'price'],
                                     ], 406);
            }
 
              
                 if($arga == 'funiture' ){
+
                     if($argb == 'yes') {
                         $argb = true;
                     }else{
                         $argb = false;
                     }
+
                 }
 
                 if($arga == 'city' ){
@@ -389,9 +396,7 @@ class ApiController extends Controller
                     $arga = 'province_rent';
                     $argb = (string)$argb;
 
-                }
-
-               
+                }              
 
                 if($arga == 'country' ){
                     
@@ -407,7 +412,7 @@ class ApiController extends Controller
                 if (count($dataAnounce) == 0){
 
                     $data = false;
-                    return response()->json(['status'=>'No data found','data'=>$data], 200);
+                    return response()->json(['status'=>'No data found'], 200);
                     
                 }  
                 
@@ -428,7 +433,7 @@ class ApiController extends Controller
             
                            
     
-            return response()->json(['status'=>'200','anuncio'=> $dataAnounce], $this->HttpstatusCode);
+            return response()->json(['status'=>'Data found','anuncio'=> $dataAnounce], $this->HttpstatusCode);
             
         }
 
@@ -458,15 +463,15 @@ class ApiController extends Controller
             
 
             
-            if (!$dataAnounce){
+            if (count($dataAnounce) == 0){
 
                 $data = false;
-                return response()->json(['status'=>'204','data'=>$data], 204);
+                return response()->json(['status'=>'No data found'], 200);
                 
             }  
                 
     
-            return response()->json(['status'=>'200' ,'anuncio'=>$dataAnounce], $this->HttpstatusCode);
+            return response()->json(['status'=>'Data found' ,'anuncio'=>$dataAnounce], $this->HttpstatusCode);
             
         }
 
