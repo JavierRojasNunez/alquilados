@@ -21,30 +21,28 @@ class ApiController extends Controller
 	 * @return Response
 	 */
 
-
-  
-
-
      public function create(Request $request, $id = false){
 
-       
+        dd($request);
+
 
         if($request && !$id){
 
             $numAdss = Anounces::where('user_id', Auth::id())->count();
 
-            if ($numAdss >= 2){
+            if ($numAdss >= 200){
 
-            return response()->json(['mesagge' => 'You have two adss and its onlu two.', 'numAdss'=> $numAdss], 406);
+            return response()->json(['mesagge' => 'You have two adss and its only two.', 'numAdss'=> $numAdss], 406);
             
             }
 
         }
         
-        if (!$request->isJson())
+        if ($request->isJson())
         {
-            return response()->json(['error' => 'No valid JSON'], 406);
-        }
+           
+        
+
 
         $userId = $request->user()->id;
 
@@ -87,9 +85,8 @@ class ApiController extends Controller
         }
 
         $valueInsert = ['user_id' =>  Auth::id()];
-        $dataToBeSaved = array_merge($dataToBeSaved, $valueInsert);
 
-                        
+        $dataToBeSaved = array_merge($dataToBeSaved, $valueInsert);                        
 
         if (strtolower($dataToBeSaved['type']) != 'alquiler' && strtolower($dataToBeSaved['type']) != 'venta'){
             $dataToBeSaved['type'] = 'alquiler';
@@ -133,8 +130,7 @@ class ApiController extends Controller
             $anuncio = Anounces::find($id);  
 
             foreach($dataToBeSaved as $key => $value){
-
-                
+           
                 $anuncio->$key =  $value;
 
             }
@@ -151,7 +147,9 @@ class ApiController extends Controller
 
         return response()->json(['status'=>'Created.', $anuncio], 201);
 
-        
+        }else{
+            return response()->json(['error' => 'No valid JSON'], 406);
+        }
 
      }
 
@@ -171,6 +169,7 @@ class ApiController extends Controller
                 ->limit($limit)
                 ->get();*/
 
+        
         $data = [];
         $data = Anounces::paginate(10);
         $data->load('user');

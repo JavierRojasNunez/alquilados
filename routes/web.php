@@ -37,6 +37,8 @@ Route::post('/guardar/imagenes', [App\Http\Controllers\ImagenController::class, 
 //ciudades y provincias
 Route::get('/cities/{city_id}', [App\Http\Controllers\CitiesController::class, 'getCities']);
 Route::get('/adress/{char}/{province_id}', [App\Http\Controllers\CitiesController::class, 'getAdress']);
+
 //consumo api
 Route::get('/api-anuncios/{id?}', [App\Http\Controllers\GetApiDataController::class, 'getAll']);
-
+Route::post('/create', [App\Http\Controllers\GetApiDataController::class, 'create']);
+Route::get('/create', [App\Http\Controllers\GetApiDataController::class, 'create']);

@@ -40,16 +40,14 @@ Route::group(['prefix' => 'v1/auth'], function () {
         
         //api
         Route::get('resume/{limit?}/{id?}', [App\Http\Controllers\ApiController::class, 'getResumeWithImages']);//metodo completo
-
         Route::post('create', [App\Http\Controllers\ApiController::class, 'create']);
-        Route::post('update/{id?}', [App\Http\Controllers\ApiController::class, 'create']);
-        Route::delete('eliminar-anuncio/{id}', [App\Http\Controllers\ApiController::class, 'delete']);
-        Route::put('edit/{id}', [App\Http\Controllers\ApiController::class, 'update']);
-        
+
+        Route::get('create', [App\Http\Controllers\ApiController::class, 'create']);
+
+        Route::put('update/{id?}', [App\Http\Controllers\ApiController::class, 'create']);
+        Route::delete('eliminar-anuncio/{id}', [App\Http\Controllers\ApiController::class, 'delete']);        
         Route::get('anuncios', [App\Http\Controllers\ApiController::class, 'getAll']);//metodo completo
-
         Route::get('anuncio/{id?}', [App\Http\Controllers\ApiController::class, 'getOne']);//metodo completo
-
         Route::get('basics/{id?}', [App\Http\Controllers\ApiController::class, 'getBasics']);//acabado muestra todos con titulo y descripcion y provincia
         Route::get('by/{arga}/{argb?}/{argc?}', [App\Http\Controllers\ApiController::class, 'getBy']);
     });
