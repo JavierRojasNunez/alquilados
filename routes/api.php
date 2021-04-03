@@ -18,7 +18,8 @@ use Illuminate\Support\Facades\Route;
     return $request->user();
 });*/
 
-Route::post('/v1/create/{update?}', [App\Http\Controllers\ApiController::class, 'create']);
+Route::post('/v1/create', [App\Http\Controllers\ApiController::class, 'create']);
+
 Route::get('/v1/resume/{limit?}/{id?}', [App\Http\Controllers\ApiController::class, 'getResumeWithImages']);
 Route::delete('/v1/eliminar-anuncio/{id}', [App\Http\Controllers\ApiController::class, 'delete']);
 Route::put('/v1/edit/{id}', [App\Http\Controllers\ApiController::class, 'update']);
@@ -42,7 +43,7 @@ Route::group(['prefix' => 'v1/auth'], function () {
         Route::get('resume/{limit?}/{id?}', [App\Http\Controllers\ApiController::class, 'getResumeWithImages']);//metodo completo
         Route::post('create', [App\Http\Controllers\ApiController::class, 'create']);
 
-        Route::get('create', [App\Http\Controllers\ApiController::class, 'create']);
+        
 
         Route::put('update/{id?}', [App\Http\Controllers\ApiController::class, 'create']);
         Route::delete('eliminar-anuncio/{id}', [App\Http\Controllers\ApiController::class, 'delete']);        

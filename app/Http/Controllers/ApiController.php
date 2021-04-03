@@ -23,14 +23,20 @@ class ApiController extends Controller
 
      public function create(Request $request, $id = false){
 
-        dd($request);
+        if($request->file('file')){
+            return response()->json(['mesagge' => 'llegó'], 201);
+        }else{
+            return response()->json(['mesagge' => $request->file('file')], 200);
+        }
 
+        
+        die();
 
         if($request && !$id){
 
             $numAdss = Anounces::where('user_id', Auth::id())->count();
 
-            if ($numAdss >= 200){
+            if ($numAdss >= 2){
 
             return response()->json(['mesagge' => 'You have two adss and its only two.', 'numAdss'=> $numAdss], 406);
             
@@ -169,7 +175,7 @@ class ApiController extends Controller
                 ->limit($limit)
                 ->get();*/
 
-        
+                
         $data = [];
         $data = Anounces::paginate(10);
         $data->load('user');
