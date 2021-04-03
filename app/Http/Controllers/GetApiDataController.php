@@ -10,8 +10,8 @@ class GetApiDataController extends Controller
 
     public function getAll($limit){
 
-        $limit = '/'. (integer)$limit;
-        $url = 'http://localhost/alquilados/public/api/v1/anuncios' . $limit;
+        $limit =  (integer)$limit;
+        $url = 'http://localhost/alquilados/public/api/v1/anuncios/' . $limit;
 
 
         $response = Http::withHeaders([

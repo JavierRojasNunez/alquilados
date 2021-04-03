@@ -18,9 +18,9 @@ use Illuminate\Support\Facades\Route;
     return $request->user();
 });*/
 
-Route::post('/v1/create', [App\Http\Controllers\ApiController::class, 'create']);
+Route::post('/v1/create/{update?}', [App\Http\Controllers\ApiController::class, 'create']);
 Route::get('/v1/resume/{limit?}/{id?}', [App\Http\Controllers\ApiController::class, 'getResumeWithImages']);
-Route::delete('/v1/eliminar/anuncio/{id}', [App\Http\Controllers\ApiController::class, 'delete']);
+Route::delete('/v1/eliminar-anuncio/{id}', [App\Http\Controllers\ApiController::class, 'delete']);
 Route::put('/v1/edit/{id}', [App\Http\Controllers\ApiController::class, 'update']);
 Route::get('/v1/anuncios', [App\Http\Controllers\ApiController::class, 'getAll']);
 Route::get('/v1/anuncio/{id?}', [App\Http\Controllers\ApiController::class, 'getOne']);
@@ -42,7 +42,8 @@ Route::group(['prefix' => 'v1/auth'], function () {
         Route::get('resume/{limit?}/{id?}', [App\Http\Controllers\ApiController::class, 'getResumeWithImages']);//metodo completo
 
         Route::post('create', [App\Http\Controllers\ApiController::class, 'create']);
-        Route::delete('eliminar/anuncio/{id}', [App\Http\Controllers\ApiController::class, 'delete']);
+        Route::post('update/{id?}', [App\Http\Controllers\ApiController::class, 'create']);
+        Route::delete('eliminar-anuncio/{id}', [App\Http\Controllers\ApiController::class, 'delete']);
         Route::put('edit/{id}', [App\Http\Controllers\ApiController::class, 'update']);
         
         Route::get('anuncios', [App\Http\Controllers\ApiController::class, 'getAll']);//metodo completo

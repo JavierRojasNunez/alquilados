@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Anounces;
 use App\Models\User;
+use App\Models\Imagen;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
@@ -24,103 +25,133 @@ class ApiController extends Controller
   
 
 
-     public function create(Request $request){
+     public function create(Request $request, $id = false){
 
+       
+
+        if($request && !$id){
+
+            $numAdss = Anounces::where('user_id', Auth::id())->count();
+
+            if ($numAdss >= 2){
+
+            return response()->json(['mesagge' => 'You have two adss and its onlu two.', 'numAdss'=> $numAdss], 406);
+            
+            }
+
+        }
         
-        if ($request->isJson())
+        if (!$request->isJson())
         {
-            $userId = $request->user()->id;
-
-            $authUserId = Auth::id();
-
-            $userExists = User::where('id', Auth::id())->exists();
-
-            if(trim($authUserId) != trim($userId) || !$userExists){
-                return response()->json(['status'=>'Not created. Bad user credentials'], 400);
-            }
-
-            $data = $request->all();
-
-            $dataToBeSaved = isset($data['data'][0]) ? $data['data'][0] : false ;
-
-            if(!$dataToBeSaved || empty($dataToBeSaved)  || !isset($dataToBeSaved)){
-                return response()->json(['status'=>'Not created. No data sent.'], 200);
-            }
-                         
-            $whiteListIndexs = [
-                'type_rent' => '','price' => '','min_time_ocupation' => '','payment_period' => '','meter2' => '',
-                'num_roomms_for_rent' => '', 'num_rooms' => '','num_baths' => '', 'deposit' => '', 'phone' => '', 'available_date' => '',
-                'titulo' => '', 'descripcion' => '','num_people_in' => '','people_in_job' => '','people_in_sex' => '','people_in_tabaco' => '',
-                'people_in_pet' => '', 'lookfor_who_job' => '', 'lookfor_who_sex' => '', 'lookfor_who_tabaco' => '', 'lookfor_who_pet' => '',
-                'cauntry_rent' => '', 'province_rent' => '', 'city_rent' => '','street_rent' => '', 'adress_rent' => '', 'num_street_rent' => '',
-                'flat_street_rent' => '', 'cp_rent' => '','funiture' => '','ascensor' => '', 'calefaction' => '','balcon' => '', 'terraza' => '','gas' => '',
-                'swiming' => '','internet' => '', 'washing_machine' => '','fridge' => '','kitchen' => '','near_bus' => '','near_underground' => '',
-                'near_tren' => '', 'near_school' => '', 'near_airport' => '', 'observations' => '','type' => '',              
-            ];
-
-            // eliminar indices no permitidos
-            foreach($dataToBeSaved as $key => $value){
-
-                if (!array_key_exists ( $key, $whiteListIndexs  ) ){
-                                        
-                    unset( $dataToBeSaved[$key] );
-                    
-                }                           
-                    
-            }
-
-            $valueInsert = ['user_id' =>  Auth::id()];
-            $dataToBeSaved = array_merge($dataToBeSaved, $valueInsert);
-
-                           
-
-            if (strtolower($dataToBeSaved['type']) != 'alquiler' && strtolower($dataToBeSaved['type']) != 'venta'){
-                $dataToBeSaved['type'] = 'alquiler';
-            }
-
-            $verify = Validator::make($dataToBeSaved, [
-                'user_id' =>['required', 'integer', 'max:255'],
-                'price' => ['required', 'numeric', 'between:0,1000000000000000'],
-                'payment_period' => ['required', 'string', 'max:60'],
-                'meter2' => ['required', 'numeric', 'max:255'],
-                'titulo' => ['required', 'string', 'max:255'],
-                'descripcion' => ['required', 'string', 'max:3500'],
-                'cauntry_rent' => ['required', 'string', 'max:60'],
-                'province_rent' => ['required', 'string', 'max:60'],
-                'city_rent' => ['required', 'string', 'max:60'],
-                'street_rent' => ['required', 'string', 'max:60'],
-                'adress_rent' => ['required', 'string', 'max:60'],
-                'num_street_rent' => ['required', 'integer', 'max:100'],
-                'flat_street_rent' => ['required', 'string', 'max:100'], 
-                'cp_rent' => ['required', 'string', 'max:100'], 
-                'type' => ['required', 'string', 'max:100'],
-                'num_people_in' => ['boolean', 'nullable'],'people_in_job' => ['boolean', 'nullable'],'people_in_sex' => ['boolean', 'nullable'],
-                'people_in_tabaco' => ['boolean'],'people_in_pet' => ['boolean'],'lookfor_who_job' => ['boolean', 'nullable'],
-                'lookfor_who_sex' => ['boolean', 'nullable'],'lookfor_who_pet' => ['boolean', 'nullable'],'funiture' => ['boolean', 'nullable'],
-                'ascensor' => ['boolean', 'nullable'],'calefaction' => ['boolean', 'nullable'],'balcon' => ['boolean', 'nullable'],
-                'terraza' => ['boolean', 'nullable'],'gas' => ['boolean', 'nullable'],'swiming' => ['boolean', 'nullable'],
-                'internet' => ['boolean', 'nullable'],'washing_machine' => ['boolean', 'nullable'],'fridge' => ['boolean', 'nullable'],
-                'kitchen' => ['boolean', 'nullable'],'near_bus' => ['boolean', 'nullable'],'near_underground' => ['boolean', 'nullable'],
-                'near_tren' => ['boolean', 'nullable'],'near_school' => ['boolean', 'nullable'],'near_airport' => ['boolean', 'nullable'], 
-                'observations' => ['string', 'max:3500', 'nullable'],                
-                
-                ]);
-    
-                           
-            if ($verify->fails()) { 
-                return response()->json(['error'=>$verify->errors()], 401);            
-            }
-
-            
-            $anuncio = Anounces::create($dataToBeSaved);
-            
-            return response()->json(['status'=>'Created.', $anuncio], 201);
-
-                       
-
-        }else{
             return response()->json(['error' => 'No valid JSON'], 406);
         }
+
+        $userId = $request->user()->id;
+
+        $authUserId = Auth::id();
+
+        $userExists = User::where('id', Auth::id())->exists();
+
+        if(trim($authUserId) != trim($userId) || !$userExists){
+            return response()->json(['status'=>'Not created or updated. Bad user credentials'], 400);
+        }
+
+        $data = $request->all();
+
+        $dataToBeSaved = isset($data['data'][0]) ? $data['data'][0] : false ;
+
+        if(!$dataToBeSaved || empty($dataToBeSaved)  || !isset($dataToBeSaved)){
+            return response()->json(['status'=>'Not created. No data sent.'], 200);
+        }
+                        
+        $whiteListIndexs = [
+            'type_rent' => '','price' => '','min_time_ocupation' => '','payment_period' => '','meter2' => '',
+            'num_roomms_for_rent' => '', 'num_rooms' => '','num_baths' => '', 'deposit' => '', 'phone' => '', 'available_date' => '',
+            'titulo' => '', 'descripcion' => '','num_people_in' => '','people_in_job' => '','people_in_sex' => '','people_in_tabaco' => '',
+            'people_in_pet' => '', 'lookfor_who_job' => '', 'lookfor_who_sex' => '', 'lookfor_who_tabaco' => '', 'lookfor_who_pet' => '',
+            'cauntry_rent' => '', 'province_rent' => '', 'city_rent' => '','street_rent' => '', 'adress_rent' => '', 'num_street_rent' => '',
+            'flat_street_rent' => '', 'cp_rent' => '','funiture' => '','ascensor' => '', 'calefaction' => '','balcon' => '', 'terraza' => '','gas' => '',
+            'swiming' => '','internet' => '', 'washing_machine' => '','fridge' => '','kitchen' => '','near_bus' => '','near_underground' => '',
+            'near_tren' => '', 'near_school' => '', 'near_airport' => '', 'observations' => '','type' => '',              
+        ];
+
+        // eliminar indices no permitidos
+        foreach($dataToBeSaved as $key => $value){
+
+            if (!array_key_exists ( $key, $whiteListIndexs  ) ){
+                                    
+                unset( $dataToBeSaved[$key] );
+                
+            }                           
+                
+        }
+
+        $valueInsert = ['user_id' =>  Auth::id()];
+        $dataToBeSaved = array_merge($dataToBeSaved, $valueInsert);
+
+                        
+
+        if (strtolower($dataToBeSaved['type']) != 'alquiler' && strtolower($dataToBeSaved['type']) != 'venta'){
+            $dataToBeSaved['type'] = 'alquiler';
+        }
+
+        $verify = Validator::make($dataToBeSaved, [
+            'user_id' =>['required', 'integer', 'max:255'],
+            'price' => ['required', 'numeric', 'between:0,1000000000000000'],
+            'payment_period' => ['required', 'string', 'max:60'],
+            'meter2' => ['required', 'numeric', 'max:255'],
+            'titulo' => ['required', 'string', 'max:255'],
+            'descripcion' => ['required', 'string', 'max:3500'],
+            'cauntry_rent' => ['required', 'string', 'max:60'],
+            'province_rent' => ['required', 'string', 'max:60'],
+            'city_rent' => ['required', 'string', 'max:60'],
+            'street_rent' => ['required', 'string', 'max:60'],
+            'adress_rent' => ['required', 'string', 'max:60'],
+            'num_street_rent' => ['required', 'integer', 'max:100'],
+            'flat_street_rent' => ['required', 'string', 'max:100'], 
+            'cp_rent' => ['required', 'string', 'max:100'], 
+            'type' => ['required', 'string', 'max:100'],
+            'num_people_in' => ['boolean', 'nullable'],'people_in_job' => ['boolean', 'nullable'],'people_in_sex' => ['boolean', 'nullable'],
+            'people_in_tabaco' => ['boolean'],'people_in_pet' => ['boolean'],'lookfor_who_job' => ['boolean', 'nullable'],
+            'lookfor_who_sex' => ['boolean', 'nullable'],'lookfor_who_pet' => ['boolean', 'nullable'],'funiture' => ['boolean', 'nullable'],
+            'ascensor' => ['boolean', 'nullable'],'calefaction' => ['boolean', 'nullable'],'balcon' => ['boolean', 'nullable'],
+            'terraza' => ['boolean', 'nullable'],'gas' => ['boolean', 'nullable'],'swiming' => ['boolean', 'nullable'],
+            'internet' => ['boolean', 'nullable'],'washing_machine' => ['boolean', 'nullable'],'fridge' => ['boolean', 'nullable'],
+            'kitchen' => ['boolean', 'nullable'],'near_bus' => ['boolean', 'nullable'],'near_underground' => ['boolean', 'nullable'],
+            'near_tren' => ['boolean', 'nullable'],'near_school' => ['boolean', 'nullable'],'near_airport' => ['boolean', 'nullable'], 
+            'observations' => ['string', 'max:3500', 'nullable'],                
+            
+            ]);
+
+                        
+        if ($verify->fails()) { 
+            return response()->json(['error'=>$verify->errors()], 401);            
+        }
+
+        if($id){
+
+            $anuncio = Anounces::find($id);  
+
+            foreach($dataToBeSaved as $key => $value){
+
+                
+                $anuncio->$key =  $value;
+
+            }
+            
+            $anuncio->update();
+
+            return response()->json(['status'=>'Updated.', $anuncio], 201);
+
+        }else{
+            
+            $anuncio = Anounces::create($dataToBeSaved);
+
+        }
+
+        return response()->json(['status'=>'Created.', $anuncio], 201);
+
+        
 
      }
 
@@ -196,19 +227,78 @@ class ApiController extends Controller
         }
         
         $data->user;
+
         $data->imagen;
+
         $data->imageUrlExample = $_SERVER['HTTP_HOST'] . '/public/anounces/' . $data->user->id . '/[imageName]';
+
         $data->imageUrl = $_SERVER['HTTP_HOST'] . '/public/anounces/' . $data->user->id . '/';
+
         $data->currency = '€';
+
         unset($data->user_id);
+
         unset($data->user->id);
+        
         unset($data->id);
+
         for($i = 0; $i < count($data->imagen); $i++){
+
             unset($data->imagen[$i]->id);
             unset($data->imagen[$i]->anounces_id); 
+
         }
         
         return response()->json(['status'=>'Data found','data'=>$data], $this->HttpstatusCode);
+
+    }
+
+    public function delete(Request $request, $id_){
+
+        
+        $userId = $request->user()->id;
+
+        $authUserId = Auth::id();
+
+        $userExists = User::where('id', Auth::id())->exists();
+
+        if(trim($authUserId) != trim($userId) || !$userExists || !$id_ || empty($id_)){
+
+            return response()->json(['status'=>'Not created. Bad user credentials'], 400);
+
+        }
+
+        $data = Anounces::find((integer)$id_);
+
+        if($data == null || $data->user_id != $authUserId){
+
+            return response()->json(['status'=>'Not data found, nothing to delete'], $this->HttpstatusCode);
+
+        }      
+
+        foreach($data->imagen as $img){
+
+            $imagen = Imagen::find($img->id);
+
+            if ($imagen == null){
+
+                return response()->json(['error'=>'Not imagen found in this data, no data deleted'], 200);
+
+            }
+
+            $deleted = $imagen->delete();  
+            
+            if ($deleted != true){
+
+                return response()->json(['error'=>'Not imagen found in this data, no data deleted'], 200);
+
+            }
+
+        }
+       
+        $data->delete();      
+       
+        return response()->json(['status'=>'Deleted data','data'=>$data], $this->HttpstatusCode);
 
     }
 
@@ -365,11 +455,11 @@ class ApiController extends Controller
            $url = $_SERVER['SERVER_NAME'] . '/alquilados/public/anounces/';
  
 
-           $ok = preg_match('/(^country$)|(^city$)|(^province$)|(^price$)|(^funiture$)/', $arga);
+           $ok = preg_match('/(^country$)|(^city$)|(^province$)|(^price$)|(^funiture$)|(^my$)/', $arga);
            if(!$ok){
             return response()->json([
                                     'status'=>'Invalid arguments',
-                                    'Valid arguments 1'=>['country', 'city', 'provinces', 'price'],
+                                    'Valid arguments 1'=>['country', 'city', 'provinces', 'price', 'my'],
                                     ], 406);
            }
 
@@ -404,6 +494,17 @@ class ApiController extends Controller
                     $argb = (string)$argb;
 
                 }
+
+                
+                if($arga == 'my' ){
+                    
+                    $arga = 'user_id';
+                    $argb = Auth::id();
+
+
+                }
+
+               
 
            
                 $dataAnounce = Anounces::where($arga, '=', $argb)->paginate(10);
