@@ -35,16 +35,17 @@ class GetApiDataController extends Controller
       
 
         $url = 'http://localhost/alquilados/public/api/v1/create/';
-        
+        $imagePortatil = '../public/anounces/22/6044d31587896-5.jpg';
+        $imagePC = '../public/anounces/22/605fd8a9821b9-1.jpg';
 
-        $response1 = Http::attach(
+        /*$response1 = Http::attach(
 
-            'attachment', file_get_contents('../public/anounces/22/605fd8a9821b9-1.jpg'), 'imagen_api.jpg',
+            'attachment', file_get_contents($imagePortatil ), 'imagen_api.jpg',
             [
             'Content-Type' =>  'image/jpeg',
             'Authorization' => 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIxIiwianRpIjoiZTI5NDY4YWY0ZTllNDg3OTYzYjI2ZGRkMWY1NzU0NzE2OTZmNTIzMGI5MmViNjUxYTNlNGE3Zjc3ZGQ0NjA0MjcwNzEzNTYzZGY3ZDE5OWEiLCJpYXQiOjE2MTc0MTg2NjEsIm5iZiI6MTYxNzQxODY2MSwiZXhwIjoxNjI1MjgxMDYxLCJzdWIiOiI4MyIsInNjb3BlcyI6W119.E5Dj72wj_Y1CCVHwBwMMcUIcfJSvh1xKEoni5P2WgJullyzDFz1ZlzAnDStnvuWyT6Qb9VQ0A9w7kkAdM7e9T0NR_Qu1YrWm_oMzEYyTEMqIpVhbSAgoo6X9OPpz37DOJK3Sld4TJxntVs2WM7sKTkz2NsBT9XloXv9ENpX30ieHHfR17a2kLTLuda8Td0_jU07Kaqq91KpUFBnC0r_Wl6FFplyomi0CYYZFKeoS6P4739bk2FkYWn44JJq_DXnclilb8s6XNO3GQdGrSsC6tdm_eI-Zz4CNA5BrgrY8NHuZfoSoZnzMNYSMmuymiyYiSBfQDLRDRM2VoTCI5AQnR08mtiM13NfaNsQp4_3N6VTZcCh93UespC8_fXsMZ9lVUz_I9hDvSW7taxmx5oLFcxal2M0QsKsEB8Aofa_m9Vtu9SOGboWrzK1K8flf1kTBd-uzxRUU_To2A0aKWuvmlgVml96yXQIb7H2SL7ZMUT01TQr0WLuUeza3ibrJ44JBOISlKhRsDwDc6No1SIP7E2rGvYRHZuXZRMfY2R7vqK5lbjUkZ3ueb-DrAZMPbsQhlyXfeMzca5L_VfVju0yYSpdoSistQp_-x2EuM8GYMYBSKccqnW7BjgtStpdeEgQKKRVRexoEjzINUQRRXkfrBJyDdX8OHcHD1H-cEXlrM9Q'
             ]
-        );
+        );*/
 
         $client = new \GuzzleHttp\Client(['base_uri' => 'http://localhost/alquilados/public/api/v1/']);
         //$body = Psr7\Utils::tryFopen('../public/anounces/22/605fd8a9821b9-1.jpg', 'r');
@@ -54,7 +55,7 @@ class GetApiDataController extends Controller
 
                 [
                     'name'     => 'file',
-                    'contents' => Psr7\Utils::tryFopen('../public/anounces/22/605fd8a9821b9-1.jpg', 'r'),
+                    'contents' => Psr7\Utils::tryFopen($imagePortatil , 'r'),
                     'headers'  => [
 
                     'Content-Type' =>  'image/jpeg'
@@ -64,6 +65,9 @@ class GetApiDataController extends Controller
                 
             ]
         ]);
+        $header = $response->getHeader('Content-Type');
+        //header("Content-Type: $header[0]");
+    //echo $response->getBody();
         $body = $response->getBody();
          dd(['getdatapi',$body]);
         //dd('getDataApi');
