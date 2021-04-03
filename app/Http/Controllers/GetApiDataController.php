@@ -64,8 +64,8 @@ class GetApiDataController extends Controller
                 
             ]
         ]);
-        
-         dd(['getdatapi',$response]);
+        $body = $response->getBody();
+         dd(['getdatapi',$body]);
         //dd('getDataApi');
        //return $response;
     }

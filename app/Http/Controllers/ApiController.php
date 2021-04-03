@@ -24,9 +24,10 @@ class ApiController extends Controller
      public function create(Request $request, $id = false){
 
         if($request->file('file')){
-            return response()->json(['mesagge' => 'llegó'], 201);
+           return json_encode(['uno' => 1, 'dos' => 2]);
+            //return response()->json(['mesagge' => 'llegó'], 200);
         }else{
-            return response()->json(['mesagge' => $request->file('file')], 200);
+            return response()->json(['mesagge' => $request->file('file')], 406);
         }
 
         
