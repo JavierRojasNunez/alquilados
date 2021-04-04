@@ -5,7 +5,7 @@ use Illuminate\Support\Facades\Http;
 use Illuminate\Http\Request;
 use GuzzleHttp\Psr7;
 //use GuzzleHttp\Psr7\Request;
-//use GuzzleHttp\Client;
+use GuzzleHttp\Client;
 use CURLFile;
 class GetApiDataController extends Controller
 
@@ -49,7 +49,7 @@ class GetApiDataController extends Controller
         $client = new \GuzzleHttp\Client(['base_uri' => 'http://localhost/alquilados/public/api/v1/']);
         //$body = Psr7\Utils::tryFopen('../public/anounces/22/605fd8a9821b9-1.jpg', 'r');
         //$response = $client->request('POST', 'create', ['body' => $body]);
-        $response = $client->request('POST', 'create', [
+        /*$response = $client->post( 'create', [
             'multipart' => [
 
                 [
@@ -63,8 +63,25 @@ class GetApiDataController extends Controller
                 
                 
             ]
+        ]);*/
+
+
+        $response = Http::post('http://localhost/alquilados/public/api/v1/create', [
+
+            'title' => Psr7\Utils::tryFopen('../public/anounces/22/605fd8a9821b9-1.jpg', 'r'),
+
+            'body' => 'This is test from ItSolutionStuff.com as body',
+
         ]);
-        $body = $response->getBody();
+
+        $jsonData = $response->json();
+echo json_encode($jsonData);
+dd($response->successful());
+    
+    dd($response);
+
+
+        $body = $response;
          dd(['getdatapi',$body]);
         //dd('getDataApi');
        //return $response;

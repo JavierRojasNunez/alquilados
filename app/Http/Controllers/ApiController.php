@@ -9,7 +9,8 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-
+use GuzzleHttp\Psr7\Response;
+use GuzzleHttp\Tests\Server;
 class ApiController extends Controller
 {
 
@@ -23,9 +24,11 @@ class ApiController extends Controller
 
      public function create(Request $request, $id = false){
 
-        if($request->file('file')){
-           return json_encode(['uno' => 1, 'dos' => 2]);
-            //return response()->json(['mesagge' => 'llegó'], 200);
+        if($request->file('title')){
+           $a = $request->file('title');
+                
+            return $a;
+            return response()->json(['mesagge' => $a], 200);
         }else{
             return response()->json(['mesagge' => $request->file('file')], 406);
         }
