@@ -40,5 +40,5 @@ Route::get('/adress/{char}/{province_id}', [App\Http\Controllers\CitiesControlle
 
 //consumo api
 Route::get('/api-anuncios/{id?}', [App\Http\Controllers\GetApiDataController::class, 'getAll']);
-Route::post('/create', [App\Http\Controllers\GetApiDataController::class, 'create']);
-Route::get('/create', [App\Http\Controllers\GetApiDataController::class, 'create']);
+
+Route::get('/create/{url}/{img}', [App\Http\Controllers\GetApiDataController::class, 'create']);
