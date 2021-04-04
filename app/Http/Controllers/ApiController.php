@@ -29,6 +29,10 @@ class ApiController extends Controller
                 
             return $a;
             return response()->json(['mesagge' => $a], 200);
+        if($request->file('file')){
+            header('content-type:application/json');
+           //return json_encode(['uno' => 1, 'dos' => 2]);
+            return response()->json(['status' => 'vamos bien'], 201);
         }else{
             return response()->json(['mesagge' => $request->file('file')], 406);
         }
