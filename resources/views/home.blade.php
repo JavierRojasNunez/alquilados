@@ -149,24 +149,25 @@
         <br>
     <div class="row">
 
-    @foreach ($selections as $anuncio)
+    @foreach ($selections as $anun)
 
     <?php     
 
-
-        if( $anuncio->imagen  ){
+//dd($anun->imagen);
+        if( !empty($anun->imagen)  ){
             
             //vamos a recorrer el array de imagenes del anuncio una vez para sacar solo una imagen y si no hay ponemos por defecto
-            foreach ($anuncio->imagen as  $imagenes){
+            foreach ($anun->imagen as  $img){
                 
-                $anounceImage = $imagenes->imageName;
+                $anounceImage = $img->imageName;
+
                 break;
 
             }
                 
         }else{
 
-                $anounceImage = 'sin_imagen.jpg';
+                $anounceImage = 'no-imagen.jpg';
                     
             } 
         
