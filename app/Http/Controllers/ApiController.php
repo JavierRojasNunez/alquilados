@@ -18,6 +18,7 @@ class ApiController extends Controller
 
     protected $data;
     public $HttpstatusCode = 200;
+
     /**
 	 * Display a listing of the resource.
 	 *
@@ -26,48 +27,27 @@ class ApiController extends Controller
 
      public function create(Request $request, $id = false){
 
-        if($request->file('file')){
-
-            
-           $data = $request->file('data');
-           $file = $request->file('file');
-           $dir = public_path( '/anounces/pruebas-api/');
-           $newName = 'pruebas-api12-jpg';
-           if (!file_exists($dir)) {
-               mkdir($dir, 0777, true);
-           }
-
-
-           $img = Image::make($file)                       
-                ->fit(800, 600, function ($constraint) {
-                    $constraint->upsize();
-                })
-                ->orientate()
-                ->save(   public_path  ('/anounces/pruebas-api/' .$newName), 90 );
-                      
-           }
-
         if($request && !$id){
 
             $numAdss = Anounces::where('user_id', Auth::id())->count();
 
-            if ($numAdss >= 2){
+            if ($numAdss >= 250){
 
-            return response()->json(['mesagge' => 'You have two adss and its only two.', 'numAdss'=> $numAdss], 406);
+                return response()->json(['mesagge' => 'You have two adss and its only two.', 'numAdss'=> $numAdss], 406);
             
             }
 
         }
-   
+
         if ($request->allFiles())
         {
             
         $files =  $request->allFiles();
-        $data = $files['json'];   
+
+        $data = $files['json'];
+
         $data = json_decode(file_get_contents($data)); 
         
-        
-
         $userId = $request->user()->id;
 
         $authUserId = Auth::id();
@@ -75,17 +55,18 @@ class ApiController extends Controller
         $userExists = User::where('id', Auth::id())->exists();
 
         if(trim($authUserId) != trim($userId) || !$userExists){
-            return response()->json(['status'=>'Not created or updated. Bad user credentials'], 400);
+
+            return response()->json(['status'=>'Not created or updated. Bad user credentials'], 404);
+
         }
 
-        //$data = $request->all();
 
         $dataToBeSaved = isset($data->data[0]) ? $data->data[0] : false ;
 
         if(!$dataToBeSaved || empty($dataToBeSaved)  || !isset($dataToBeSaved)){
             return response()->json(['status'=>'Not created. No data sent.'], 200);
         }
-        //dd($data->data[0]);             
+         
         $whiteListIndexs = [
             'type_rent' => '','price' => '','min_time_ocupation' => '','payment_period' => '','meter2' => '',
             'num_roomms_for_rent' => '', 'num_rooms' => '','num_baths' => '', 'deposit' => '', 'phone' => '', 'available_date' => '',
@@ -100,20 +81,17 @@ class ApiController extends Controller
         // eliminar indices no permitidos
         foreach($dataToBeSaved as $key => $value){
 
-            if (!array_key_exists ( $key, $whiteListIndexs  ) ){
+            if (!array_key_exists ( $key, $whiteListIndexs ) ){
                                     
                 unset( $dataToBeSaved->$key);
                 
             }                           
                 
-        }
-
-        $valueInsert = ['user_id' =>  Auth::id()];
-
-        //$dataToBeSaved = array_merge($dataToBeSaved, $valueInsert);                        
+        }                
 
         $dataToBeSaved->user_id = Auth::id();
         $dataToBeSaved = (array)$dataToBeSaved;
+
         if (strtolower($dataToBeSaved['type']) != 'alquiler' && strtolower($dataToBeSaved['type']) != 'venta'){
             $dataToBeSaved['type'] = 'alquiler';
         }
@@ -148,46 +126,21 @@ class ApiController extends Controller
 
                         
         if ($verify->fails()) { 
-            return response()->json(['error'=>$verify->errors()], 401);            
+
+            return response()->json(['error'=>$verify->errors()], 401);
+
         }
-
-
-
-        $image1 =  isset($files['image1']) ? $files['image1'] : false;
-        $image2 =  isset($files['image2']) ? $files['image2'] : false;
-
-        $images = [];
-        if($image2){
-            $images = [$image1,$image2];
-        }else{
-            $images = $image1;
-        }
-
-        $totalImages = count($images);
-
-        for($i = 0; $i < $totalImages; $i++){
-            
-        $newName = uniqid() . '-' . ($i + 1) . '.' . $images[$i]->extension();
-
-        $dir = public_path( '/anounces/'. Auth::id() . '/');
-        
-            if (!file_exists($dir)) {
-                mkdir($dir, 0777, true);
-            }
-
-
-           $img = Image::make($images[$i])                       
-                ->fit(800, 600, function ($constraint) {
-                    $constraint->upsize();
-                })
-                ->orientate()
-                ->save(   public_path  ('/anounces/' . Auth::id() . '/' .$newName), 90 );
-        
-            }
 
         if($id){
 
             $anuncio = Anounces::find($id);  
+            //comprobar cuantas tiene en la bbdd y hacer la resta a 5
+
+            if($anuncio->user_id != Auth::id()){
+
+                return response()->json(['status'=>'Not data found, nothing to delete or update'], $this->HttpstatusCode);
+
+            }
 
             foreach($dataToBeSaved as $key => $value){
            
@@ -205,10 +158,105 @@ class ApiController extends Controller
 
         }
 
+        $images =  isset($files['images[]']) ? $files['images[]'] : false;
+        
+        if (!$images){
+
+            $image1 =  isset($files['image1']) ? $files['image1'] : false;       
+            $image2 =  isset($files['image2']) ? $files['image2'] : false;
+            $image3 =  isset($files['image3']) ? $files['image3'] : false;
+            $image4 =  isset($files['image4']) ? $files['image4'] : false;
+            $image5 =  isset($files['image5']) ? $files['image5'] : false;
+
+            if ($image1){
+                $images[] = $image1;
+            }
+
+            if ($image2){
+                $images[] = $image2;
+            }
+
+            if ($image3){
+                $images[] = $image3;
+            }
+            
+            if ($image4){
+                $images[] = $image4;
+            }
+
+            if ($image5){
+                $images[] = $image5;
+            }
+        }
+
+        if (!$images){
+
+            return response()->json(['error'=>'You have to send at least one picture.'], 200);
+
+        }
+
+        $totalImages = count($images);
+
+        $totalImages = $totalImages > 5 ? $totalImages = 5 : $totalImages; 
+
+        if (!$totalImages){
+
+            return response()->json(['error'=>'You have to send at least one picture.'], 200);
+
+        }
+
+        
+
+        for($i = 0; $i < $totalImages; $i++){
+
+        $mimeType = $images[$i]->getClientMimeType();
+
+        if ($images[$i]->isValid() && ($mimeType == 'image/png' || $mimeType == 'image/jpg'  || $mimeType == 'image/jpeg'  || $mimeType == 'image/gif') ) 
+        {    
+            
+        $newName = uniqid() . '-' . ($i + 1) . '.' . $images[$i]->extension();
+
+        $dir = public_path( '/anounces/'. Auth::id() . '/');
+        
+            if (!file_exists($dir)) {
+                mkdir($dir, 0777, true);
+            }
+
+
+           $img = Image::make($images[$i])                       
+            ->fit(800, 600, function ($constraint) {
+                $constraint->upsize();
+            })
+            ->orientate()
+            ->save(   public_path  ('/anounces/' . Auth::id() . '/' .$newName), 90 );
+
+            $imgs = new Imagen();
+            $imgs->user_id =  Auth::id();
+            $imgs->anounces_id = $anuncio->id;
+            $imgs->imageName = $newName;
+            $ok = $imgs->save();
+            
+            if(!$ok){
+                
+                return response()->json(['error'=>'Problems whith data base, please try again.'], 200);
+            }
+        
+        }
+        else
+        {
+            return response()->json(['error'=>'No valid file:' . $images[$i]], 200);
+        }
+    }
+
+
+        
+
         return response()->json(['status'=>'Created.', $anuncio], 201);
 
         }else{
+
             return response()->json(['error' => 'No valid JSON'], 406);
+
         }
 
      }
@@ -235,11 +283,10 @@ class ApiController extends Controller
         $data->load('user');
         $data->load('imagen'); 
         $url = $_SERVER['HTTP_HOST']. '/public/anounces/';
-        $urlExample =  $_SERVER['HTTP_HOST']. '/public/anounces/[user_id]/[imageName]/';
+        $urlExample =  $_SERVER['HTTP_HOST']. '/public/anounces/[user_id]/[imageName]';
         $numAdds = count($data);
 
         if ($numAdds == 0){
-
             
             return response()->json(['status'=> 'No data found.', 'results' => $numAdds ], 204);
 
@@ -263,7 +310,7 @@ class ApiController extends Controller
             }
         }*/
         
-        return response()->json(['status'=>'ok', 'urlExample'=> $urlExample , 'imageUrl'=> $url , 'results' => $numAdds ,'collection'=>$data], $this->HttpstatusCode);
+        return response()->json(['status'=>'ok', 'urlExample'=> $urlExample , 'imageUrl'=> $url , 'results' => $numAdds ,'collection'=>$data], 200);
 
 	}
 
@@ -281,7 +328,7 @@ class ApiController extends Controller
             
         if($data == NULL){
             
-            return response()->json(['status'=>'Not data found'], 200);   
+            return response()->json(['status'=>'No data found'], 200);   
                 
         }
         
@@ -323,7 +370,7 @@ class ApiController extends Controller
 
         if(trim($authUserId) != trim($userId) || !$userExists || !$id_ || empty($id_)){
 
-            return response()->json(['status'=>'Not created. Bad user credentials'], 400);
+            return response()->json(['status'=>'Not deleted. Bad user credentials'], 404);
 
         }
 
@@ -335,24 +382,35 @@ class ApiController extends Controller
 
         }      
 
-        foreach($data->imagen as $img){
+        if(isset($data->imagen) && $data->imagen && !empty($data->imagen))
+        {
+            foreach($data->imagen as $img){
 
-            $imagen = Imagen::find($img->id);
+                $imagen = Imagen::find($img->id);
 
-            if ($imagen == null){
+                if ($imagen == null){
 
-                return response()->json(['error'=>'Not imagen found in this data, no data deleted'], 200);
+                    return response()->json(['error'=>'Not imagen found in this data, no data deleted'], 200);
+
+                }
+
+                $deleted = $imagen->delete();  
+                
+                if ($deleted != true){
+
+                    return response()->json(['error'=>'Not imagen found in this data, no data deleted'], 200);
+
+                }
+
+                $imageDelete = public_path() . '/anounces/' . Auth::user()->id . '/' . $imagen->imageName;
+                if (file_exists($imageDelete)) {
+                    $ok = unlink($imageDelete);
+                }
+                if(!$ok){
+                    return response()->json(['error'=>'Not imagen found in this data, no data deleted'], 200); 
+                }
 
             }
-
-            $deleted = $imagen->delete();  
-            
-            if ($deleted != true){
-
-                return response()->json(['error'=>'Not imagen found in this data, no data deleted'], 200);
-
-            }
-
         }
        
         $data->delete();      
@@ -368,7 +426,7 @@ class ApiController extends Controller
         $data = [];
 
         if ( !is_numeric($id_) && $id_  ){
-            return response()->json(['error'=>'Parameters must to be integers'], 406);   
+            return response()->json(['error'=>'Parameters must to be integer'], 406);   
         }
 
         if($id_){
@@ -395,7 +453,7 @@ class ApiController extends Controller
 
 
     //sepuede pasar dos parametros separados por espacio para tene primero limite y segundo offset
-   // vamos a poner dos variablesa recibir por la funcion
+   
     public function getResumeWithImages($limit_ = 1000, $id_ = false){
 
         $limit_ = ($limit_ > 5000) ? 5000 : $limit_;
@@ -404,7 +462,7 @@ class ApiController extends Controller
 
         $limits = explode(' ', $limit_);
 
-           if( $limits[0] == 'id' && $id_ ){
+        if( $limits[0] == 'id' && $id_ ){
 
             $limit = false;
             $offSet = false;
@@ -414,7 +472,9 @@ class ApiController extends Controller
 
            
             if ((isset($limits[0] ) && !is_numeric($limits[0])) ||  ( isset($limits[1]) && !is_numeric($limits[1]) ) ){
+
                 return response()->json(['error'=>'Parameters must to be integers'], 406);
+
             }
             
             $limit = (integer)$limits[0] ;
@@ -427,7 +487,6 @@ class ApiController extends Controller
 
 
         $dataAnounce = [];
-        //$dataImages = [];
         $data = [];     
 
         
@@ -469,31 +528,35 @@ class ApiController extends Controller
         }  
         
         $url = $_SERVER['HTTP_HOST'];
-        foreach ( $dataAnounce as  $anounce ){
+
+        foreach ( $dataAnounce as  $anounce )
+        {
             
-                  $dataImages =  DB::table('images')
-                          ->where('anounces_id', '=', $anounce->reference)
-                          ->select(['user_id', 'imageName', 'created_at', 'updated_at'])
-                          ->get(); 
-                  
-                  $dataUser =  DB::table('users')
-                          ->where('id', '=', $anounce->user_id)
-                          ->select(['name', 'surname', 'email'])
-                          ->get(); 
-      
-                 foreach($dataImages as $image){
-                     //dd($image);
-                     $image->imageName = $url . '/alquilados/public/anounces/' . $image->user_id. '/' . $image->imageName;
-                 }       
-                          
-                 
-                  
-                  $anounce->currency = '€';
-                  $anounce->userData = $dataUser;
-                  $anounce->images = $dataImages;      
-                  unset($anounce->user_id);  
+            $dataImages =  DB::table('images')
+                    ->where('anounces_id', '=', $anounce->reference)
+                    ->select(['user_id', 'imageName', 'created_at', 'updated_at'])
+                    ->get(); 
+            
+            $dataUser =  DB::table('users')
+                    ->where('id', '=', $anounce->user_id)
+                    ->select(['name', 'surname', 'email'])
+                    ->get(); 
+
+            foreach($dataImages as $image){
+                //dd($image);
+                $image->imageName = $url . '/alquilados/public/anounces/' . $image->user_id. '/' . $image->imageName;
+            }                       
+            
+            $anounce->currency = '€';
+
+            $anounce->userData = $dataUser;
+
+            $anounce->images = $dataImages;    
+
+            unset($anounce->user_id);  
                         
-              } 
+        } 
+
         return response()->json(['status'=>'200', 'totalResults'=>$totalResults , 'anuncios'=>$dataAnounce], $this->HttpstatusCode);
 
     }
@@ -518,7 +581,7 @@ class ApiController extends Controller
            if(!$ok){
             return response()->json([
                                     'status'=>'Invalid arguments',
-                                    'Valid arguments 1'=>['country', 'city', 'provinces', 'price', 'my'],
+                                    'Valid arguments 1'=>['country', 'city', 'provinces', 'price', 'my', 'funiture'],
                                     ], 406);
            }
 
@@ -629,8 +692,7 @@ class ApiController extends Controller
                 return response()->json(['status'=>'No data found'], 200);
                 
             }  
-                
-    
+                    
             return response()->json(['status'=>'Data found' ,'anuncio'=>$dataAnounce], $this->HttpstatusCode);
             
         }

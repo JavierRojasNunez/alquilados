@@ -18,8 +18,7 @@ use Illuminate\Support\Facades\Route;
     return $request->user();
 });*/
 
-Route::post('/v1/create', [App\Http\Controllers\ApiController::class, 'create']);
-Route::get('/v1/create', [App\Http\Controllers\ApiController::class, 'create']);
+Route::post('/v1/create/{id?}', [App\Http\Controllers\ApiController::class, 'create']);
 Route::get('/v1/resume/{limit?}/{id?}', [App\Http\Controllers\ApiController::class, 'getResumeWithImages']);
 Route::delete('/v1/eliminar-anuncio/{id}', [App\Http\Controllers\ApiController::class, 'delete']);
 Route::put('/v1/edit/{id}', [App\Http\Controllers\ApiController::class, 'update']);
@@ -34,18 +33,14 @@ Route::group(['prefix' => 'v1/auth'], function () {
     Route::post('signup', [App\Http\Controllers\AuthApiController::class, 'signup']);
     
     
-    // Las siguientes rutas además del prefijo requieren que el usuario tenga un token válido
+
     Route::group(['middleware' => 'auth:api'], function() {
         Route::get('logout', [App\Http\Controllers\AuthApiController::class, 'logout']);
         Route::get('user', [App\Http\Controllers\AuthApiController::class, 'user']);
         
-        //api
         Route::get('resume/{limit?}/{id?}', [App\Http\Controllers\ApiController::class, 'getResumeWithImages']);//metodo completo
-        Route::post('create', [App\Http\Controllers\ApiController::class, 'create']);
-
-        
-
-        Route::put('update/{id?}', [App\Http\Controllers\ApiController::class, 'create']);
+        Route::post('create/{id?}', [App\Http\Controllers\ApiController::class, 'create']);
+        Route::post('update/{id?}', [App\Http\Controllers\ApiController::class, 'create']);
         Route::delete('eliminar-anuncio/{id}', [App\Http\Controllers\ApiController::class, 'delete']);        
         Route::get('anuncios', [App\Http\Controllers\ApiController::class, 'getAll']);//metodo completo
         Route::get('anuncio/{id?}', [App\Http\Controllers\ApiController::class, 'getOne']);//metodo completo

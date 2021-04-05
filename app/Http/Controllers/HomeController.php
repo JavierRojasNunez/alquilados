@@ -22,11 +22,12 @@ class HomeController extends Controller
     {
    
 
-        $anuncios = Anounces::paginate(5);
+        $anuncios = Anounces::paginate(10);
         $selections = Anounces::select('*')
         ->limit(4)
         ->orderByDesc('id')
         ->get();
+
 
         return view('home', [           
             'anuncios' => $anuncios,

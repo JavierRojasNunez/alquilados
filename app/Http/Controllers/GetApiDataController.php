@@ -26,10 +26,13 @@ class GetApiDataController extends Controller
             
         ])->get( $url );
 
-        $response->json();
-        
-       return $response;
+ 
+        return response()->json(['message' => 'Data found',  'data'=>$response->json()], 200);
+
     }
+
+
+
     
     public function create(Request $request, $url, $img){
 
@@ -82,7 +85,7 @@ class GetApiDataController extends Controller
         ]);
 
         
-        echo $statusCode = $response->getStatusCode();
+        $statusCode = $response->getStatusCode();
         $headers = $response->getHeaders();
 
         if ($statusCode == 201){
