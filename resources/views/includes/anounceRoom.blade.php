@@ -7,7 +7,7 @@
   
     <div class="form-row">
         <div class="form-group col-md-4">
-            <label for="num_people_in">{{ __('Numero personas ahora') }}</label>
+            <label for="num_people_in">{{ __('Número personas ahora') }}</label>
             
             <input type="number"  id="num_people_in" name="num_people_in" placeholder="0" class="form-control @error('num_people_in') is-invalid @enderror"   value="{{  $anuncio ? $anuncio->num_people_in :    old('num_people_in') }}"  autocomplete="num_people_in" >
             @error('num_people_in')
@@ -18,7 +18,7 @@
           </div>
           
         <div class="form-group col-md-4">
-          <label for="people_in_sex">{{ __('Quien vive en ella') }}</label>                 
+          <label for="people_in_sex">{{ __('Quién vive en ella') }}</label>                 
           <select id="people_in_sex" class="form-control @error('people_in_sex') is-invalid @enderror" name="people_in_sex"  value="{{ old('people_in_sex') }}"  autocomplete="people_in_sex" >
             <option selected >{{   $anuncio ? $anuncio->people_in_sex :    old('people_in_sex')  }}</option>
             <option>{{ __('Chicas') }}</option>

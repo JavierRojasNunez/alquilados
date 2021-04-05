@@ -8,6 +8,7 @@ if(!$anounce_id ){
   $h1Title = 'Editar anuncio.';
 }
 
+$type = strtolower($type);
 
 if($type == 'alquiler'){
   $alquilar_ = true;
@@ -50,7 +51,7 @@ if($type == 'alquiler'){
         <div class="col-md-3" style="vertical-align: bottom !important;">
           <div class="tituloPrincipal-menu-images" >
           <a href="{{ route('edit.images', ['id' => $anounce_id, 'type' => $type]) }}">  
-            <h5>Imagenes</h5>
+            <h5>Imágenes</h5>
           </a> 
           </div>
           </div>
@@ -78,9 +79,9 @@ if($type == 'alquiler'){
           @endif
 
           <div class="alert alert-warning alert-dismissible fade show" role="alert" >
-            Los campos con un asterisco rojo son obligatorios. Los demas campos puede dejarlos vacios y rellenar solo los que 
-            creas que son los mas importantes. A más datos, mas posibilidad de conseguir tu propósito. Hay que incluir minimo una imagen
-            y maximo 5.
+            Los campos con un asterisco rojo son obligatorios. Los demás campos puede dejarlos vacios y rellenar solo los que 
+            creas que son los mas importantes. A más datos, más posibilidad de conseguir tu propósito. Hay que incluir mínimo una imagen
+            y máximo 5.
         
             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
               <span aria-hidden="true">&times;</span>
@@ -102,7 +103,7 @@ if($type == 'alquiler'){
 <div class="form-row">       
       
       <div class="form-group col-md-12">
-        <label for="titulo">{{__('Titulo')}}<sup style="color:red; font-size:16px">*</sup></label>
+        <label for="titulo">{{__('Título')}}<sup style="color:red; font-size:16px">*</sup></label>
         <input type="text" name="titulo" id="titulo" class="form-control @error('titulo') is-invalid @enderror"   value="{{ $anuncio ? $anuncio->titulo :   old('titulo') }}" required  autocomplete="titulo" >
         @error('titulo')
         <span class="invalid-feedback" role="alert">

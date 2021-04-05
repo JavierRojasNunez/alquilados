@@ -120,7 +120,7 @@
 
           
           <div class="form-group col-md-3">
-            <label for="deposit">{{ __('¿Deposito inicial? (€)') }}</label>
+            <label for="deposit">{{ __('¿Depósito inicial? (€)') }}</label>
             <input type="number"  id="deposit" name="deposit"  class="form-control @error('deposit') is-invalid @enderror"   value="{{ $anuncio ? $anuncio->deposit :   old('deposit') }}"  autocomplete="deposit" >
             @error('deposit')
             <span class="invalid-feedback" role="alert">

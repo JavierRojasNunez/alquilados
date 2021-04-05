@@ -12,7 +12,7 @@
         <div class="invoiceBox">
         <label for="foto1">
           <div class="boxFile" id="boxFile" data-text="Seleccionar archivo">
-            {{ __('Imagenes.') }}
+            {{ __('Imágenes.') }}
           </div>
         </label>
         
@@ -35,7 +35,7 @@
      
   
   <div class="card">
-    <div class="card-header" >{{ __('Imagenes') }}</div>
+    <div class="card-header" >{{ __('Imágenes') }}</div>
   
     <div class="card-body">
   

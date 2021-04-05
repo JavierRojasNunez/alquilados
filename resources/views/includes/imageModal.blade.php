@@ -8,7 +8,7 @@
           </button>
         </div>
         <div class="modal-body" style="">
-          <p>Imagen eliminada con exito.</p>
+          <p>Imagen eliminada con éxito.</p>
         </div>
         <div class="modal-footer">
           
@@ -28,7 +28,7 @@
           </button>
         </div>
         <div class="modal-body" style="">
-          <p>Hubo algun problema al intentar eliminar la imagen.</p>
+          <p>Hubo algún problema al intentar eliminar la imagen.</p>
         </div>
         <div class="modal-footer">
           

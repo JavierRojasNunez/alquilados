@@ -339,8 +339,8 @@ border-radius: 2px;
 
 .card-header{
   border-radius: 0px !important;
-  border-bottom: 0px !important;
-  background-color: #f18520;
+  border-bottom: 1px solid  #f18520!important;
+  background-color: #ffffff;
   color: #7c410a;
   font-size: large;
 }

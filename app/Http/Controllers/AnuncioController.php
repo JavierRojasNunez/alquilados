@@ -82,6 +82,8 @@ class AnuncioController extends Controller
 
     public function edit($anounceId, $type = ''){
 
+        $type = strtolower($type);
+
         $provincias = provincesController::getProvinces();
 
         if (!$provincias){
@@ -103,6 +105,7 @@ class AnuncioController extends Controller
 
         }
 
+        
 
         if ( Auth::user() && $anuncio ){
             return view('anuncios.create', [

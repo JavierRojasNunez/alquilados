@@ -176,7 +176,7 @@
     <div class="col-md-3">
     <div class="card-deck">
         <div class="card">
-          <img class="card-img-top" src="anounces/{{$anuncio->user_id}}/{{$anounceImage}}" title="{{$anuncio->titulo}}"  alt="{{$anuncio->titulo}}" alt="Card image cap">
+          <img class="card-img-top" src="anounces/{{$anuncio->user_id}}/{{$anounceImage ?? '' }}" title="{{$anuncio->titulo}}"  alt="{{$anuncio->titulo}}" alt="Card image cap">
           <div class="card-body">
             <div class="data-1-small">
                 <span class="price">{{$anuncio->price}} € </span> <span class="city-small">{{$anuncio->city_rent}}</span>

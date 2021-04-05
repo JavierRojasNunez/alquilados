@@ -42,7 +42,7 @@ if(!$anounce_id ){
         <div class="col-md-3" style="vertical-align: bottom !important;">
           <div class="tituloPrincipal-menu" >
             
-            <h5>Imagenes</h5>
+            <h5>Imágenes</h5>
            
           </div>
           </div>
@@ -50,7 +50,7 @@ if(!$anounce_id ){
         <div class="col-md-9">
 
             <div class="card" id="form_images">
-                <div class="card-header">{{ __('Vamos con las imagenes.') }}</div>
+                <div class="card-header">{{ __('Vamos con las imágenes.') }}</div>
 
                 <div class="card-body">
       
@@ -67,7 +67,6 @@ if(!$anounce_id ){
                     <?php $i = 1; 
                     $user_id = Auth::user()->id; 
                     ?>
-                    {{--dd($images_)--}}
                   @foreach($images_ as $value)
                   
                     <div class="col-md-4" id="image{{$value->id}}">
