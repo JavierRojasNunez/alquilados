@@ -22,8 +22,10 @@ class HomeController extends Controller
     {
    
 
-        $anuncios = Anounces::paginate(10);
+        $anuncios = Anounces::paginate(10)->onEachSide(0);
+
         $selections = Anounces::select('*')
+        
         ->limit(4)
         ->orderByDesc('id')
         ->get();

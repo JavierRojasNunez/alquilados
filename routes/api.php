@@ -38,13 +38,14 @@ Route::group(['prefix' => 'v1/auth'], function () {
         Route::get('logout', [App\Http\Controllers\AuthApiController::class, 'logout']);
         Route::get('user', [App\Http\Controllers\AuthApiController::class, 'user']);
         
-        Route::get('resume/{limit?}/{id?}', [App\Http\Controllers\ApiController::class, 'getResumeWithImages']);//metodo completo
+        Route::get('resume/{limit?}/{id?}', [App\Http\Controllers\ApiController::class, 'getResumeWithImages']);
         Route::post('create/{id?}', [App\Http\Controllers\ApiController::class, 'create']);
         Route::post('update/{id?}', [App\Http\Controllers\ApiController::class, 'create']);
         Route::delete('eliminar-anuncio/{id}', [App\Http\Controllers\ApiController::class, 'delete']);        
-        Route::get('anuncios', [App\Http\Controllers\ApiController::class, 'getAll']);//metodo completo
-        Route::get('anuncio/{id?}', [App\Http\Controllers\ApiController::class, 'getOne']);//metodo completo
-        Route::get('basics/{id?}', [App\Http\Controllers\ApiController::class, 'getBasics']);//acabado muestra todos con titulo y descripcion y provincia
+        Route::get('anuncios', [App\Http\Controllers\ApiController::class, 'getAll']);
+        Route::get('anuncio/{id?}', [App\Http\Controllers\ApiController::class, 'getOne']);
+        Route::get('basics/{id?}', [App\Http\Controllers\ApiController::class, 'getBasics']);
         Route::get('by/{arga}/{argb?}/{argc?}', [App\Http\Controllers\ApiController::class, 'getBy']);
+        Route::get('delete-image/{id}', [App\Http\Controllers\ApiController::class, 'deleteImage']);
     });
 });

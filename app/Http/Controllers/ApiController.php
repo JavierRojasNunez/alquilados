@@ -27,11 +27,17 @@ class ApiController extends Controller
 
      public function create(Request $request, $id = false){
 
+        $isUserAuth =  Auth::check();
+
+        if(!$isUserAuth){
+            return response()->json(['status'=> 'Unauthorized.'], 401);
+        }
+
         if($request && !$id){
 
             $numAdss = Anounces::where('user_id', Auth::id())->count();
 
-            if ($numAdss >= 250){
+            if ($numAdss >= 50){
 
                 return response()->json(['mesagge' => 'You have two adss and its only two.', 'numAdss'=> $numAdss], 406);
             
@@ -92,11 +98,10 @@ class ApiController extends Controller
             }                           
                 
         }                
-        if($id == 'pruebas'){
-            $dataToBeSaved->user_id = 77;
-        }else{
+        
+            
           $dataToBeSaved->user_id = Auth::id();  
-        }
+        
 
         
         $dataToBeSaved = (array)$dataToBeSaved;
@@ -143,9 +148,8 @@ class ApiController extends Controller
         if($id){
 
             $anuncio = Anounces::find($id);  
-            //comprobar cuantas tiene en la bbdd y hacer la resta a 5
 
-            if($anuncio->user_id != Auth::id()){
+            if( $anuncio === null ||  $anuncio->user_id != Auth::id()){
 
                 return response()->json(['status'=>'Not data found, nothing to delete or update'], $this->HttpstatusCode);
 
@@ -204,11 +208,11 @@ class ApiController extends Controller
 
         }
 
-        $totalImages = count($images);
+        $totalImages = (is_array($images)) ? count($images) : 0;
 
         $totalImages = $totalImages > 5 ? $totalImages = 5 : $totalImages; 
 
-        if (!$totalImages){
+        if ($totalImages == 0){
 
             return response()->json(['error'=>'You have to send at least one picture.'], 200);
 
@@ -286,6 +290,12 @@ class ApiController extends Controller
                 ->limit($limit)
                 ->get();*/
 
+
+        $isUserAuth =  Auth::check();
+
+        if(!$isUserAuth){
+            return response()->json(['status'=> 'Unauthorized.'], 401);
+        }
                 
         $data = [];
         $data = Anounces::paginate(10);
@@ -326,6 +336,12 @@ class ApiController extends Controller
 
 
     public function getOne($id = false){
+
+        $isUserAuth =  Auth::check();
+
+        if(!$isUserAuth){
+            return response()->json(['status'=> 'Unauthorized.'], 401);
+        }
 
         
         if(!$id){
@@ -368,8 +384,63 @@ class ApiController extends Controller
 
     }
 
+    public function deleteImage(Request $request, int $id_ ){
+      
+        $isUserAuth =  Auth::check();
+        
+        if(!$isUserAuth){
+            return response()->json(['status'=> 'Unauthorized.'], 401);
+        }
+
+
+
+        if(!$id_ || is_integer($id_) == false){
+            return response()->json(['status'=> 'Parameter 1 must to be integer'], 406);
+        }
+
+        $userId = $request->user()->id;
+
+        $authUserId = Auth::id();
+
+        $userExists = User::where('id', Auth::id())->exists();
+
+        if(trim($authUserId) != trim($userId) || !$userExists || !$id_ || empty($id_)){
+
+            return response()->json(['status'=>'Not deleted. Bad user credentials'], 401);
+
+        }
+
+        $image = Imagen::find($id_);      
+
+        if($image === null || trim($image->user_id) != trim(Auth::id()) ){
+            return response()->json(['status'=>'Not deleted. No image found'], 204);
+        }  
+        
+        $numImage = Imagen::where('anounces_id', '=', $image->anounces_id)->count();
+
+        if($numImage < 2 ){
+            return response()->json(['status'=>'Not deleted. Dont delete all. Leave one image or remove the add.'], 200);
+        }
+
+
+        if($image->user_id !=  Auth::id()){
+            return response()->json(['status'=>'Not deleted. No image found'], 204);
+        }
+
+       if ( !$image->delete() ){
+            return response()->json(['error'=>'No image deleted. Try again later.'], 200);
+       }
+
+        return response()->json(['status'=>'Image deleted.'], 200);
+    }
+
     public function delete(Request $request, $id_){
 
+        $isUserAuth =  Auth::check();
+        
+        if(!$isUserAuth){
+            return response()->json(['status'=> 'Unauthorized.'], 401);
+        }
         
         $userId = $request->user()->id;
 
@@ -432,6 +503,12 @@ class ApiController extends Controller
 
     public function getBasics($id_ = false){
 
+        $isUserAuth =  Auth::check();
+        
+        if(!$isUserAuth){
+            return response()->json(['status'=> 'Unauthorized.'], 401);
+        }
+
         $data = [];
 
         if ( !is_numeric($id_) && $id_  ){
@@ -464,6 +541,13 @@ class ApiController extends Controller
     //sepuede pasar dos parametros separados por espacio para tene primero limite y segundo offset
    
     public function getResumeWithImages($limit_ = 1000, $id_ = false){
+
+        $isUserAuth =  Auth::check();
+        
+        if(!$isUserAuth){
+            return response()->json(['status'=> 'Unauthorized.'], 401);
+        }
+
 
         $limit_ = ($limit_ > 5000) ? 5000 : $limit_;
 
@@ -573,6 +657,13 @@ class ApiController extends Controller
 
     public function getBy($arga, $argb, $argc = false){
 
+
+        $isUserAuth =  Auth::check();
+        
+        if(!$isUserAuth){
+            return response()->json(['status'=> 'Unauthorized.'], 401);
+        }
+
         if ($arga && !$argb && !$argc){
             return response()->json(['status'=>'Parameter 1 passed  expects exactly 2.'], 406);
         }
@@ -640,10 +731,14 @@ class ApiController extends Controller
            
                 $dataAnounce = Anounces::where($arga, '=', $argb)->paginate(10);
 
+                if ( is_object($dataAnounce) ){
+                    $numAdds = count($dataAnounce);
+                }else{
+                    $numAdds = 0;
+                }
                 
-                if (count($dataAnounce) == 0){
+                if ( $numAdds == 0 ){
 
-                    $data = false;
                     return response()->json(['status'=>'No data found'], 200);
                     
                 }  
@@ -654,16 +749,13 @@ class ApiController extends Controller
                     $anounce->imagen;
 
                    foreach($anounce->imagen as $imagen){
-                    $imagen->imageName = $url .  $anounce->user_id . '/' . $imagen->imageName;
-                    unset($imagen->id, $imagen->anounces_id);
+                       $imagen->imageName = $url .  $anounce->user_id . '/' . $imagen->imageName;
+                       unset($imagen->id, $imagen->anounces_id);
                    } 
 
                    unset($anounce->user->id);
                    
-                }               
-                
-            
-                           
+                }                                          
     
             return response()->json(['status'=>'Data found','anuncio'=> $dataAnounce], $this->HttpstatusCode);
             
@@ -692,13 +784,16 @@ class ApiController extends Controller
                 
             }
             
-            
+            if ( is_array($dataAnounce) || is_object($dataAnounce) ){
+                $numAdds = count($dataAnounce);
+            }else{
+                $numAdds = 0;
+            }
 
             
-            if (count($dataAnounce) == 0){
+            if ( $numAdds == 0 ){
 
-                $data = false;
-                return response()->json(['status'=>'No data found'], 200);
+                return response()->json(['status'=>'No data found'], $this->HttpstatusCode);
                 
             }  
                     
@@ -708,6 +803,8 @@ class ApiController extends Controller
 
 
     }
+
+    
 
 
 }

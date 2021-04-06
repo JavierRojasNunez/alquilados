@@ -1,6 +1,32 @@
 @extends('layouts.app')
 
 @section('content')
+
+<div class="search-bar" >
+   <div class="row justify-content-center">
+       <div class="col-md-4">
+        <div class="row justify-content-center">
+        uno
+        </div>
+       </div>
+       <div class="col-md-4  text-center">
+        dos
+       </div>
+       <div class="col-md-4">
+        tres
+       </div>
+       <div class="col-md-4">
+        uno
+       </div>
+       <div class="col-md-4">
+        dos
+       </div>
+       <div class="col-md-4">
+        tres
+       </div>
+   </div>
+</div>
+
 <div class="container">
     <div class="row justify-content-center">
        
@@ -80,7 +106,8 @@
                             </a>
                           </div>
                         </div>
-
+                        <br>
+                        <img  width="100%" src="anounces/{{$anuncio->user_id}}/{{$imagenes->imageName ?? ''}}" title="{{$anuncio->titulo}}"  alt="{{$anuncio->titulo}}">
                       
 
                         
@@ -138,10 +165,14 @@
         </div>
            
 @endforeach
+
 <div class="row justify-content-center">
+<div class="col-md-10">
     <div id="links-nav">
+
     {{$anuncios->links()}} 
     </div>
+</div>
 </div>   
     <div class="col-md-12" style="clear: both" >
            
@@ -149,29 +180,25 @@
         <br>
     <div class="row">
 
-    @foreach ($selections as $anun)
+        
+    @foreach ($selections as $anuncio)
 
     <?php     
 
-//dd($anun->imagen);
-        if( !empty($anun->imagen)  ){
-            
-            //vamos a recorrer el array de imagenes del anuncio una vez para sacar solo una imagen y si no hay ponemos por defecto
-            foreach ($anun->imagen as  $img){
-                
-                $anounceImage = $img->imageName;
 
-                break;
+        if( !empty($anuncio->imagen)){
+                       
+            $img = $anuncio->imagen;
 
-            }
+            $anounceImage = $img[0]->imageName;       
                 
         }else{
 
-                $anounceImage = 'no-imagen.jpg';
+            $anounceImage = 'no-imagen.jpg';
                     
-            } 
+        } 
         
-        ?>
+    ?>
 
     <div class="col-md-3">
     <div class="card-deck">

@@ -1,13 +1,16 @@
 .py-4{
-  margin-top: 70px !important;
+  margin-top: 27px !important;
+  
 }
-
+body{
+  background-color: rgba(230, 225, 225, 0.671);
+}
 a{
-  color: #000;
+  color: #152c42;
 }
 
 a:hover{
-  color: #000;
+  color: #152c42;
   text-decoration: none;
 }
 
@@ -107,7 +110,7 @@ a:hover{
   
   .pagination li.active .page-link,
   .pagination li .page-link:hover {
-    background-color: #1d97c9;
+    background-color: #24394e;
     color: #fff;
     font-weight: bold;
   }
@@ -335,13 +338,14 @@ border-radius: 2px;
 
 .card{
   border: 0px !important;
+  background-color: #ffffff;
 }
 
 .card-header{
   border-radius: 0px !important;
-  border-bottom: 1px solid  #f18520!important;
+  border-bottom: 1px solid  #3b5e80b9!important;
   background-color: #ffffff;
-  color: #7c410a;
+  color: #152c42 !important;
   font-size: large;
 }
 
@@ -363,7 +367,18 @@ border-radius: 2px;
   padding-left: 15px;
   margin-top: 15px;
   margin-bottom: 25px;
-  border: 1px solid #f185208a;
+  border: 1px solid #24394e;
   color: #7c410a;
   font-size: large;
+}
+
+.search-bar{
+
+  height: 250px;
+  margin-top: 0px !important;
+  margin-bottom: 25px;
+  background-image: url('/alquilados/public/img/fondo-buscador.jpg');
+  opacity: 0.4;
+  color : #7c410a;
+
 }
