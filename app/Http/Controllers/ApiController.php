@@ -11,9 +11,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Intervention\Image\ImageManagerStatic as Image;
 use GuzzleHttp\Psr7\Response;
-//use Illuminate\Http\Response;
-use GuzzleHttp\Tests\Server;
-use PhpParser\Builder\Function_;
 
 class ApiController extends Controller
 {
@@ -25,6 +22,7 @@ class ApiController extends Controller
 	 * Display a listing of the resource.
 	 *
 	 * @return Response
+     * @param  integer  $id
 	 */
 
      public function create(Request $request, $id = false){
@@ -209,7 +207,7 @@ class ApiController extends Controller
 
         $totalImages = (is_array($images)) ? count($images) : 0;
 
-        $totalImages = $totalImages > 5 ? $totalImages = 5 : $totalImages; 
+        $totalImages = $totalImages > 5 ?  5 : $totalImages; 
 
         if ($totalImages == 0){
 
@@ -527,6 +525,8 @@ class ApiController extends Controller
     
 
     public function deleteImage(Request $request, int $id_ ){
+
+        
       
         $isUserAuth =  Auth::check();
         
@@ -700,6 +700,8 @@ class ApiController extends Controller
     //sepuede pasar dos parametros separados por espacio para tene primero limite y segundo offset
    
     public function getResumeWithImages($limit_ = 1000, $id_ = false){
+
+        
 
         $isUserAuth =  Auth::check();
         

@@ -16,6 +16,8 @@ class Authenticate extends Middleware
     {
         if (! $request->expectsJson()) {
             return route('login');
+        }else{
+            response()->json(['error' => 'Bad credentials'], 406);
         }
     }
 }

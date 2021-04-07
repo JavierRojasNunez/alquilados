@@ -146,9 +146,7 @@ $(document).ready(function(){
             
 
     });
-    
-    
-
+        
     $("#province_rent").change(function(e){
 
         e.preventDefault();
@@ -221,15 +219,15 @@ $(document).ready(function(){
             }
 
             $('.suggest-element').on('click', function(){
-                //Obtenemos la id unica de la sugerencia pulsada
+                
                 var id = $(this).attr('id');
                 var cp = $(this).attr('data-cp'); 
-                //Editamos el valor del input con data de la sugerencia pulsada
+
                 $('#adress_rent').val(id);
                 $('#cp_rent').val(cp);
-                //Hacemos desaparecer el resto de sugerencias
+
                 $('#suggestions').fadeOut(500);
-               // alert('Has seleccionado el '+id+' '+$('#'+id).attr('data'));
+
                 
         });
                 
