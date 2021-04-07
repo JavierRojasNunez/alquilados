@@ -2,30 +2,7 @@
 
 @section('content')
 
-<div class="search-bar" >
-   <div class="row justify-content-center">
-       <div class="col-md-4">
-        <div class="row justify-content-center">
-        uno
-        </div>
-       </div>
-       <div class="col-md-4  text-center">
-        dos
-       </div>
-       <div class="col-md-4">
-        tres
-       </div>
-       <div class="col-md-4">
-        uno
-       </div>
-       <div class="col-md-4">
-        dos
-       </div>
-       <div class="col-md-4">
-        tres
-       </div>
-   </div>
-</div>
+
 
 <div class="container">
     <div class="row justify-content-center">

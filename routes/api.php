@@ -29,12 +29,12 @@ Route::get('/v1/by/{arga}/{argb?}/{argc?}', [App\Http\Controllers\ApiController:
 
 
 Route::group(['prefix' => 'v1/auth'], function () {
+
     Route::post('login',  [App\Http\Controllers\AuthApiController::class, 'login']);
-    Route::post('signup', [App\Http\Controllers\AuthApiController::class, 'signup']);
-    
-    
+    Route::post('signup', [App\Http\Controllers\AuthApiController::class, 'signup']);    
 
     Route::group(['middleware' => 'auth:api'], function() {
+        
         Route::get('logout', [App\Http\Controllers\AuthApiController::class, 'logout']);
         Route::get('user', [App\Http\Controllers\AuthApiController::class, 'user']);
         
@@ -46,6 +46,8 @@ Route::group(['prefix' => 'v1/auth'], function () {
         Route::get('anuncio/{id?}', [App\Http\Controllers\ApiController::class, 'getOne']);
         Route::get('basics/{id?}', [App\Http\Controllers\ApiController::class, 'getBasics']);
         Route::get('by/{arga}/{argb?}/{argc?}', [App\Http\Controllers\ApiController::class, 'getBy']);
-        Route::get('delete-image/{id}', [App\Http\Controllers\ApiController::class, 'deleteImage']);
+        Route::delete('delete-image/{id}', [App\Http\Controllers\ApiController::class, 'deleteImage']);
+        Route::post('upload-images/{id}', [App\Http\Controllers\ApiController::class, 'uploadImage']);
+
     });
 });

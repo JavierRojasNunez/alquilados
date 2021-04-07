@@ -40,35 +40,27 @@ $(document).ready(function(){
 
                 $('#form-images-5').html(`
                 <div class="card">
-    <div class="card-header" >Imagenes</div>
-  
-    <div class="card-body">
-  
-        <div class="form-row">
-  
-      <div class="form-group col-md-12">
-      <div id="progress_bar"></div>
-          <div class="invoiceBox">
-          <label for="foto1">
-            <div class="boxFile" id="boxFile" data-text="Seleccionar archivo">
-            Imagenes
-            </div>
-          </label>
-          
-          <input type="file" id="foto1" name="foto1[]" multiple=""  >
-          <div style="color: red"  id="errorFiles"></div>
-
-          
-          </div>
-          
-        </div>
-  
-        </div>
-    </div>
-  </div>
-  <div style="text-align: center; margin-top:20px">       
-<button  type="submit" id="submit1" class="btn btn-primary" style="width: 50%;text-align:center ">Enviar</button>
-</div>
+                    <div class="card-header" >Imagenes</div>  
+                        <div class="card-body"> 
+                            <div class="form-row"> 
+                            <div class="form-group col-md-12">
+                            <div id="progress_bar"></div>
+                                <div class="invoiceBox">
+                                <label for="foto1">
+                                <div class="boxFile" id="boxFile" data-text="Seleccionar archivo">
+                                Imagenes
+                                </div>
+                                </label>         
+                            <input type="file" id="foto1" name="foto1[]" multiple=""  >
+                            <div style="color: red"  id="errorFiles"></div>         
+                            </div>         
+                            </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div style="text-align: center; margin-top:20px">       
+                    <button  type="submit" id="submit1" class="btn btn-primary" style="width: 50%;text-align:center ">Enviar</button>
+                </div>
                 `);
 
                 //cargamos esdta funcion de nuevo pues cuando se carha el form anterior no esta en el DOM todaia 

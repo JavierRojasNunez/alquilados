@@ -13,6 +13,8 @@ use Intervention\Image\ImageManagerStatic as Image;
 use GuzzleHttp\Psr7\Response;
 //use Illuminate\Http\Response;
 use GuzzleHttp\Tests\Server;
+use PhpParser\Builder\Function_;
+
 class ApiController extends Controller
 {
 
@@ -54,9 +56,6 @@ class ApiController extends Controller
 
         $data = json_decode(file_get_contents($data)); 
         
-        if($id == 'pruebas'){
-
-        }else{
         $userId = $request->user()->id;
 
         $authUserId = Auth::id();
@@ -64,12 +63,12 @@ class ApiController extends Controller
         $userExists = User::where('id', Auth::id())->exists();
 
     
-        if(trim($authUserId) != trim($userId) || !$userExists){
+        if($authUserId != $userId || !$userExists){
 
             return response()->json(['status'=>'Not created or updated. Bad user credentials'], 404);
 
         }
-    }
+    
 
         $dataToBeSaved = isset($data->data[0]) ? $data->data[0] : false ;
 
@@ -243,6 +242,10 @@ class ApiController extends Controller
             ->orientate()
             ->save(   public_path  ('/anounces/' . Auth::id() . '/' .$newName), 90 );
 
+            if(!$img){
+                return response()->json(['error'=>'Server problems, please try again.'], 200);
+            }
+
             $imgs = new Imagen();
             $imgs->user_id =  Auth::id();
             $imgs->anounces_id = $anuncio->id;
@@ -273,6 +276,143 @@ class ApiController extends Controller
         }
 
      }
+
+     public function upLoadImage(Request $request, int $anounce_id){
+
+        $isUserAuth =  Auth::check();
+        
+        if(!$isUserAuth){
+            return response()->json(['status'=> 'Unauthorized.'], 401);
+        }
+
+        if(!$anounce_id || is_integer($anounce_id) == false){
+            return response()->json(['status'=> 'Parameter 1 must to be integer'], 406);
+        }
+
+        $files = $request->allFiles();
+
+        $images = isset($files['images[]']) ? $files['images[]'] : false;
+        
+        if (!$images){
+
+            $image1 = isset($files['image1']) ? $files['image1'] : false;       
+            $image2 = isset($files['image2']) ? $files['image2'] : false;
+            $image3 = isset($files['image3']) ? $files['image3'] : false;
+            $image4 = isset($files['image4']) ? $files['image4'] : false;
+
+            if ($image1){
+                $images[] = $image1;
+            }
+
+            if ($image2){
+                $images[] = $image2;
+            }
+
+            if ($image3){
+                $images[] = $image3;
+            }
+            
+            if ($image4){
+                $images[] = $image4;
+            }
+
+            
+        }
+
+        if (!$images){
+
+            return response()->json(['error'=>'You have to send at least one picture.'], 200);
+
+        }        
+
+        $userId = $request->user()->id;
+
+        $authUserId = Auth::id();
+
+        $userExists = User::where('id', Auth::id())->exists();
+
+        if(trim($authUserId) != trim($userId) || !$userExists ){
+
+            return response()->json(['status'=>'No data found. Bad user credentials'], 401);
+
+        }
+
+        $anounce = Anounces::find($anounce_id);      
+        
+        if($anounce === null || $anounce->user_id != Auth::id() ){
+            return response()->json(['status'=>'Not deleted. No image found'], 204);
+        }  
+
+
+        $numImageBD = Imagen::where('anounces_id', '=', $anounce_id)->count();
+        
+        if($numImageBD >= 5 ){
+
+            return response()->json(['status'=>'No Uploaded file. This ad already has 5 images.', 'numImages' => $numImageBD], 200);
+
+        }
+
+        $totalImages =  count($images);
+
+        $numImagesAllowed =  5 - $numImageBD;
+
+        if ($totalImages > $numImagesAllowed){
+
+            return response()->json(['status'=>"No Uploaded file. This ad already has $numImageBD images. You only can upload  $numImagesAllowed images more."], 200);
+
+        }
+
+        for($i = 0; $i < $totalImages; $i++){
+
+            $mimeType = $images[$i]->getClientMimeType();
+    
+            if ($images[$i]->isValid() && ($mimeType == 'image/png' || $mimeType == 'image/jpg'  || $mimeType == 'image/jpeg'  || $mimeType == 'image/gif') ) 
+            {    
+                
+            $newName = uniqid() . '-' . ($i + 1) . '.' . $images[$i]->extension();
+    
+            $dir = public_path( '/anounces/'. Auth::id() . '/');
+            
+                if (!file_exists($dir)) {
+                    mkdir($dir, 0777, true);
+                }
+    
+    
+               $img = Image::make($images[$i])                       
+                ->fit(800, 600, function ($constraint) {
+                    $constraint->upsize();
+                })
+                ->orientate()
+                ->save( public_path  ('/anounces/' . Auth::id() . '/' .$newName), 90 );
+    
+                if(!$img){
+                    return response()->json(['error'=>'Server problems, please try again.'], 200);
+                }
+
+                $imgs = new Imagen();
+                $imgs->user_id =  Auth::id();
+                $imgs->anounces_id = $anounce_id;
+                $imgs->imageName = $newName;
+                $ok = $imgs->save();
+                
+                if(!$ok){
+                    
+                    return response()->json(['error'=>'Problems whith data base, please try again.'], 200);
+                }
+            
+            }
+            else
+            {
+                return response()->json(['error'=>'No valid file:' . $images[$i]], 200);
+            }
+
+            
+
+        }
+        
+        return response()->json(['ok'=>'Uploaded files'], 200);
+
+    }
 
 	public function getAll()
 	{
@@ -384,6 +524,8 @@ class ApiController extends Controller
 
     }
 
+    
+
     public function deleteImage(Request $request, int $id_ ){
       
         $isUserAuth =  Auth::check();
@@ -404,7 +546,7 @@ class ApiController extends Controller
 
         $userExists = User::where('id', Auth::id())->exists();
 
-        if(trim($authUserId) != trim($userId) || !$userExists || !$id_ || empty($id_)){
+        if($authUserId != $userId || !$userExists ){
 
             return response()->json(['status'=>'Not deleted. Bad user credentials'], 401);
 
@@ -425,13 +567,30 @@ class ApiController extends Controller
 
         if($image->user_id !=  Auth::id()){
             return response()->json(['status'=>'Not deleted. No image found'], 204);
+        }       
+
+        $imageDelete = public_path() . '/anounces/' . Auth::user()->id . '/' . $image->imageName;
+
+        if (file_exists($imageDelete)) {
+
+           $ok = unlink($imageDelete);
+
         }
 
-       if ( !$image->delete() ){
+        if(!$ok){
+
+           return response()->json(['error'=>'Not imagen found in this data, no data deleted'], 200); 
+
+        }
+
+        if(!$image->delete()){
+
             return response()->json(['error'=>'No image deleted. Try again later.'], 200);
-       }
+
+        }
 
         return response()->json(['status'=>'Image deleted.'], 200);
+
     }
 
     public function delete(Request $request, $id_){
