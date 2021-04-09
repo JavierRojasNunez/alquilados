@@ -378,7 +378,20 @@ border-radius: 2px;
   margin-top: 0px !important;
   margin-bottom: 25px;
   background-image: url('/alquilados/public/img/fondo-buscador.jpg');
-  opacity: 0.4;
+ 
   color : #7c410a;
 
+}
+
+.col-md-4.text-center.buscador-a{
+  margin-top: -10px;
+  font-size: 70px;
+  font: weight 900px;
+  color: #f07f16;
+  text-shadow: 1px 1px #7c410a, -1px -1px #7c410a
+}
+.col-md-4.text-center.buscador-c{
+  height: 100px;
+  margin-top: 20px;
+  border: 1px solid
 }

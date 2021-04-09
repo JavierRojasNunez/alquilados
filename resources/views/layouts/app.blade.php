@@ -105,25 +105,23 @@
         <main class="py-4">
             <div class="search-bar" >
                 <div class="row justify-content-center">
-                    <div class="col-md-4">
-                     <div class="row justify-content-center">
-                     uno
-                     </div>
+                    <div class="col-md-4 text-center buscador-a">
+                    Compra               
                     </div>
-                    <div class="col-md-4  text-center">
-                     dos
+                    <div class="col-md-4  text-center buscador-a">
+                     Vende
                     </div>
-                    <div class="col-md-4">
-                     tres
+                    <div class="col-md-4 text-center buscador-a" >
+                     Alquila
                     </div>
-                    <div class="col-md-4">
-                     uno
+                    <div class="col-md-4 text-center buscador-b">
+                     a
                     </div>
-                    <div class="col-md-4">
-                     dos
+                    <div class="col-md-4 text-center buscador-c" >
+                     a
                     </div>
-                    <div class="col-md-4">
-                     tres
+                    <div class="col-md-4 text-center buscador-b">
+                     a
                     </div>
                 </div>
              </div>

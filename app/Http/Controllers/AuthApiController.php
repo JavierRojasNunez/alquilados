@@ -6,12 +6,17 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
+use Exception;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Foundation\Auth\RegistersUsers;
+
 
 class AuthApiController extends Controller
 {
-    
+    use RegistersUsers;
+
+
     private $HttpstatusCode = 201;
 
     public function signup(Request $request)
@@ -39,24 +44,34 @@ class AuthApiController extends Controller
             return response()->json(['error'=>$verify->errors()], 401);            
         }
        
-        $user = new User([
+        /*$user = new User([
+
             'name' => $request->name,
             'email' => $request->email,
             'surname' => 'apiUser',
             'password' => Hash::make($request->password),
-            'email_verified_at' => Carbon::now(),
 
-        ]);
-        
-        
-        if ($user->save()){
+        ]);*/
 
-            return response()->json(['message' => 'Successfully created user! You can login.'], $this->HttpstatusCode);
+        try
+        {
+            $user = User::create([
+                'name' => $request->name,
+                'email' => $request->email,
+                'surname' => 'apiUser',
+                'password' => Hash::make($request->password),
 
-        }else{
+            ])->sendEmailVerificationNotification();
 
-            return response()->json(['message' => 'Not created, Try again!.'], 406);
+        }catch(Exception $e){
+
+            return response()->json(['message' => 'Not created, Problems whith data base, please try again!.'], 406);
+            
         }
+        
+        return response()->json(['message' => 'Successfully created user! You can login After confirm your email.'], $this->HttpstatusCode);
+
+        
             
     }
 
@@ -78,11 +93,20 @@ class AuthApiController extends Controller
 
 
         $credentials = $request->only(['email', 'password']);
+
         if (!Auth::attempt($credentials)) {
             return response()->json([
                 'message' => 'Unauthorized'], 401);
         }
+
+
+        if(Auth::user()->email_verified_at === null){
+            return response()->json([
+                'message' => 'Unauthorized. Yoy must verify your email account'], 401);
+        }
+
         $user = $request->user();
+
         $tokenResult = $user->createToken('Personal Access Token');
         $token = $tokenResult->token;
         if ($request->remember_me) {

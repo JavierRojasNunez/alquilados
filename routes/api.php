@@ -18,6 +18,12 @@ use Illuminate\Support\Facades\Route;
     return $request->user();
 });*/
 
+
+
+
+
+
+
 Route::post('/v1/create/{id?}', [App\Http\Controllers\ApiController::class, 'create']);
 Route::get('/v1/resume/{limit?}/{id?}', [App\Http\Controllers\ApiController::class, 'getResumeWithImages']);
 Route::delete('/v1/eliminar-anuncio/{id}', [App\Http\Controllers\ApiController::class, 'delete']);
@@ -34,6 +40,7 @@ Route::group(['prefix' => 'v1/auth'], function () {
     Route::post('signup', [App\Http\Controllers\AuthApiController::class, 'signup']);    
 
     Route::group(['middleware' => 'auth:api'], function() {
+        
         
         Route::get('logout', [App\Http\Controllers\AuthApiController::class, 'logout']);
         Route::get('user', [App\Http\Controllers\AuthApiController::class, 'user']);
