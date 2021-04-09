@@ -21,6 +21,7 @@ class AnuncioController extends Controller
     }
 
 
+
 	public function create($type){
 
         
