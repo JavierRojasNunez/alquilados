@@ -72,8 +72,8 @@ if(!$anounce_id ){
                   @foreach($images_ as $value)
                   
                     <div class="col-md-4" id="image{{$value->id}}">
-                      <img  width="100%" src="../../anounces/{{$value->user_id}}/{{$value->imageName}}" alt="Card image cap">
-                  
+                      
+                      <img  width="100%" style="margin-bottom: 25px" src="{{ route('image.file', ['id'=> $value->user_id, 'filename'=> $value->imageName ]) }}" title="Editar imagenes"  alt="editar imagenes"> 
                       <div class="card-body" style="min-height: 100px">
                         <a href="{{ route('delete.image',['id' => $value->id, 'anounce_id' => $value->anounces_id  ]) }}" class="image_delete" data-anounce="{{$anounce_id}}" value="{{$value->id}}">
                         <h5 class="card-title">Eliminar</h5>

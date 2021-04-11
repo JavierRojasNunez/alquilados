@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Anounces;
+use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 
 class HomeController extends Controller
 {
@@ -20,58 +22,45 @@ class HomeController extends Controller
      */
     public function index()
     {
-   
-
         $anuncios = Anounces::paginate(10)->onEachSide(0);
 
-        $selections = Anounces::select('*')
-        
+        $selections = Anounces::select('*')       
         ->limit(4)
         ->orderByDesc('id')
         ->get();
 
+        if($anuncios == null || $selections == null){
+            return view('errors.404');
+        } 
 
         return view('home', [           
             'anuncios' => $anuncios,
             'selections' => $selections,
         ]);
-
-       /* $imagenes = DB::table('images')
-
-            ->groupBy('anounces_id')
-            ->get();
-            dd($imagenes);  */ 
-
-  
-        /*$anuncios = DB::table('anounces')
-        ->leftJoin('images', 'anounces.id', '=', 'images.anounces_id')
-        ->groupBy('images.anounces_id')
-        ->get();*/
-
-       /* $imagenes = DB::table('images')
-        ->leftJoin('anounces', 'images.anounces_id', '=', 'anounces.id')
-        ->groupBy('images.anounces_id')
-        ->get();*/
-
-
-        
+      
         
     }
 
-    public function detail($anounce_id){
+    public function detail(Anounces $anounce){
 
-        $anuncio = Anounces::where('id', '=', $anounce_id)->first();
+        
+
+        /*$anuncio = Anounces::where('id', '=', $anounce->id)->first();*/
+        
         $selections = Anounces::select('*')
         ->limit(4)
         ->orderByDesc('id')
         ->get();
 
+        if($anounce == null || $selections == null){
+            return view('errors.404');
+        }       
+
         return view('anuncios.detail', [           
-            'anuncio' => $anuncio,
+            'anuncio' => $anounce,
             'selections' => $selections,
         ]);
 
-       // dd($anuncio);
 
     }
 

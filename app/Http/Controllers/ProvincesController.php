@@ -9,6 +9,7 @@ class ProvincesController extends Controller
     public static function getProvinces(){
 
         $provincias = Provinces::all();
+
         return $provincias;
 
     }

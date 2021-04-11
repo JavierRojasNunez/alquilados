@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Response;
 use Illuminate\Http\Request;
 use Intervention\Image\ImageManagerStatic as Image;
-
+use Illuminate\Support\Facades\Storage;
 
 class ImagenController extends Controller
 {
@@ -21,13 +21,10 @@ class ImagenController extends Controller
             $anounceId = false;
             return redirect()->route('home'); 
         }else{
-            //$anuncio = Imagen::where('anounces_id', '=', $anounceId)->get()->all();  
-            //$anuncio = Imagen::select(['imageName', 'user_id'])->where('anounces_id', '=', $anounceId)->get();  
+
             $imagenes = Imagen::all()->where('anounces_id', '=', $anounceId)->where('user_id', '=', Auth::user()->id);  
             $numImages = Imagen::where('anounces_id', '=', $anounceId)->count();
-            //$numImages = count($imagenes);
-            //$anuncio = Imagen::find($id);                         
-                   
+
         }               
 
         if ( Auth::user() && $imagenes ){
@@ -45,7 +42,9 @@ class ImagenController extends Controller
 
     public function getImage($id, $filename){
            
-        $file = public_path('anounces/' . $id . '/' .$filename);            
+        
+        //$file = public_path('anounces/' . $id . '/' .$filename);
+        $file = Storage::disk('images')->get('anuncios/'. $id . '/' .  $filename);
         return new Response($file, 200);
                   
 	}
@@ -70,35 +69,36 @@ class ImagenController extends Controller
       $numImagesAllow = ($maxImages - $numImages_baseDatos);
 
      
-      if($numImages_form > $numImagesAllow){
+        if($numImages_form > $numImagesAllow){
             $plural = ($numImagesAllow == 1) ? 'imagen' : 'imagenes';
-        $mensaje_ ="Upss! No se subieron las imagenes, solo puedes subir $numImagesAllow $plural mas.";
-        $succes = 'errores_';
-        return redirect()->route('edit.images', ['id' => $anounce_id, 'type' => $type])->with([$succes => $mensaje_]); 
-      }
+            $mensaje_ ="Upss! No se subieron las imagenes, solo puedes subir $numImagesAllow $plural mas.";
+            $succes = 'errores_';
+            return redirect()->route('edit.images', ['id' => $anounce_id, 'type' => $type])->with([$succes => $mensaje_]); 
+        }
 
       
         
       
-      $anuncio = Anounces::find($anounce_id);
+        $anuncio = Anounces::findOrFail($anounce_id);
       
-      if (!$request->isMethod('post') && Auth::user()->id !==  $anuncio->user_id) 
-      {
-        $mensaje_ = 'Upss! Lo sentimos hubo algun error durante el proceso. Intentelo de nuevo.';
-        $succes = 'errores_';
-        return redirect()->route('edit.images', ['id' => $anounce_id, 'type' => $type])->with([$succes => $mensaje_]); 
-      }
+        if (!$request->isMethod('post') || Auth::user()->id !==  $anuncio->user_id) 
+        {
+            $mensaje_ = 'Upss! Lo sentimos hubo algun error durante el proceso. Intentelo de nuevo.';
+            $succes = 'errores_';
+            return redirect()->route('edit.images', ['id' => $anounce_id, 'type' => $type])->with([$succes => $mensaje_]); 
+        }
       
         
         $files = $request->file('foto1');
-        $dir = public_path( '/anounces/' .Auth::user()->id . '/');
-        if (!file_exists($dir)) {
-            mkdir($dir, 0777, true);
-        }
+
+        $dir = 'anuncios/' . Auth::user()->id;
+        Storage::disk('images')->makeDirectory($dir);
+
 
         //vamos a fijar a cuatro las imagenes que se puedan subir si o si
-        $totalImages = count($files);
-        //$totalImages = 4;
+        $totalImages = (is_array($files) || is_object($files)) 
+        ? count($files) 
+        : 0 ;
 
         for($i = 0; $i < $totalImages; $i++){
 
@@ -107,22 +107,18 @@ class ImagenController extends Controller
 
             if ($files[$i]->isValid() && ($mimeType == 'image/png' || $mimeType == 'image/jpg'  || $mimeType == 'image/jpeg'  || $mimeType == 'image/gif') ) {
                 
-                $newName = uniqid() . '-' . ($i + 1) . '.' . $files[$i]->extension();
+                $newName = uniqid() . '-' . rand(0,10000000) . '-' .($i + 1) . '.' . $files[$i]->extension();
                 
                 $img = Image::make($files[$i])                       
                 ->fit(800, 600, function ($constraint) {
                     $constraint->upsize();
                 })
                 ->orientate()
-                ->save(   public_path  ('/anounces/' . Auth::user()->id . '/' .$newName), 90 );
-                /*
-                ->resize(650, 650, function ($constraint) {
-                    $constraint->aspectRatio();
-                    $constraint->upsize();
-                })
-                ->orientate()
-                ->save(   public_path  ('/anounces/' . Auth::user()->id . '/' .$newName), 90 ); 
-                */
+                ->stream();
+
+                $finalName = $dir . '/' . $newName;
+
+                Storage::disk('images')->put($finalName, $img );
                 
                 $images = new Imagen();
                 $images->user_id = Auth::user()->id;
@@ -163,34 +159,38 @@ class ImagenController extends Controller
        
         $response = 0;
         $imagen = Imagen::findOrFail($image_id);
-        $user_id = Auth::user()->id;
         
         //obtenemos numero imagenes y no dejamos eliminar si solo tiene una
         $numImages = Imagen::where('anounces_id', '=', $anounce_id)->count();
         
         if( $numImages > 1 ){
         
-            if (Auth::user()->id === $user_id && $imagen){
+            if (Auth::id() === $imagen->user_id){
 
                 
                 if ($imagen->delete()){
 
-                    $imageDelete = public_path() . '/anounces/' . Auth::user()->id . '/' . $imagen->imageName;
-                    if (file_exists($imageDelete)) {
-                        $ok = unlink($imageDelete);
-                    }
-                
+
+
+                    $ok = Storage::disk('images')->delete('anuncios/'. Auth::id() . '/' .  $imagen->imageName);
+
                     if($ok){
+
                         $response = 1; 
+
                     }else{
+
                         $response = 0;
+
                     }
                     
                 }else{
+
                     $response = 0;
                 }
 
             }else{
+
                 $response = 0;
             }
 

@@ -11,9 +11,11 @@
         
         @foreach ($anuncio->imagen as  $imagenes)
         <div class="col-4"  >   
-            <a data-fancybox="gallery" id="galeria" href="../anounces/{{$anuncio->user_id}}/{{$imagenes->imageName}}" title="{{$anuncio->titulo}}">          
-            <img  width="100%" style="margin-bottom: 25px" src="../anounces/{{$anuncio->user_id}}/{{$imagenes->imageName}}" title="{{$anuncio->titulo}}"  alt="{{$anuncio->titulo}}">
-            </a>
+            <a data-fancybox="gallery" id="galeria" href="{{ route('image.file', ['id'=> $anuncio->user_id, 'filename'=> $imagenes->imageName ]) }}" title="{{$anuncio->titulo}}">          
+           
+            <img  width="100%" style="margin-bottom: 25px" src="{{ route('image.file', ['id'=> $anuncio->user_id, 'filename'=> $imagenes->imageName ]) }}" title="{{$anuncio->titulo}}"  alt="{{$anuncio->titulo}}"> 
+            
+        </a>
         </div>            
         @endforeach   
     

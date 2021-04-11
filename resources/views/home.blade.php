@@ -64,7 +64,7 @@
                             ?>
                               <div class="carousel-item {{$active}} {{$anuncio->id}}"   data-current-photo = {{$i}}>
                                 
-                                 <img  width="100%" src="anounces/{{$anuncio->user_id}}/{{$imagenes->imageName}}" title="{{$anuncio->titulo}}"  alt="{{$anuncio->titulo}}">
+                                <img  width="100%" src="{{ route('image.file', ['id'=> $anuncio->user_id, 'filename'=> $imagenes->imageName ]) }}" title="{{$anuncio->titulo}}"  alt="{{$anuncio->titulo}}">
                                 
                             </div>
                             <?php   $i++ ?>
@@ -83,8 +83,8 @@
                             </a>
                           </div>
                         </div>
-                        <br>
-                        <img  width="100%" src="anounces/{{$anuncio->user_id}}/{{$imagenes->imageName ?? ''}}" title="{{$anuncio->titulo}}"  alt="{{$anuncio->titulo}}">
+                        
+                        <img  width="100%" src="{{ url('images/'.$anuncio->user_id . '/' . $imagenes->imageName ) }}" title="{{$anuncio->titulo}}" >
                       
 
                         
@@ -100,7 +100,7 @@
                             $tipo_ = 'alquilado';
                         }
                         ?>
-                    <a href="{{ route('detail.anounce',['anounce_id' => $anuncio->id ]) }}">
+                    <a href="{{ route('detail.anounce',['anounce' => $anuncio->id ]) }}">
                     <div class="data-1">
                     <span class="price">{{$anuncio->price}} € </span> <span class="city">{{$anuncio->city_rent}}</span>
                     </div>
@@ -180,7 +180,7 @@
     <div class="col-md-3">
     <div class="card-deck">
         <div class="card">
-          <img class="card-img-top" src="anounces/{{$anuncio->user_id}}/{{$anounceImage ?? '' }}" title="{{$anuncio->titulo}}"  alt="{{$anuncio->titulo}}" alt="Card image cap">
+          <img  width="100%" src="{{ route('image.file', ['id'=> $anuncio->user_id, 'filename'=> $anounceImage ]) }}" title="{{$anuncio->titulo}}"  alt="{{$anuncio->titulo}}">
           <div class="card-body">
             <div class="data-1-small">
                 <span class="price">{{$anuncio->price}} € </span> <span class="city-small">{{$anuncio->city_rent}}</span>

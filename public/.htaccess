@@ -4,7 +4,12 @@
     </IfModule>
 
     RewriteEngine On
-   # RewriteBase /alquilados/
+
+    #RewriteCond %{SERVER_PORT} !=443
+    #RewriteRule ^(.*)$ https://azimutweb.es/alquilados/public/index.php/$1 [R=301,L]
+
+
+    # RewriteBase /alquilados/
     # Handle Authorization Header
     RewriteCond %{HTTP:Authorization} .
     RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]

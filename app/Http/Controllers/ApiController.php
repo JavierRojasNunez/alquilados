@@ -11,6 +11,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Intervention\Image\ImageManagerStatic as Image;
 use GuzzleHttp\Psr7\Response;
+use Illuminate\Support\Facades\Storage;
 
 class ApiController extends Controller
 {
@@ -205,7 +206,7 @@ class ApiController extends Controller
 
         }
 
-        $totalImages = (is_array($images)) ? count($images) : 0;
+        $totalImages = (is_array($images) || is_object($images)) ? count($images) : 0;
 
         $totalImages = $totalImages > 5 ?  5 : $totalImages; 
 
@@ -216,6 +217,8 @@ class ApiController extends Controller
         }
 
         
+        $dir = 'anuncios/' . Auth::user()->id;
+        Storage::disk('images')->makeDirectory($dir);
 
         for($i = 0; $i < $totalImages; $i++){
 
@@ -224,21 +227,18 @@ class ApiController extends Controller
         if ($images[$i]->isValid() && ($mimeType == 'image/png' || $mimeType == 'image/jpg'  || $mimeType == 'image/jpeg'  || $mimeType == 'image/gif') ) 
         {    
             
-        $newName = uniqid() . '-' . ($i + 1) . '.' . $images[$i]->extension();
-
-        $dir = public_path( '/anounces/'. Auth::id() . '/');
-        
-            if (!file_exists($dir)) {
-                mkdir($dir, 0777, true);
-            }
-
+           $newName = uniqid() . '-' . rand(0,10000000) . '-' .($i + 1) . '.' . $images[$i]->extension();
 
            $img = Image::make($images[$i])                       
             ->fit(800, 600, function ($constraint) {
                 $constraint->upsize();
             })
             ->orientate()
-            ->save(   public_path  ('/anounces/' . Auth::id() . '/' .$newName), 90 );
+            ->stream();
+
+            $finalName = $dir . '/' . $newName;
+
+            Storage::disk('images')->put($finalName, $img );
 
             if(!$img){
                 return response()->json(['error'=>'Server problems, please try again.'], 200);
@@ -668,7 +668,7 @@ class ApiController extends Controller
             return response()->json(['status'=> 'Unauthorized.'], 401);
         }
 
-        $data = [];
+        
 
         if ( !is_numeric($id_) && $id_  ){
             return response()->json(['error'=>'Parameters must to be integer'], 406);   
@@ -685,12 +685,9 @@ class ApiController extends Controller
            ->paginate(10); 
         }
 
-        $numData = count($data);
-        if($numData < 1){
-
+        if($data == null){
             return response()->json(['status'=>'No data found'], 200);   
-                
-        }
+        }        
 
         return response()->json(['status'=>'Data found','data'=> $data], $this->HttpstatusCode);
 
@@ -740,8 +737,7 @@ class ApiController extends Controller
         }
 
 
-        $dataAnounce = [];
-        $data = [];     
+        $dataAnounce = [];   
 
         
         $dataAnounce = DB::table('anounces')
@@ -758,28 +754,13 @@ class ApiController extends Controller
 
         if ($limit) $dataAnounce = $dataAnounce->limit($limit);
         
-         $dataAnounce = $dataAnounce->get();                          
+        $dataAnounce = $dataAnounce->get();   
+         
+        if($dataAnounce == null){
+            return response()->json(['status'=>'No data found'], 200);   
+        } 
 
-        $totalResults = count($dataAnounce);
-
-
-
-        
-       /* foreach ( $dataAnounce as  $anounce ){
-
-            $anounce->imagen; 
-            $imageUrl = $_SERVER['HTTP_HOST'] . '/public/' . $anounce->user_id . '/' ;
-            $anounce->image_url = $imageUrl;
-            unset ($anounce->user_id);
-        }  */
-
-
-        if ($totalResults < 1){
-            
-
-            return response()->json(['status'=>'No data found'], $this->HttpstatusCode);
-            
-        }  
+        $totalResults = count($dataAnounce);  
         
         $url = $_SERVER['HTTP_HOST'];
 
@@ -892,13 +873,9 @@ class ApiController extends Controller
            
                 $dataAnounce = Anounces::where($arga, '=', $argb)->paginate(10);
 
-                if ( is_object($dataAnounce) ){
-                    $numAdds = count($dataAnounce);
-                }else{
-                    $numAdds = 0;
-                }
                 
-                if ( $numAdds == 0 ){
+                
+                if ( $dataAnounce == null ){
 
                     return response()->json(['status'=>'No data found'], 200);
                     
@@ -930,6 +907,12 @@ class ApiController extends Controller
                 
                 $dataAnounce = Anounces::whereBetween('price', [(float)$argb, (float)$argc])->paginate(10);
 
+                if ( $dataAnounce == null ){
+
+                    return response()->json(['status'=>'No data found'], 200);
+                    
+                }  
+
                 foreach ($dataAnounce as $anounce){
 
                    $anounce->imagen; 
@@ -945,18 +928,7 @@ class ApiController extends Controller
                 
             }
             
-            if ( is_array($dataAnounce) || is_object($dataAnounce) ){
-                $numAdds = count($dataAnounce);
-            }else{
-                $numAdds = 0;
-            }
-
-            
-            if ( $numAdds == 0 ){
-
-                return response()->json(['status'=>'No data found'], $this->HttpstatusCode);
-                
-            }  
+             
                     
             return response()->json(['status'=>'Data found' ,'anuncio'=>$dataAnounce], $this->HttpstatusCode);
             

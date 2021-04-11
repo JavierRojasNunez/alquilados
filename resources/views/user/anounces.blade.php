@@ -4,7 +4,7 @@
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
-        <h1>Tus anuncios publicadosss.</h1>
+        <h1>Tus anuncios publicados.</h1>
         </div>
 
         <div class="col-md-8">
@@ -45,8 +45,8 @@
                     <div class="row">
                     <div class="col-md-4">              
                         
-                   
-                        <img  width="100%" src="../anounces/{{$anuncio->user_id}}/{{$anounceImage}}" alt="Card image cap">
+                        <img  width="100%" style="margin-bottom: 25px" src="{{ route('image.file', ['id'=> $anuncio->user_id, 'filename'=> $anounceImage ]) }}" title="{{$anuncio->titulo}}"  alt="{{$anuncio->titulo}}"> 
+                        
                      
                 </div> 
                     <div class="col-md-8">

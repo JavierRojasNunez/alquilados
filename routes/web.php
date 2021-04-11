@@ -23,19 +23,22 @@ Auth::routes(['verify' => true]);
 Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 //Route::post('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 Route::get('/confirmation', [App\Http\Controllers\HomeController::class, 'redirectRegister']);
+
+
+
 //anuncios
 //Route::get('/nuevo-anuncio', [App\Http\Controllers\AnuncioController::class, 'create'])->name('create.anounce');
 Route::get('/nuevo-anuncio/{type?}', [App\Http\Controllers\AnuncioController::class, 'create'])->name('create.anounce')->middleware(['auth', 'verified' ]);
-Route::post('/publicar', [App\Http\Controllers\AnuncioController::class, 'save'])->name('save.anounce')->middleware(['auth', 'verified' ]);
+Route::post('/publicar', [App\Http\Controllers\saveAdController::class, 'save'])->name('save.anounce')->middleware(['auth', 'verified' ]);
 Route::get('/mis-anuncios', [App\Http\Controllers\AnuncioController::class, 'getAnounces'])->name('my.anounce')->middleware(['auth', 'verified' ]);
-Route::get('/editar-anuncio/{id}/{type?}', [App\Http\Controllers\AnuncioController::class, 'edit'])->name('edit.anounce')->middleware(['auth', 'verified' ]);
+Route::get('/editar/anuncio/{id}/{type}', [App\Http\Controllers\AnuncioController::class, 'edit'])->name('edit.anounce')->middleware(['auth', 'verified' ]);
 Route::get('/eliminar-anuncio/{id}', [App\Http\Controllers\AnuncioController::class, 'delete'])->name('delete.anounce')->middleware(['auth', 'verified' ]);
-Route::get('/detalles/{anounce_id}', [App\Http\Controllers\HomeController::class, 'detail'])->name('detail.anounce');
+Route::get('/detalles/{anounce}', [App\Http\Controllers\HomeController::class, 'detail'])->name('detail.anounce');
 
 // imagenes de los anuncios
 Route::get('/eliminar-imagenes/{id}/{anounce_id}', [App\Http\Controllers\ImagenController::class, 'deleteImage'])->name('delete.image')->middleware(['auth', 'verified']);
 Route::get('/editar-imagenes/{id}/{type?}', [App\Http\Controllers\ImagenController::class, 'editImages'])->name('edit.images')->middleware(['auth', 'verified']);
-Route::get('/anounces/{id?}/{filename?}',  [App\Http\Controllers\ImagenController::class, 'getImage'])->name('image.file');
+Route::get('/images/{id}/{filename}',  [App\Http\Controllers\ImagenController::class, 'getImage'])->name('image.file');
 Route::post('/guardar/imagenes', [App\Http\Controllers\ImagenController::class, 'saveImages'])->name('save.images')->middleware(['auth', 'verified']);
 //ciudades y provincias
 Route::get('/cities/{city_id}', [App\Http\Controllers\CitiesController::class, 'getCities']);
