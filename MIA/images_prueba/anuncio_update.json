@@ -1,8 +1,9 @@
 {
-    "verb": "POST",
+    "verb": "PUT",
     "data":
         {
-            "type_rent": "Piso",
+            "test": "test",
+            "type_rent": "Masía",
             "price": 1000,
             "min_time_ocupation": null,
             "payment_period": "alquiler mensual",

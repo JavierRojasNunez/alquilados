@@ -46,8 +46,8 @@ Route::group(['prefix' => 'v1/auth'], function () {
         Route::get('user', [App\Http\Controllers\AuthApiController::class, 'user']);
         
         Route::get('resume/{limit?}/{id?}', [App\Http\Controllers\ApiController::class, 'getResumeWithImages']);
-        Route::post('create/{id?}', [App\Http\Controllers\ApiController::class, 'create']);
-        Route::post('update/{id?}', [App\Http\Controllers\ApiController::class, 'create']);
+        Route::post('create', [App\Http\Controllers\ApiController::class, 'create']);
+        Route::post('update', [App\Http\Controllers\ApiController::class, 'create']);
         Route::delete('eliminar-anuncio/{id}', [App\Http\Controllers\ApiController::class, 'delete']);        
         Route::get('anuncios', [App\Http\Controllers\ApiController::class, 'getAll']);
         Route::get('anuncio/{id?}', [App\Http\Controllers\ApiController::class, 'getOne']);

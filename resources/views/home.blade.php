@@ -166,8 +166,9 @@
         if( !empty($anuncio->imagen)){
                        
             $img = $anuncio->imagen;
+            //dd($img[0]->imageName);
 
-            $anounceImage = $img[0]->imageName;       
+            $anounceImage = isset($img[0]->imageName) ? $img[0]->imageName : '' ;       
                 
         }else{
 

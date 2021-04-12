@@ -14,6 +14,7 @@ class saveAdController extends Controller
 {
     public function save( Request $request ){
         
+        
         $anuncio = new Anounces();
     
         $countAnounces = Anounces::where('user_id', Auth::id())->count();
