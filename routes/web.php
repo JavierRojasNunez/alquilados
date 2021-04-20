@@ -23,8 +23,9 @@ Auth::routes(['verify' => true]);
 Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 //Route::post('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 Route::get('/confirmation', [App\Http\Controllers\HomeController::class, 'redirectRegister']);
-
-
+Route::get('/weather/{lat}/{lon}', [App\Http\Controllers\WeatherController::class, 'getWeather']);
+Route::post('/search', [App\Http\Controllers\SearchController::class, 'search']);
+Route::get('/search', [App\Http\Controllers\SearchController::class, 'search']);
 
 //anuncios
 //Route::get('/nuevo-anuncio', [App\Http\Controllers\AnuncioController::class, 'create'])->name('create.anounce');

@@ -1,3 +1,39 @@
+
+if(navigator.geolocation){
+    var url = 'http://localhost/alquilados/public';
+    //intentamos obtener las coordenadas del usuario
+    navigator.geolocation.getCurrentPosition(function(objPosicion){
+        //almacenamos en variables la longitud y latitud
+        var iLongitud = objPosicion.coords.longitude;
+        var iLatitud = objPosicion.coords.latitude;
+        
+        //marcamos caducidad
+        let date = new Date();
+        date.setTime(date.getTime() + 30 * 24 * 60 * 60 * 1000);//30 dias
+        
+
+        //peticion ajax para que sea php quien gestione la geolocalizaciony genere las cookies y asi no mostrar la key de openweathermaps
+        //y tambien que sea laravel quien gestione las cookies
+
+        if (iLongitud != '' && iLatitud != '')
+        {
+            $.ajax({
+
+                url: url + '/weather/'+  iLatitud + '/' +  iLongitud, 
+
+                success: function( result ){
+
+                }
+            });
+        }
+
+        //document.cookie = "lat=" + iLatitud + expires +  ";  SameSite=Lax ; path=/";
+        //document.cookie = "lng=" + iLongitud+ expires +  ";  SameSite=Lax ; path=/";
+        
+    });
+    
+    }  
+
 $(document).ready(function(){
 
     var url = 'http://localhost/alquilados/public';   
@@ -142,7 +178,8 @@ $(document).ready(function(){
                 $('#imageModal-error').modal('show');
             }
             
-            }});
+            }
+        });
             
 
     });
@@ -385,3 +422,5 @@ $(document).ready(function(){
             $(".carousel-control-prev."+anounce_id).show();
         }
     }
+
+      

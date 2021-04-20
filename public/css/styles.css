@@ -1,10 +1,13 @@
 .py-4{
   margin-top: 27px !important;
-  
+
 }
 body{
   background-color: rgba(230, 225, 225, 0.671);
 }
+
+
+
 a{
   color: #152c42;
 }
@@ -54,10 +57,10 @@ a:hover{
 
   .tituloPrincipal{
     margin-top: 20px;
-    text-align: left;    
+    text-align: left;
     margin-bottom: 0px !important;
     font-size: 8px!important;
-    
+
   }
   .tituloPrincipal-menu h5{
     margin-top: 20px;
@@ -69,13 +72,13 @@ a:hover{
     margin-top: 20px;
     padding: 8px;
     text-align: center;
-    
+
   }
 
   #imageModal{
     text-align: center;
     background-color: rgba(5, 5, 5, 0.685) !important;
-    
+
     color: green;
   }
 
@@ -99,7 +102,7 @@ a:hover{
     margin-left: .25rem;
     margin-right: .25rem;
   }
-  
+
   .pagination li .page-link {
     border-radius: .25rem;
     border: none;
@@ -107,7 +110,7 @@ a:hover{
     text-align: center;
     color: #4f5464;
   }
-  
+
   .pagination li.active .page-link,
   .pagination li .page-link:hover {
     background-color: #24394e;
@@ -122,7 +125,7 @@ a:hover{
     z-index: 9999;
     width: 350px;
 }
- 
+
 #suggestions .suggest-element {
     background-color: #EEEEEE;
     border-top: 1px solid #d6d4d4;
@@ -131,7 +134,7 @@ a:hover{
     width: 100%;
     float: left;
 }
-.meter { 
+.meter {
   height: 5px;
   position: relative;
   background: #f3efe6;
@@ -147,9 +150,9 @@ a:hover{
 .progress {
   background-color: #a1a09d;
   -webkit-animation: progressBar 10s ease-in-out;
-  -webkit-animation-fill-mode:both; 
+  -webkit-animation-fill-mode:both;
   -moz-animation: progressBar 10s ease-in-out;
-  -moz-animation-fill-mode:both; 
+  -moz-animation-fill-mode:both;
 }
 
 @-webkit-keyframes progressBar {
@@ -217,10 +220,10 @@ input:checked + .slide:before {
 }
 
 .data-1{
-  
+
   font-size: x-large;
 }
-.price{ 
+.price{
   color: #f18520;
   font-weight: bolder;
 
@@ -251,7 +254,7 @@ input:checked + .slide:before {
   text-align: center !important;
   display:inline-flex;
   margin-bottom: 10px;
-  
+
 }
 
 .icons{
@@ -372,26 +375,81 @@ border-radius: 2px;
   font-size: large;
 }
 
-.search-bar{
 
-  height: 250px;
-  margin-top: 0px !important;
-  margin-bottom: 25px;
-  background-image: url('/alquilados/public/img/fondo-buscador.jpg');
- 
-  color : #7c410a;
+
+@media screen and (min-width:0px) {
+
+    .search-bar {
+        width: 100%;
+        height: 250px;
+        margin-top: 0px !important;
+        margin-bottom: 25px;
+        color : #7c410a;
+    }
+    .col-md-4.text-center.buscador-a{
+        margin-top: -10px;
+        font-size: 18px;
+        font: weight 900px;
+        color: #f07f16;
+        text-shadow: 1px 1px #7c410a, -1px -1px #7c410a
+      }
+      .col-md-4.text-center.buscador-c{
+        height: 100px;
+        margin-top: 20px;
+        border: 1px solid
+      }
 
 }
+@media screen and (min-width:1001px) {
+    .search-bar {
+        width: 100%;
+        height: 250px;
+        margin-top: 0px !important;
+        margin-bottom: 25px;
+        color : #7c410a;
+    }
+    .col-md-4.text-center.buscador-a{
+        margin-top: -10px;
+        font-size: 18px;
+        font: weight 900px;
+        color: #f07f16;
+        text-shadow: 1px 1px #7c410a, -1px -1px #7c410a
+      }
+      .col-md-4.text-center.buscador-c{
+        height: 100px;
+        margin-top: 20px;
+        border: 1px solid
+      }
+  }
 
-.col-md-4.text-center.buscador-a{
-  margin-top: -10px;
-  font-size: 70px;
-  font: weight 900px;
-  color: #f07f16;
-  text-shadow: 1px 1px #7c410a, -1px -1px #7c410a
-}
-.col-md-4.text-center.buscador-c{
-  height: 100px;
-  margin-top: 20px;
-  border: 1px solid
-}
+  @media screen and (min-width:1201px) {
+    .search-bar {
+        width: 100%;
+        background-image: url('/alquilados/public/img/fondo-buscador.jpg');
+        height: 250px;
+        margin-top: 0px !important;
+        margin-bottom: 25px;
+        color : #7c410a;
+    }
+
+    .col-md-4.text-center.buscador-a{
+        margin-top: -10px;
+        font-size: 70px;
+        font: weight 900px;
+        color: #f07f16;
+        text-shadow: 1px 1px #7c410a, -1px -1px #7c410a
+    }
+    .col-md-4.text-center.buscador-c{
+        height: 100px;
+        margin-top: 20px;
+        border: 1px solid
+    }
+  }
+
+  .alert.alert-danger, .alert.alert-success{
+    
+    font-size: larger;
+  }
+
+
+

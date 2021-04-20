@@ -13,16 +13,8 @@
         </div>
         
         <div class="col-md-10">
-        <h1>Últimos anuncios.</h1>
+        <h1>Resultados de la busqueda.</h1>
         <br>
-        @if(isset($registro_ok))
-            <div class="alert alert-success">
-                {{$registro_ok}}
-                @php
-                $registro_ok = false; 
-                @endphp
-            </div>
-        @endif
         </div>
        
         @foreach ($anuncios as $anuncio)
@@ -153,33 +145,18 @@
 </div>   
     <div class="col-md-12" style="clear: both" >
            
-        <h1>Últimos anuncios {{ $geoCity }}</h1>
+        <h1>Otros usuarios tambien buscaron... {{ $geoCity }}</h1>
         <br>
     <div class="row">
 
         
     @foreach ($selections as $anuncio)
 
-    <?php     
-
-
-        if(! empty($anuncio->imagen)){
-                       
-            $img = $anuncio->imagen;
-            $anounceImage = isset($img[0]->imageName) ? $img[0]->imageName : 'no-imagen.jpg' ;       
-                
-        }else{
-
-            $anounceImage = 'no-imagen.jpg';
-                    
-        } 
-        
-    ?>
 
     <div class="col-md-3">
     <div class="card-deck">
         <div class="card">
-          <img  width="100%" src="{{ route('image.file', ['id'=> $anuncio->user_id, 'filename'=> $anounceImage ]) }}" title="{{$anuncio->titulo}}"  alt="{{$anuncio->titulo}}">
+          <img  width="100%" src="{{ route('image.file', ['id'=> $anuncio->user_id, 'filename'=> $anuncio->imageName ]) }}" title="{{$anuncio->titulo}}"  alt="{{$anuncio->titulo}}">
           <div class="card-body">
             <div class="data-1-small">
                 <span class="price">{{$anuncio->price}} € </span> <span class="city-small">{{$anuncio->city_rent}}</span>

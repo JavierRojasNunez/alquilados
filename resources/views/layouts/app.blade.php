@@ -114,14 +114,80 @@
                     <div class="col-md-4 text-center buscador-a" >
                      Alquila
                     </div>
-                    <div class="col-md-4 text-center buscador-b">
-                     a
+                    <div class="col-md-2 text-center buscador-b">
+                     
                     </div>
-                    <div class="col-md-4 text-center buscador-c" >
-                     a
+                    <div class="col-md-8 text-center buscador-c" >
+                        <form>
+                            <div class="row justify-content-center" >
+                                
+                              <div class="col- md 3"style="padding: 4px">
+                                <label class="mr-sm-2 sr-only" for="inlineFormCustomSelect">Precio</label>
+                                <select class="custom-select mr-sm-2" id="inlineFormCustomSelect">
+                                  <option selected>Precio</option>
+                                  <option value="1">menos de 80.000€</option>
+                                  <option value="2">80.000€ a 200.000</option>
+                                  <option value="3">mas de 200.000€ </option>
+                                </select>
+                              </div>
+                             
+                              <div class="col- md 3"style="padding: 4px">
+                                <label class="mr-sm-2 sr-only" for="inlineFormCustomSelect">Caracteristicas</label>
+                                <select class="custom-select mr-sm-2" id="inlineFormCustomSelect">
+                                  <option selected>Caracteristicas</option>
+                                  <option value="1">Amueblado</option>
+                                  <option value="2">Piscina</option>
+                                  <option value="3">Fumador</option>
+                                  <option value="3">Si mascotas</option>
+                                </select>
+                              </div>
+                              
+                              <div class="col- md 3"style="padding: 4px">
+                                <label class="mr-sm-2 sr-only" for="inlineFormCustomSelect">Habitaciones</label>
+                                <select class="custom-select mr-sm-2" id="inlineFormCustomSelect">
+                                  <option selected>Habitaciones</option>
+                                  <option value="1">1</option>
+                                  <option value="2">2</option>
+                                  <option value="3">3</option>
+                                  <option value="4">4</option>
+                                  <option value="5">5</option>
+                                  <option value="6">6</option>
+                                </select>
+                              </div>
+                              
+                              <div class="col- md 3"style="padding: 4px">
+                                <label class="mr-sm-2 sr-only" for="inlineFormCustomSelect">Habitaciones</label>
+                                <select class="custom-select mr-sm-2" id="inlineFormCustomSelect">
+                                  <option selected>Odenado por</option>
+                                  <option value="1">Precio mas bajo</option>
+                                  <option value="2">Precio mas alto</option>
+                                </select>
+                              </div>
+                            </div>
+                            <div class="row justify-content-center" >
+                              
+                              <div class="col 6" style="padding: 4px">
+                                <label class="mr-sm-4 sr-only" for="inlineFormCustomSelect">Que buscas</label>
+                                <select class="form-control form-control-lg" id="inlineFormCustomSelect">
+                                  <option selected>Que buscas</option>
+                                  <option value="1">Precio mas bajo</option>
+                                  <option value="2">Precio mas alto</option>
+                                </select>
+                              </div>
+                              <div class="col  6" style="padding: 4px">
+                                <label class="mr-sm-6 sr-only" for="inlineFormCustomSelect">Donde</label>
+                                <select class="form-control form-control-lg" id="inlineFormCustomSelect">
+                                  <option selected>Donde</option>
+                                  <option value="1">Precio mas bajo</option>
+                                  <option value="2">Precio mas alto</option>
+                                </select>
+                              
+                              </div>
+                            </div>
+                          </form>
                     </div>
-                    <div class="col-md-4 text-center buscador-b">
-                     a
+                    <div class="col-md-2 text-center buscador-b">
+                     
                     </div>
                 </div>
              </div>

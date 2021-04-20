@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\Anounces;
 use App\Models\User;
-use Illuminate\Support\Facades\Auth;
+//use Illuminate\Http\Request;
+use Illuminate\Support\Str;
+use Illuminate\Http\Request;
 
 class HomeController extends Controller
 {
@@ -13,40 +15,61 @@ class HomeController extends Controller
      *
      * @return void
      */
-    
+
 
     /**
      * Show the application dashboard.
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
-    public function index()
+    public function index(Request $request)
     {
+
+        if ($request->hasCookie('city')){
+
+            $city = $request->cookie('city');
+            $selections = Anounces::where('city_rent', Str::lower($city))
+            ->limit(4)
+            ->orderByDesc('id')
+            ->get();
+
+        }else{
+
+            $selections = Anounces::select('*')
+            ->limit(4)
+            ->orderByDesc('id')
+            ->get();
+
+        }
+        
+        
+
         $anuncios = Anounces::paginate(10)->onEachSide(0);
 
-        $selections = Anounces::select('*')       
-        ->limit(4)
-        ->orderByDesc('id')
-        ->get();
+        
 
         if($anuncios == null || $selections == null){
             return view('errors.404');
-        } 
+        }
 
-        return view('home', [           
+        return view('home', [
             'anuncios' => $anuncios,
             'selections' => $selections,
+            'geoCity' => $city,
+            'search' => false,
         ]);
-      
-        
+
+
     }
 
     public function detail(Anounces $anounce){
 
-        
+
 
         /*$anuncio = Anounces::where('id', '=', $anounce->id)->first();*/
-        
+
+        $city = $request->cookie('city');
+
         $selections = Anounces::select('*')
         ->limit(4)
         ->orderByDesc('id')
@@ -54,11 +77,13 @@ class HomeController extends Controller
 
         if($anounce == null || $selections == null){
             return view('errors.404');
-        }       
+        }
 
-        return view('anuncios.detail', [           
+        return view('anuncios.detail', [
             'anuncio' => $anounce,
             'selections' => $selections,
+            'geoCity' => $city,
+            'search' => false,
         ]);
 
 
@@ -72,13 +97,14 @@ class HomeController extends Controller
         ->orderByDesc('id')
         ->get();
 
-        
+
         $mensaje = 'Genial!! el registro fué bien. Te hemos enviado un email para que verifiques tu cuenta.';
-        return view('home', [           
+        return view('home', [
             'anuncios' => $anuncios,
             'registro_ok' => $mensaje,
             'selections' => $selections,
+            'search' => false,
         ])->with(['statuss_' => $mensaje]);
-        
+
     }
 }

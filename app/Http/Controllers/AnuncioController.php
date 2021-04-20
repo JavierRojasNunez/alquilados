@@ -3,17 +3,21 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Anounces;
 use App\Models\Imagen;
 use App\Http\Controllers\ProvincesController;
+use Illuminate\Support\Str;
+
 
 
 class AnuncioController extends Controller
 {
 
+    const TYPE_RENT = 'alquiler';
+    const TYPE_SELL = 'venta';
     
     public function __construct(){
         $this->middleware(['auth','verified']);
@@ -23,30 +27,38 @@ class AnuncioController extends Controller
 
 	public function create($type = false){
 
-        
+       
+        $user_id = Auth::user()->id;
+        $provincias = provincesController::getProvinces();
+        $countAnounces = Anounces::where('user_id', $user_id )->count();
 
-        if (Auth::user()){
-            $user_id = Auth::user()->id;
-            $provincias = provincesController::getProvinces();
-            $countAnounces = Anounces::where('user_id', $user_id )->count();
+        $type = Str::lower($type);
+
+        if($type == self::TYPE_RENT){
+            //si el tipo anuncio a publicar es alquiler $alquilar_ a true para cargar form de alquiler
+            $alquilar_ = true;
+            $value = self::TYPE_RENT;               
+        }else if ($type == self::TYPE_SELL){
+            //si el tipo anuncio a publicar es venta a false
+            $alquilar_ = false;
+            $value = self::TYPE_SELL;   
         }else{
-            $provincias = [];
-            $countAnounces = false;
-            return redirect()->route('home');
-
+            return redirect()->route('home')->with(['errores_' => Config::get('errors_azimut.' . 2010)]);
         }
-        //setear variables del metodos edit a false para que no de conflictos con las variables pasadas por el metodo editar a la vista
+        
+        //setear variables del metodos edit a false para que no de conflictos con las variables pasadas por el metodo editar a la vista create
         $anuncio = false;
         $anounceId = false;
-        $images_ = false;
+        //$images_ = false;
 
         return View::make('anuncios.create', [
             'provinces' => $provincias,
             'numAnounces' =>  $countAnounces,
             'anuncio' =>  $anuncio,
             'anounce_id' => $anounceId,
-            'images_' => $images_,
-            'type' => $type,
+           // 'images_' => $images_,
+            'type' => $alquilar_ ,
+            'value'=> $value,
             ]);
 
 	}
@@ -80,7 +92,19 @@ class AnuncioController extends Controller
 
     public function edit( $anounceId, $type){
 
-        $type = strtolower($type);
+        $type = Str::lower($type);
+
+        if($type == self::TYPE_RENT){
+            //si el tipo anuncio a publicar es alquiler $alquilar_ a true para cargar form de alquiler
+            $alquilar_ = true; 
+            $value = self::TYPE_RENT;           
+        }else if ($type == self::TYPE_SELL){
+            //si el tipo anuncio a publicar es venta a false
+            $alquilar_ = false;
+            $value = self::TYPE_SELL; 
+        }else{
+            return redirect()->route('home')->with(['errores_' => Config::get('errors_azimut.' . 2010)]);
+        }
       
         $provincias = provincesController::getProvinces();
 
@@ -112,7 +136,8 @@ class AnuncioController extends Controller
                 'anuncio' => $anuncio,
                 'provinces' => $provincias,
                 'anounce_id' => $anounceId,
-                'type' => $type,
+                'type' => $alquilar_,
+                'value'=> $value,
 
             ]);
         

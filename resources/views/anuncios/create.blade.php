@@ -1,22 +1,15 @@
 @extends('layouts.app')
 
 <?php
-
+//si viene $anounce id es que la vista es llamada por el metodo editar y no create. Cambiamos el titulo
 if(!$anounce_id ){
   $h1Title = 'Publicar anuncio.';
 }else{
   $h1Title = 'Editar anuncio.';
 }
 
-$type = strtolower($type);
 
-if($type == 'alquiler'){
-  $alquilar_ = true;
-  $vender_ = false;
-}else if ($type == 'venta'){
-  $alquilar_ = false;
-  $vender_ = true;
-}
+
 
 
 
@@ -29,7 +22,7 @@ if($type == 'alquiler'){
     @include('includes.mensajes')
     <form method="POST" id="form_anuncio" action="{{ route('save.anounce') }}" enctype="multipart/form-data">
         @csrf
-        <input type="hidden" value="{{$type}}" name="type">
+        <input type="hidden" value="{{$value}}" name="type">
     <div class="row justify-content-center">
       @if(!$anounce_id )
       <div class="col-md-9">
@@ -50,7 +43,7 @@ if($type == 'alquiler'){
         </div>
         <div class="col-md-3" style="vertical-align: bottom !important;">
           <div class="tituloPrincipal-menu-images" >
-          <a href="{{ route('edit.images', ['id' => $anounce_id, 'type' => $type]) }}">  
+          <a href="{{ route('edit.images', ['id' => $anounce_id, 'type' => $value]) }}">  
             <h5>Imágenes</h5>
           </a> 
           </div>
@@ -89,9 +82,9 @@ if($type == 'alquiler'){
           </div>
 
 
-          @if ($alquilar_)
+          @if ($type)
           @include('includes.anounceRent')
-          @elseif($vender_)
+          @else
           @include('includes.anounceSell')
           @endif
 
@@ -125,7 +118,7 @@ if($type == 'alquiler'){
 
 
 </div>
-@if ($alquilar_)
+@if ($type)
     
 
 <div class="col-md-9">
@@ -193,6 +186,9 @@ if($type == 'alquiler'){
 </div>
 </div>
 @endif
+
+
+
 <div class="col-md-9">
 
 <br />
