@@ -11,39 +11,56 @@ class SearchController extends Controller
 {
     public function search(Request $request){
 
-            //dd($request);
-            if($request->has('city'))
-            {
-                $search = $request->get('city');
-                $anounce = Anounces::where('city_rent', Str::lower($search));
+        //$search = false;
+        //$anounce = false;
+        //$q = false;
 
-                $selections = DB::table('anounces')
-                ->where('city_rent', '=', $search)
-                ->limit(4)
-                ->join('images', 'anounces_id', '=', 'anounces.id', 'left')
-                ->inRandomOrder()
-                ->get();
-               //dd($selections);                
+        if(! $request->has('province_rent') ||  $request->input('province_rent') == 'Donde' ||  $request->input('province_rent') == ''  ){
 
-            }
+            $mensaje = 'Por favor indique una provincia para la busqueda';
+            return redirect()->route('home')->with(['statuss_' => $mensaje])->withInput(['province_rent']);
+
+        }        
+
+                   
+        $search = $request->input('province_rent');
+        $q = Anounces::where('province_rent', Str::lower($search));            
+                      
+        
+
+        if($request->has('caracteristics') && $request->input('caracteristics') != '' && $request->input('caracteristics') != 'Caracteristicas' )
+        {
+            $search = $request->input('caracteristics');
+            $anounce = $q->where($search, 1);            
+
+        }
+
+        $selections = DB::table('anounces');
+
+        if ($search) $selections = $selections->where('city_rent', '=', $search);
+
+        $selections = $selections->limit(4);
+        $selections = $selections->join('images', 'anounces_id', '=', 'anounces.id', 'left');
+        $selections = $selections->inRandomOrder();
+        $selections = $selections->get();
+
+        $anounce = $q->orderBy('id', 'DESC');
+        $anounce = $q->paginate(10);
 
 
-            if(!$anounce || $anounce == null){
+        if($anounce == null){
 
-                $mensaje = 'Fallo en la busqueda, intentelo de nuevo';
-                return redirect()->route('home')->with(['statuss_' => $mensaje]);
+            $mensaje = 'Fallo en la busqueda, intentelo de nuevo';
+            return redirect()->route('home')->with(['statuss_' => $mensaje]);
 
-            }
-
-            
-                $anounce = $anounce->orderByDesc('id');
-                $anounce = $anounce->paginate(10);
-                return view('search.search', [
-                            'anuncios' => $anounce,
-                            'selections' => $selections,
-                            'geoCity' => false,
-                            'search' => false,
-                            ]);
+        }       
+        
+        return view('search.search', [
+                    'anuncios' => $anounce,
+                    'selections' => $selections,
+                    'geoCity' => false,
+                    'search' => false,
+                    ]);
 
         
 

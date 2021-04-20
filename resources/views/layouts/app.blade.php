@@ -117,11 +117,12 @@
                     <div class="col-md-2 text-center buscador-b">
                      
                     </div>
-                    <div class="col-md-8 text-center buscador-c" >
-                        <form>
-                            <div class="row justify-content-center" >
+                    <div class="col-md-6 text-center buscador-c" >
+                        <form method="POST"  action="{{ route('search') }}">
+                            @csrf
+                            <div class="form-row justify-content-center" >
                                 
-                              <div class="col- md 3"style="padding: 4px">
+                              <div class="form-group col-md 2"style="padding: 4px">
                                 <label class="mr-sm-2 sr-only" for="inlineFormCustomSelect">Precio</label>
                                 <select class="custom-select mr-sm-2" id="inlineFormCustomSelect">
                                   <option selected>Precio</option>
@@ -131,18 +132,20 @@
                                 </select>
                               </div>
                              
-                              <div class="col- md 3"style="padding: 4px">
+                              <div class="form-group col-md 2"style="padding: 4px">
                                 <label class="mr-sm-2 sr-only" for="inlineFormCustomSelect">Caracteristicas</label>
-                                <select class="custom-select mr-sm-2" id="inlineFormCustomSelect">
+                                <select class="custom-select mr-sm-2" id="inlineFormCustomSelect" name="caracteristics">
                                   <option selected>Caracteristicas</option>
-                                  <option value="1">Amueblado</option>
-                                  <option value="2">Piscina</option>
-                                  <option value="3">Fumador</option>
-                                  <option value="3">Si mascotas</option>
+                                  <option value="funiture">Amueblado</option>
+                                  <option value="calefaction">Calefacción</option>
+                                  <option value="gas">Gas</option>
+                                  <option value="swiming">Piscina</option>
+                                  <option value="lookfor_who_tabaco ">Fumador</option>
+                                  <option value="lookfor_who_pet">Si mascotas</option>
                                 </select>
                               </div>
                               
-                              <div class="col- md 3"style="padding: 4px">
+                              <div class="form-group col-md 2"style="padding: 4px">
                                 <label class="mr-sm-2 sr-only" for="inlineFormCustomSelect">Habitaciones</label>
                                 <select class="custom-select mr-sm-2" id="inlineFormCustomSelect">
                                   <option selected>Habitaciones</option>
@@ -155,7 +158,7 @@
                                 </select>
                               </div>
                               
-                              <div class="col- md 3"style="padding: 4px">
+                              <div class="form-group col-md 2"style="padding: 4px">
                                 <label class="mr-sm-2 sr-only" for="inlineFormCustomSelect">Habitaciones</label>
                                 <select class="custom-select mr-sm-2" id="inlineFormCustomSelect">
                                   <option selected>Odenado por</option>
@@ -164,25 +167,42 @@
                                 </select>
                               </div>
                             </div>
-                            <div class="row justify-content-center" >
-                              
-                              <div class="col 6" style="padding: 4px">
-                                <label class="mr-sm-4 sr-only" for="inlineFormCustomSelect">Que buscas</label>
-                                <select class="form-control form-control-lg" id="inlineFormCustomSelect">
-                                  <option selected>Que buscas</option>
-                                  <option value="1">Precio mas bajo</option>
-                                  <option value="2">Precio mas alto</option>
+                            <div class="form-row justify-content-center" >
+                                
+                              <div class="form-group col-md-4" style="padding: 4px">
+                                <label class="mr-sm-2 sr-only" for="inlineFormCustomSelect">Que buscas</label>
+                                <select class="custom-select" id="inlineFormCustomSelect">
+                                    <option selected>Que buscas</option>
+                                    <option>{{ __('Todo') }}</option>
+                                    <option>{{ __('Piso') }}</option>
+                                    <option>{{ __('Casa') }}</option>
+                                    <option>{{ __('Habitación') }}</option>
+                                    <option>{{ __('Apartamento') }}</option>
+                                    <option>{{ __('Compartir apartamento') }}</option>
+                                    <option>{{ __('Local') }}</option>
+                                    <option>{{ __('Casa rural') }}</option>
+                                    <option>{{ __('Apartamento rural') }}</option>
+                                    <option>{{ __('Loft') }}</option>
+                                    <option>{{ __('Estudio') }}</option>
+                                    <option>{{ __('Dúplex') }}</option>
+                                    <option>{{ __('Ático') }}</option>
+                                    <option>{{ __('Masía') }}</option>
+                                    <option>{{ __('Bungalow') }}</option>
                                 </select>
                               </div>
-                              <div class="col  6" style="padding: 4px">
-                                <label class="mr-sm-6 sr-only" for="inlineFormCustomSelect">Donde</label>
-                                <select class="form-control form-control-lg" id="inlineFormCustomSelect">
+                             
+                              <div class="form-group col-md-8" style="padding: 4px">
+                                <label class="mr-lg sr-only" for="inlineFormCustomSelect">Donde</label>
+                                <select class="custom-select" id="inlineFormCustomSelect" name="province_rent" id="province_rent">
                                   <option selected>Donde</option>
-                                  <option value="1">Precio mas bajo</option>
-                                  <option value="2">Precio mas alto</option>
+                                  @foreach(Config::get('provinces') as $provinces)
+                                  <option value="{{$provinces}}">{{$provinces}}</option>
+                                  @endforeach
                                 </select>
-                              
                               </div>
+                                    
+                                <button  type="submit" id="submit1" class="btn btn-primary" style="width: 50%;text-align:center ">{{ __('Enviar') }}</button>
+                                
                             </div>
                           </form>
                     </div>

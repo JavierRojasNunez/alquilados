@@ -4,10 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Models\Anounces;
 use App\Models\User;
+
 //use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
-
+use App\Http\Controllers\ProvincesController;
 class HomeController extends Controller
 {
     /**
@@ -24,7 +25,9 @@ class HomeController extends Controller
      */
     public function index(Request $request)
     {
+        
 
+        
         if ($request->hasCookie('city')){
 
             $city = $request->cookie('city');
@@ -35,6 +38,7 @@ class HomeController extends Controller
 
         }else{
 
+            $city = false;
             $selections = Anounces::select('*')
             ->limit(4)
             ->orderByDesc('id')
