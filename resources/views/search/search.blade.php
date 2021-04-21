@@ -17,6 +17,11 @@
         <br>
         </div>
        
+
+       @if(!empty($anuncios->all()))
+       
+       
+
         @foreach ($anuncios as $anuncio)
 
   
@@ -133,7 +138,14 @@
             <br />
         </div>
            
-@endforeach
+    @endforeach
+
+@else
+<div class="row justify-content-center">
+    
+        <h1>No hay resultados</h1>
+    
+@endif
 
 <div class="row justify-content-center">
 <div class="col-md-10">

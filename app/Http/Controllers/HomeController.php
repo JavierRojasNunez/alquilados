@@ -50,7 +50,7 @@ class HomeController extends Controller
 
         $anuncios = Anounces::paginate(10)->onEachSide(0);
 
-        
+        //dd($anuncios);
 
         if($anuncios == null || $selections == null){
             return view('errors.404');
@@ -68,12 +68,6 @@ class HomeController extends Controller
 
     public function detail(Anounces $anounce){
 
-
-
-        /*$anuncio = Anounces::where('id', '=', $anounce->id)->first();*/
-
-        $city = $request->cookie('city');
-
         $selections = Anounces::select('*')
         ->limit(4)
         ->orderByDesc('id')
@@ -86,7 +80,7 @@ class HomeController extends Controller
         return view('anuncios.detail', [
             'anuncio' => $anounce,
             'selections' => $selections,
-            'geoCity' => $city,
+            'geoCity' => false,
             'search' => false,
         ]);
 

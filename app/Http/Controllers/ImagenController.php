@@ -95,7 +95,7 @@ class ImagenController extends Controller
         Storage::disk('images')->makeDirectory($dir);
 
 
-        //vamos a fijar a cuatro las imagenes que se puedan subir si o si
+
         $totalImages = (is_array($files) || is_object($files)) 
         ? count($files) 
         : 0 ;
@@ -118,7 +118,7 @@ class ImagenController extends Controller
 
                 $finalName = $dir . '/' . $newName;
 
-                Storage::disk('images')->put($finalName, $img );
+                Storage::disk('images')->put($finalName, $img);
                 
                 $images = new Imagen();
                 $images->user_id = Auth::user()->id;

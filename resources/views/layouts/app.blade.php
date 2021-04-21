@@ -124,37 +124,65 @@
                                 
                               <div class="form-group col-md 2"style="padding: 4px">
                                 <label class="mr-sm-2 sr-only" for="inlineFormCustomSelect">Precio</label>
-                                <select class="custom-select mr-sm-2" id="inlineFormCustomSelect">
-                                  <option selected>Precio</option>
-                                  <option value="1">menos de 80.000€</option>
-                                  <option value="2">80.000€ a 200.000</option>
-                                  <option value="3">mas de 200.000€ </option>
+                                <select class="custom-select mr-sm-2" id="inlineFormCustomSelect" name="price">
+                                  <option selected value="{{                                  
+                                    isset($value_price)  ? $value_price : ( Cookie::has('value_price')
+                                    ? Cookie::get('value_price')
+                                    : '0')  
+                                    }}" >{{                                  
+                                    isset($price)  ? $price : ( Cookie::has('price')
+                                    ? Cookie::get('price')
+                                    : 'Precio')  
+                                    }}</option>
+
+                                    <option value="alquiler-1-500">Menos de 500€ - Alquiler</option>
+                                    <option value="alquiler-500-800">500€ a 800€ - Alquiler</option>
+                                    <option value="alquiler-800-1000">800€ a 1000€ - Alquiler</option>
+                                    <option value="alquiler-1000-1150">1000€ a 1150€ - Alquiler</option>
+                                    <option value="alquiler-1150-1299">1150€ a 1299€ - Alquiler</option>
+                                    <option value="alquiler-1300-1000000">Mas de 1300€ - Alquiler</option>
+                                    <option value="venta-1-80000">Menos de 80.000€ - Venta</option>
+                                    <option value="venta-80000-200000">80.000€ a 200.000€ - Venta</option>
+                                    <option value="venta-200000-1000000000">Mas de 200.000€ - Venta</option>
+                                    
+
                                 </select>
                               </div>
                              
                               <div class="form-group col-md 2"style="padding: 4px">
                                 <label class="mr-sm-2 sr-only" for="inlineFormCustomSelect">Caracteristicas</label>
                                 <select class="custom-select mr-sm-2" id="inlineFormCustomSelect" name="caracteristics">
-                                  <option selected>Caracteristicas</option>
-                                  <option value="funiture">Amueblado</option>
-                                  <option value="calefaction">Calefacción</option>
-                                  <option value="gas">Gas</option>
-                                  <option value="swiming">Piscina</option>
-                                  <option value="lookfor_who_tabaco ">Fumador</option>
-                                  <option value="lookfor_who_pet">Si mascotas</option>
+                                  <option selected value="
+                                   {{                                   
+                                    isset($caracteristics)  ? $caracteristics : ( Cookie::has('caracteristics')
+                                    ? Cookie::get('caracteristics')
+                                    : 'Caracteristicas')
+  
+                                    }}">
+                                    {{                                  
+                                    isset($caracteristics)  ? $caracteristics : ( Cookie::has('caracteristics')
+                                    ? Cookie::get('caracteristics')
+                                    : 'Caracteristicas')  
+                                    }}</option>
+                                  <option value="Amueblado">Amueblado</option>
+                                  <option value="Calefacción">Calefacción</option>
+                                  <option value="Gas">Gas</option>
+                                  <option value="Piscina">Piscina</option>
+                                  <option value="Fumador">Fumador</option>
+                                  <option value="Mascotas">Mascotas</option>
                                 </select>
                               </div>
                               
                               <div class="form-group col-md 2"style="padding: 4px">
                                 <label class="mr-sm-2 sr-only" for="inlineFormCustomSelect">Habitaciones</label>
-                                <select class="custom-select mr-sm-2" id="inlineFormCustomSelect">
+                                <select class="custom-select mr-sm-2" id="inlineFormCustomSelect" name="room">
                                   <option selected>Habitaciones</option>
-                                  <option value="1">1</option>
-                                  <option value="2">2</option>
-                                  <option value="3">3</option>
-                                  <option value="4">4</option>
-                                  <option value="5">5</option>
-                                  <option value="6">6</option>
+                                  <option value="1">1 habitaciones.</option>
+                                  <option value="2">2 habitaciones.</option>
+                                  <option value="3">3 habitaciones.</option>
+                                  <option value="4">4 habitaciones.</option>
+                                  <option value="5">5 habitaciones.</option>
+                                  <option value="6">6 habitaciones.</option>
                                 </select>
                               </div>
                               
@@ -194,7 +222,13 @@
                               <div class="form-group col-md-8" style="padding: 4px">
                                 <label class="mr-lg sr-only" for="inlineFormCustomSelect">Donde</label>
                                 <select class="custom-select" id="inlineFormCustomSelect" name="province_rent" id="province_rent">
-                                  <option selected>Donde</option>
+                                  <option selected>{{ 
+
+                                  isset($province)  ? $province : ( Cookie::has('province_rent')
+                                  ? Cookie::get('province_rent')
+                                  : 'Donde')
+
+                                  }}</option>
                                   @foreach(Config::get('provinces') as $provinces)
                                   <option value="{{$provinces}}">{{$provinces}}</option>
                                   @endforeach

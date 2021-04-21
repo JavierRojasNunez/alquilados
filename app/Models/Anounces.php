@@ -28,6 +28,11 @@ class Anounces extends Model
 
     ];
 
+    protected $with = [
+        'imagen',
+         'user',
+    ];
+
     public function user(){
         return $this->belongsTo(User::class);
     }
