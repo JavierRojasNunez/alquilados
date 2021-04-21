@@ -87,7 +87,7 @@ class SearchController extends Controller
             {
                 $display = 'Mas de 1300€ - ' . ucfirst($type);
             }
-            elseif($type == 'venta' && $max > '199999')
+            elseif($type == 'venta' && $max > '2000000')
             {
                 $display = 'Mas de 200.000€ - ' . ucfirst($type);
             }
