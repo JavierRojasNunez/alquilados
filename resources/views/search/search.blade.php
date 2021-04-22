@@ -41,7 +41,7 @@
                         <span class="num-images-span">
                             <span id="current-photo{{$anuncio->id}}">1</span> /
                             <span data-total="{{ count($anuncio->imagen) }}" id="total-photo{{$anuncio->id}}">{{ count($anuncio->imagen) }}</span>  &nbsp; 
-                            <img src="icons/photo.png" class="icons-small-2" title="Imagenes" alt="Imagenes"> 
+                            <img src="../icons/photo.png" class="icons-small-2" title="Imagenes" alt="Imagenes"> 
                             </span>
                         </div>
                         <div id="carouselExampleControls{{$anuncio->id}}" class="carousel slide" data-ride="carousel" data-interval="false" style="background-color: white">
@@ -123,12 +123,12 @@
                     
                     <div class="card-phone">
                      
-                        <img src="icons/phone.png" class="icons"  title="Ver teléfono" alt="Ver teléfono">
+                        <img src="../icons/phone.png" class="icons"  title="Ver teléfono" alt="Ver teléfono">
                     </div>
                    
                     <div class="card-mail">
                       
-                        <img src="icons/email.png" class="icons"  title="Enviar mensaje" alt="Enviar mensaje">
+                        <img src="../icons/email.png" class="icons"  title="Enviar mensaje" alt="Enviar mensaje">
             
                     </div>
                 </div>
@@ -177,11 +177,11 @@
           </div>
           
             <div class="data-caracteristicas-small">
-                <img src="icons/dormitorio.png" class="icons-small-2" title="Dormitorios" alt="Dormitorios"> &nbsp; {{$anuncio->num_rooms}}
+                <img src="../icons/dormitorio.png" class="icons-small-2" title="Dormitorios" alt="Dormitorios"> &nbsp; {{$anuncio->num_rooms}}
                 &nbsp; &nbsp; &nbsp; 
-                <img src="icons/bath.png" class="icons-small-2" title="Baños" alt="Baños"> &nbsp; {{$anuncio->num_baths}}
+                <img src="../icons/bath.png" class="icons-small-2" title="Baños" alt="Baños"> &nbsp; {{$anuncio->num_baths}}
                 &nbsp; &nbsp; &nbsp; 
-                <img src="icons/superficie.png" class="icons-small-2" title="Superficie" alt="Superficie"> &nbsp; {{$anuncio->meter2}} m&sup2;
+                <img src="../icons/superficie.png" class="icons-small-2" title="Superficie" alt="Superficie"> &nbsp; {{$anuncio->meter2}} m&sup2;
             </div>
           
         </div>
