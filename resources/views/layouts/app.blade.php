@@ -124,7 +124,7 @@
                                 
                               <div class="form-group col-md 2"style="padding: 4px">
                                 <label class="mr-sm-2 sr-only" for="inlineFormCustomSelect">Precio</label>
-                                <select class="custom-select mr-sm-2" id="inlineFormCustomSelect" name="price">
+                                <select class="custom-select mr-sm-2 options" id="inlineFormCustomSelect" name="price">
                                   <option selected value="{{                                  
                                     isset($value_price)  ? $value_price : ( Cookie::has('value_price')
                                     ? Cookie::get('value_price')
@@ -151,7 +151,7 @@
                              
                               <div class="form-group col-md 2"style="padding: 4px">
                                 <label class="mr-sm-2 sr-only" for="inlineFormCustomSelect">Caracteristicas</label>
-                                <select class="custom-select mr-sm-2" id="inlineFormCustomSelect" name="caracteristics">
+                                <select class="custom-select mr-sm-2 options" id="inlineFormCustomSelect" name="caracteristics">
                                   <option selected value="
                                    {{                                   
                                     isset($caracteristics)  ? $caracteristics : ( Cookie::has('caracteristics')
@@ -175,21 +175,38 @@
                               
                               <div class="form-group col-md 2"style="padding: 4px">
                                 <label class="mr-sm-2 sr-only" for="inlineFormCustomSelect">Habitaciones</label>
-                                <select class="custom-select mr-sm-2" id="inlineFormCustomSelect" name="room">
-                                  <option selected>Habitaciones</option>
-                                  <option value="1">1 habitaciones.</option>
-                                  <option value="2">2 habitaciones.</option>
-                                  <option value="3">3 habitaciones.</option>
-                                  <option value="4">4 habitaciones.</option>
-                                  <option value="5">5 habitaciones.</option>
-                                  <option value="6">6 habitaciones.</option>
+                                <select class="custom-select mr-sm-2 options" id="inlineFormCustomSelect" name="room">
+                                  <option selected value="{{                                   
+                                    isset($room_value)  ? $room_value : ( Cookie::has('room_value')
+                                    ? Cookie::get('room_value')
+                                    : 0 )
+  
+                                    }}">{{                                  
+                                    isset($room)  ? $room : ( Cookie::has('room')
+                                    ? Cookie::get('room')
+                                    : 'Habitaciones')  
+                                    }}</option>
+                                  <option value="1">1 Habitacion</option>
+                                  <option value="2">2 Habitaciones</option>
+                                  <option value="3">3 Habitaciones</option>
+                                  <option value="4">4 Habitaciones</option>
+                                  <option value="5">5 Habitaciones</option>
+                                  <option value="6">6 Habitaciones</option>
                                 </select>
                               </div>
                               
                               <div class="form-group col-md 2"style="padding: 4px">
                                 <label class="mr-sm-2 sr-only" for="inlineFormCustomSelect">Habitaciones</label>
-                                <select class="custom-select mr-sm-2" id="inlineFormCustomSelect">
-                                  <option selected>Odenado por</option>
+                                <select class="custom-select mr-sm-2 options" id="inlineFormCustomSelect" name="order_by">
+                                  <option selected value="{{                                  
+                                    isset($order_by_value)  ? $order_by_value : ( Cookie::has('order_by_value')
+                                    ? Cookie::get('order_by_value')
+                                    : 0 )  
+                                    }}">{{                                  
+                                    isset($order_by)  ? $order_by : ( Cookie::has('order_by')
+                                    ? Cookie::get('order_by')
+                                    : 'Ordenar por')  
+                                    }}</option>
                                   <option value="1">Precio mas bajo</option>
                                   <option value="2">Precio mas alto</option>
                                 </select>
@@ -199,29 +216,37 @@
                                 
                               <div class="form-group col-md-4" style="padding: 4px">
                                 <label class="mr-sm-2 sr-only" for="inlineFormCustomSelect">Que buscas</label>
-                                <select class="custom-select" id="inlineFormCustomSelect">
-                                    <option selected>Que buscas</option>
-                                    <option>{{ __('Todo') }}</option>
-                                    <option>{{ __('Piso') }}</option>
-                                    <option>{{ __('Casa') }}</option>
-                                    <option>{{ __('Habitación') }}</option>
-                                    <option>{{ __('Apartamento') }}</option>
-                                    <option>{{ __('Compartir apartamento') }}</option>
-                                    <option>{{ __('Local') }}</option>
-                                    <option>{{ __('Casa rural') }}</option>
-                                    <option>{{ __('Apartamento rural') }}</option>
-                                    <option>{{ __('Loft') }}</option>
-                                    <option>{{ __('Estudio') }}</option>
-                                    <option>{{ __('Dúplex') }}</option>
-                                    <option>{{ __('Ático') }}</option>
-                                    <option>{{ __('Masía') }}</option>
-                                    <option>{{ __('Bungalow') }}</option>
+                                <select class="custom-select principal" id="inlineFormCustomSelect" name="what">
+                                    <option selected value="{{                                  
+                                      isset($what_value)  ? $what_value : ( Cookie::has('what_value')
+                                      ? Cookie::get('what_value')
+                                      : 0 )  
+                                      }}">{{                                  
+                                      isset($what_value)  ? $what_value : ( Cookie::has('what_value')
+                                      ? Cookie::get('what_value')
+                                      : 'Que buscas')  
+                                      }}</option>
+                                    <option value="Todo">{{ __('Todo') }}</option>
+                                    <option value="Piso">{{ __('Piso') }}</option>
+                                    <option value="Casa">{{ __('Casa') }}</option>
+                                    <option value="Habitación">{{ __('Habitación') }}</option>
+                                    <option value="Apartamento">{{ __('Apartamento') }}</option>
+                                    <option value="Compartir apartamento">{{ __('Compartir apartamento') }}</option>
+                                    <option value="Local">{{ __('Local') }}</option>
+                                    <option value="Casa rural">{{ __('Casa rural') }}</option>
+                                    <option value="Apartamento rural">{{ __('Apartamento rural') }}</option>
+                                    <option value="Loft">{{ __('Loft') }}</option>
+                                    <option value="Estudio">{{ __('Estudio') }}</option>
+                                    <option value="Dúplex">{{ __('Dúplex') }}</option>
+                                    <option value="Ático">{{ __('Ático') }}</option>
+                                    <option value="Masía">{{ __('Masía') }}</option>
+                                    <option value="Bungalow">{{ __('Bungalow') }}</option>
                                 </select>
                               </div>
                              
-                              <div class="form-group col-md-8" style="padding: 4px">
+                              <div class="form-group col-md-6" style="padding: 4px">
                                 <label class="mr-lg sr-only" for="inlineFormCustomSelect">Donde</label>
-                                <select class="custom-select" id="inlineFormCustomSelect" name="province_rent" id="province_rent">
+                                <select class="custom-select principal" id="inlineFormCustomSelect" name="province_rent" id="province_rent">
                                   <option selected>{{ 
 
                                   isset($province)  ? $province : ( Cookie::has('province_rent')
@@ -234,8 +259,11 @@
                                   @endforeach
                                 </select>
                               </div>
+                              <div class="form-group col-md-2" style="padding: 4px" >
+                                 <button  type="submit" id="submit1" class="btn-search" >{{ __('Buscar') }}</button>
+                              </div>
                                     
-                                <button  type="submit" id="submit1" class="btn btn-primary" style="width: 50%;text-align:center ">{{ __('Enviar') }}</button>
+                               
                                 
                             </div>
                           </form>

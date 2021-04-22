@@ -48,7 +48,7 @@ class HomeController extends Controller
         
         
 
-        $anuncios = Anounces::paginate(10)->onEachSide(0);
+        $anuncios = Anounces::paginate(6)->onEachSide(0);
 
         //dd($anuncios);
 

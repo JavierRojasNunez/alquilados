@@ -1,5 +1,7 @@
 
 if(navigator.geolocation){
+    //servidor
+    //var url = 'https://azimutweb.es/alquilados/public/index.php'; 
     var url = 'http://localhost/alquilados/public';
     //intentamos obtener las coordenadas del usuario
     navigator.geolocation.getCurrentPosition(function(objPosicion){

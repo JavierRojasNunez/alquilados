@@ -456,7 +456,7 @@ if(!$anounce_id ){
         
             <br />
         
-                  @if(isset($images_)  )
+                  @if(!$anounce_id)
                   @include('includes.formImages')                 
                   @endif
                  @if (!isset ($numAnounces) || $numAnounces < 2)

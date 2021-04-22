@@ -105,11 +105,11 @@
                         {{$anuncio->type_rent}} en {{$anuncio->type}} - <b>{{$anuncio->province_rent}}</b>
                     </div>
                     <div class="d-flex p-1 data-caracteristicas">
-                        <img src="icons/dormitorio.png" class="icons-small" title="Dormitorios" alt="Dormitorios"> &nbsp; {{$anuncio->num_rooms}}
+                        <img src="../icons/dormitorio.png" class="icons-small" title="Dormitorios" alt="Dormitorios"> &nbsp; {{$anuncio->num_rooms}}
                         &nbsp; &nbsp; &nbsp; 
-                        <img src="icons/bath.png" class="icons-small" title="Baños" alt="Baños"> &nbsp; {{$anuncio->num_baths}}
+                        <img src="../icons/bath.png" class="icons-small" title="Baños" alt="Baños"> &nbsp; {{$anuncio->num_baths}}
                         &nbsp; &nbsp; &nbsp; 
-                        <img src="icons/superficie.png" class="icons-small" title="Superficie" alt="Superficie"> &nbsp; {{$anuncio->meter2}} m&sup2;
+                        <img src="../icons/superficie.png" class="icons-small" title="Superficie" alt="Superficie"> &nbsp; {{$anuncio->meter2}} m&sup2;
                     </div>
                     <div class="data-3">
                    Situada en  {{$anuncio->street_rent}}  {{$anuncio->adress_rent}}   nº {{$anuncio->num_street_rent}}. 

@@ -13,8 +13,13 @@ class SearchController extends Controller
     public function search(Request $request){
 
         $caracteristics = null;
-        $display = null;
-        $values = null;
+        $display        = null;
+        $values         = null;
+        $room           = null;
+        $room_value     = null;
+        $order_by_value = null;
+        $order_by       = null;
+        $what_value     = null;
 
         if(! $request->has('province_rent') ||  $request->input('province_rent') == 'Donde' ||  $request->input('province_rent') == ''  ){
             $mensaje = 'Por favor indique una provincia para la busqueda';
@@ -95,9 +100,6 @@ class SearchController extends Controller
             {
                 $display =  $min . '€ a ' . $max . '€ - ' . ucfirst($type);
             }
-
-        
-
             
             $anounce = $q->whereBetween('price', [$min, $max])->where('type', $type);
             
@@ -116,20 +118,77 @@ class SearchController extends Controller
 
         if($request->has('room') && $request->input('room') != '' && $request->input('room') != 'Habitaciones' && $request->input('room') != '0')
         {
-            $room = $request->input('room');
+            $room_value = $request->input('room');
 
-            $anounce = $q->where('num_rooms', $room);
+            $room = $room_value == '1' ? 'Habitación' : 'Habitaciones';
+            $room = $room_value . ' ' . $room;
+
+            $anounce = $q->where('num_rooms', $room_value);
 
             if (Cookie::has('room'))
             {
                 Cookie::queue(Cookie::forget('room'));
+                Cookie::queue(Cookie::forget('room_value'));
+            }
+           
+            Cookie::queue('room', $room, 7 * 24 * 60);
+            Cookie::queue('room_value', $room_value, 7 * 24 * 60);
+        }
+
+        if($request->has('what') && $request->input('what') != '' && $request->input('what') != 'Que buscas' && $request->input('what') != '0' )
+        {
+
+            $what_value = $request->input('what');
+
+            $room = $room_value == '1' ? 'Habitación' : 'Habitaciones';
+            $room = $room_value . ' ' . $room;
+
+            if($what_value != 'Todo') $anounce = $q->where('type_rent', $what_value);
+
+            if (Cookie::has('what_value'))
+            {
+
+                Cookie::queue(Cookie::forget('what_value'));
+            }
+
+            Cookie::queue('what_value', $what_value, 7 * 24 * 60);
+        }
+
+        if($request->has('order_by') && $request->input('order_by') != '' && $request->input('order_by') != 'Ordenar por' && $request->input('order_by') != '0')
+        {
+            $order_by_value = $request->input('order_by');
+
+            if($order_by_value == '1')
+            {
+                $anounce = $q->orderBy('price', 'ASC');
+                $order_by = 'Precio mas bajo';
+            }
+            elseif($order_by_value == '2')
+            {
+                $anounce = $q->orderBy('price', 'DESC');
+                $order_by = 'Precio mas alto';
+            }
+            else
+            {
+                $anounce = $q->orderBy('id', 'DESC');
+                $order_by = 'Ordenado por';
+                $order_by_value = 0;
             }
 
             
-            Cookie::queue('room', $room, 7 * 24 * 60);
+
+            if (Cookie::has('order_by_value'))
+            {
+                Cookie::queue(Cookie::forget('order_by'));
+                Cookie::queue(Cookie::forget('order_by_value'));
+            }
+
+            
+            Cookie::queue('order_by', $order_by, 7 * 24 * 60);
+            Cookie::queue('order_by_value', $order_by_value, 7 * 24 * 60);
         }
 
-        $anounce = $q->orderBy('id', 'DESC');
+        
         $anounce = $q->paginate(10);
 
         $selections = DB::table('anounces');
@@ -149,22 +208,21 @@ class SearchController extends Controller
         }       
         
         return view('search.search', [
-                    'anuncios' => $anounce,
-                    'selections' => $selections,
-                    'geoCity' => false,
-                    'search' => false,
-                    'province'=> $province,
-                    'caracteristics'=> $caracteristics,
-                    'price'=> $display,
-                    'value_price'=> $values,
+                    'anuncios'       => $anounce,
+                    'selections'     => $selections,
+                    'geoCity'        => false,
+                    'search'         => false,
+                    'province'       => $province,
+                    'caracteristics' => $caracteristics,
+                    'price'          => $display,
+                    'value_price'    => $values,
+                    'room_value'     => $room_value,
+                    'room'           => $room,
+                    'order_by_value' => $order_by_value,
+                    'order_by'       => $order_by,
+                    'what_value'     => $what_value,
 
                     ]);
-
-        
-
-
-           
-
         
 
     }

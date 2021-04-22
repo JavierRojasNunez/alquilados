@@ -84,7 +84,7 @@
                           </div>
                         </div>
                         
-                        <img  width="100%" src="{{ url('images/'.$anuncio->user_id . '/' . $imagenes->imageName ) }}" title="{{$anuncio->titulo}}" >
+                        <img  width="100%" src="{{ route('image.file', ['id'=> $anuncio->user_id, 'filename'=> $imagenes->imageName ]) }}" title="{{$anuncio->titulo}}" >
                       
 
                         
