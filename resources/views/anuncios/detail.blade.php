@@ -22,15 +22,21 @@
     </div>
     <div class="row">
         <div class="col-12" >
-            <div class="subTitle">Descripción</div>
+            <div class="card-header detail">Descripción</div>
         </div>
-        <div class="col-12">{{ __($anuncio->descripcion) }}</div>
-    </div>      
+        <div class="col-12 detail">{{ __($anuncio->descripcion) }}</div>
+        
+    </div>
+          
     <div class="row">
         <div class="col-12" >
-            <div class="subTitle">Caracteristicas</div>
+            <div class="card-header detail">Caracteristicas</div>
         </div>
-        <div class="col-12"></div>
+        <div class="col-12">
+
+
+            
+        </div>
     </div>        
 </div>
 

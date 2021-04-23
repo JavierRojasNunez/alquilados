@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 class Anounces extends Model
 {
@@ -30,7 +31,12 @@ class Anounces extends Model
 
     protected $with = [
         'imagen',
-         'user',
+        'user',
+    ];
+
+    protected $caracteristics = [
+        'num_rooms', 'num_baths', 'funiture', 'ascensor', 'calefaction', 'balcon', 'terraza', 'gas', 'swiming', 'internet', 
+        'washing_machine', 'fridge', 'kitchen', 'near_bus', 'near_underground', 'near_tren', 'near_school', 'near_airport',
     ];
 
     public function user(){
@@ -47,5 +53,19 @@ class Anounces extends Model
 
     public function imagen(){
         return $this->hasMany(Imagen::class);
+    }
+
+    public function getCaracteristics()
+    {
+        $caracteristics = DB::table('anounces')
+        ->select($this->caracteristics)
+        ->where('id', $this->id)
+        ->get();
+
+        if($caracteristics != null){
+            return $caracteristics;
+        }
+
+        return false;
     }
 }
