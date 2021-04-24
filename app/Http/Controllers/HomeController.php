@@ -8,7 +8,8 @@ use App\Models\User;
 //use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
-use App\Http\Controllers\ProvincesController;
+
+
 class HomeController extends Controller
 {
     /**
@@ -68,6 +69,8 @@ class HomeController extends Controller
 
     public function detail(Anounces $anounce){
 
+        $caracteristics = $anounce->getCaracteristics();
+
         $selections = Anounces::select('*')
         ->limit(4)
         ->orderByDesc('id')
@@ -82,6 +85,7 @@ class HomeController extends Controller
             'selections' => $selections,
             'geoCity' => false,
             'search' => false,
+            'caracteristics_images'=>$caracteristics,
         ]);
 
 
@@ -89,7 +93,7 @@ class HomeController extends Controller
 
     public function redirectRegister(){
 
-        $anuncios = Anounces::paginate(10);
+        $anuncios = Anounces::paginate(6);
         $selections = Anounces::select('*')
         ->limit(4)
         ->orderByDesc('id')

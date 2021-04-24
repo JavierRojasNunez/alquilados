@@ -5,6 +5,9 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Config;
+
+
 
 class Anounces extends Model
 {
@@ -35,8 +38,8 @@ class Anounces extends Model
     ];
 
     protected $caracteristics = [
-        'num_rooms', 'num_baths', 'funiture', 'ascensor', 'calefaction', 'balcon', 'terraza', 'gas', 'swiming', 'internet', 
-        'washing_machine', 'fridge', 'kitchen', 'near_bus', 'near_underground', 'near_tren', 'near_school', 'near_airport',
+        'funiture', 'ascensor', 'calefaction', 'balcon', 'terraza', 'gas', 'swiming', 'internet', 
+        'fridge', 'kitchen', 'near_bus', 'near_underground', 'near_tren', 'near_school', 'near_airport',
     ];
 
     public function user(){
@@ -55,16 +58,46 @@ class Anounces extends Model
         return $this->hasMany(Imagen::class);
     }
 
+
+
     public function getCaracteristics()
     {
         $caracteristics = DB::table('anounces')
         ->select($this->caracteristics)
         ->where('id', $this->id)
-        ->get();
+        ->first();
 
-        if($caracteristics != null){
-            return $caracteristics;
-        }
+        $caracteristics = (array) $caracteristics;
+        $icons = Config::get('caracteristics_images');
+ 
+        //mezclamos los dos arrays para obtener las caracteristicas con su valos 1 o 0 de la bbdd y su imagen
+        //definida en config/caracteristics_images.
+        
+        if($caracteristics != null)
+        {
+           foreach($caracteristics as $key => $value)
+           {
+               if($key == 'funiture') $index = 'Amueblado';
+               if($key == 'ascensor') $index = 'Ascensor'; 
+               if($key == 'calefaction') $index = 'Calefacción'; 
+               if($key == 'balcon') $index = 'Balcon'; 
+               if($key == 'gas') $index = 'Gas'; 
+               if($key == 'swiming') $index = 'Piscina'; 
+               if($key == 'internet') $index = 'Wifi'; 
+               if($key == 'fridge') $index = 'Nevera'; 
+               if($key == 'kitchen') $index = 'Cocina'; 
+               if($key == 'near_bus') $index = 'Cerca de bus'; 
+               if($key == 'near_underground') $index = 'Cerca del metro'; 
+               if($key == 'near_tren') $index = 'Cerca del tren'; 
+               if($key == 'near_school') $index = 'Cerca de colegios'; 
+               if($key == 'near_airport') $index = 'Cerca del eropuerto';  
+               //asignamos la imagen correspondiente a cada caracteristica
+               //y cambiamos el nombre de las keys para las vistas.
+               $result[$index] =   [ $value, $icons[$key] ] ;              
+           }
+
+           return $result;
+        }       
 
         return false;
     }

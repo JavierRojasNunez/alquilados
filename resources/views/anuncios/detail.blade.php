@@ -33,9 +33,21 @@
             <div class="card-header detail">Caracteristicas</div>
         </div>
         <div class="col-12">
+<div class="row">
+        @foreach($caracteristics_images as $key => $values)
 
-
+        
+        @if ($values[0] == 1)
+            <div class="col-3 caracteristics">
+               
+              <img src="../icons/{{$values[1]}}" width="25px" height="25px">
+              {{$key}}              
+            </div>
             
+        @endif
+
+        @endforeach
+         </div>   
         </div>
     </div>        
 </div>

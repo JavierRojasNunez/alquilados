@@ -487,11 +487,14 @@ border-radius: 2px;
 
   }
 
-  .col-12.detail{
+  .col-12.detail, .col-3.caracteristics{
     margin-bottom: 25px;
     padding-left: 25px;
     padding-right: 25px;
+ 
   }
+
+  
 
 
 
