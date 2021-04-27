@@ -80,6 +80,7 @@ class HomeController extends Controller
             return view('errors.404');
         }
 
+        //dd($anounce);
         return view('anuncios.detail', [
             'anuncio' => $anounce,
             'selections' => $selections,

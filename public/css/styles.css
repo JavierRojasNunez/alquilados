@@ -228,6 +228,11 @@ input:checked + .slide:before {
   font-weight: bolder;
 
 }
+.price-detail{
+  color: #f18520;
+  font-weight: bolder;
+  font-size: xx-large;
+}
 .city{
   margin-left: 20px;
 }
@@ -487,7 +492,8 @@ border-radius: 2px;
 
   }
 
-  .col-12.detail, .col-3.caracteristics{
+  .col-12.detail, .col-3.caracteristics,
+  .col-10.detail{
     margin-bottom: 25px;
     padding-left: 25px;
     padding-right: 25px;
