@@ -11,7 +11,7 @@
                 <input type="hidden" value="{{$anounce_id}}" name="anounce_id">
               @endif
     
-              <label for="type_rent">{{ __('Que alquilas') }}<sup style="color:red; font-size:16px">*</sup></label>
+              <label for="type_rent">{{ __('Qué alquilas') }}<sup style="color:red; font-size:16px">*</sup></label>
               
               <select id="type_rent" name="type_rent" class="form-control @error('type_rent') is-invalid @enderror"    required  >
                 <option selected > {{ $anuncio ? $anuncio->type_rent :  old('type_rent') }} </option>                                   
@@ -37,7 +37,7 @@
           @enderror
             </div>
             <div class="form-group col-md-4">
-              <label for="price">{{ __('Por cuanto (€)') }}<sup style="color:red; font-size:16px">*</sup></label>
+              <label for="price">{{ __('Por cuánto (€)') }}<sup style="color:red; font-size:16px">*</sup></label>
               <input type="number" id="price" name="price" class="form-control @error('price') is-invalid @enderror"   value="{{ $anuncio ? $anuncio->price :   old('price') }}" required autocomplete="price"  >
               @error('price')
               <span class="invalid-feedback" role="alert">
@@ -46,7 +46,7 @@
           @enderror
             </div>
             <div class="form-group col-md-4">
-                <label for="payment_period">{{ __('Periodo de pago') }}<sup style="color:red; font-size:16px">*</sup></label>
+                <label for="payment_period">{{ __('Período de pago') }}<sup style="color:red; font-size:16px">*</sup></label>
                 <select id="payment_period" name="payment_period" class="form-control @error('payment_period') is-invalid @enderror"   value="{{ old('payment_period') }}" required autocomplete="payment_period" >
                   <option   selected>{{  $anuncio ? $anuncio->payment_period :  old('payment_period') }}</option>
                   <option>{{ __('diario') }}</option>

@@ -162,7 +162,7 @@
                                     {{                                  
                                     isset($caracteristics)  ? $caracteristics : ( Cookie::has('caracteristics')
                                     ? Cookie::get('caracteristics')
-                                    : 'Caracteristicas')  
+                                    : 'Características')  
                                     }}</option>
                                   <option value="Amueblado">Amueblado</option>
                                   <option value="Calefacción">Calefacción</option>
@@ -224,7 +224,7 @@
                                       }}">{{                                  
                                       isset($what_value)  ? $what_value : ( Cookie::has('what_value')
                                       ? Cookie::get('what_value')
-                                      : 'Que buscas')  
+                                      : 'Qué buscas')  
                                       }}</option>
                                     <option value="Todo">{{ __('Todo') }}</option>
                                     <option value="Piso">{{ __('Piso') }}</option>
@@ -251,7 +251,7 @@
 
                                   isset($province)  ? $province : ( Cookie::has('province_rent')
                                   ? Cookie::get('province_rent')
-                                  : 'Donde')
+                                  : 'Dónde')
 
                                   }}</option>
                                   @foreach(Config::get('provinces') as $provinces)

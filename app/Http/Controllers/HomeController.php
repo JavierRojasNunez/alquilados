@@ -70,6 +70,10 @@ class HomeController extends Controller
     public function detail(Anounces $anounce){
 
         $caracteristics = $anounce->getCaracteristics();
+        $requeriments = $anounce->getRequeriments();
+        //vamoa a ver si esta disponible consultando la fecha
+        //dd($anounce->available_date);
+        $availabe = $anounce->setAvailabe($anounce->available_date);
 
         $selections = Anounces::select('*')
         ->limit(4)
@@ -87,6 +91,7 @@ class HomeController extends Controller
             'geoCity' => false,
             'search' => false,
             'caracteristics_images'=>$caracteristics,
+            'available' => $availabe,
         ]);
 
 

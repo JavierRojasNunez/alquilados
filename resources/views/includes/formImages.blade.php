@@ -1,7 +1,7 @@
 
 @if ($anounce_id == false)
 <div class="card">
-  <div class="card-header" >{{ __('Imagenes') }}</div>
+  <div class="card-header" >{{ __('Imágenes') }}</div>
 
   <div class="card-body">
 

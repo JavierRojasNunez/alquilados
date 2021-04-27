@@ -38,10 +38,18 @@ if(navigator.geolocation){
 
 $(document).ready(function(){
 
+    
+    
     var url = 'http://localhost/alquilados/public';   
     //servidor
     //var url = 'https://azimutweb.es/alquilados/public/index.php'; 
 
+    $("#anouce_phone").click(function(e){
+        
+        e.preventDefault();
+        $('#exampleModalCenter').modal('show');
+
+    });
     
 
     $("#anounce-add").click(function(e){

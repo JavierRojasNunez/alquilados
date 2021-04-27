@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Carbon;
 
 
 
@@ -42,6 +43,10 @@ class Anounces extends Model
         'fridge', 'kitchen', 'near_bus', 'near_underground', 'near_tren', 'near_school', 'near_airport',
     ];
 
+    protected $requirements = [
+        'deposit', 'lookfor_who_job', 'lookfor_who_sex','lookfor_who_tabaco', 'lookfor_who_pet',
+    ];
+
     public function user(){
         return $this->belongsTo(User::class);
     }
@@ -59,6 +64,30 @@ class Anounces extends Model
     }
 
 
+    public function getRequeriments(){
+
+        $requeriments = DB::table('anounces')
+        ->select($this->requirements)
+        ->where('id', $this->id)
+        ->first();
+        return $requeriments;
+
+    }
+
+    public function setAvailabe($date_){
+
+        $now = Carbon::now()->locale('es');
+        $available = Carbon::create($date_)->locale('es');
+        $nowTimeStamp = $now->timestamp;
+        $availableTimeStamp = $available->timestamp;
+
+        if($nowTimeStamp >= $availableTimeStamp){
+            return 'Disponible';
+        }
+           
+        return 'Disponible a partir del ' . $available->isoFormat('LL');
+
+    }
 
     public function getCaracteristics()
     {
@@ -67,8 +96,8 @@ class Anounces extends Model
         ->where('id', $this->id)
         ->first();
 
-        $caracteristics = (array) $caracteristics;
-        $icons = Config::get('caracteristics_images');
+        $caracteristics = (array) $caracteristics;//pasamos de objeto a arrray
+        $icons = Config::get('caracteristics_images');//recuperamos el array con las imagenes de las caracteristicas de la carpeta config archivo caracteristics_images.php
  
         //mezclamos los dos arrays para obtener las caracteristicas con su valos 1 o 0 de la bbdd y su imagen
         //definida en config/caracteristics_images.
@@ -80,7 +109,7 @@ class Anounces extends Model
                if($key == 'funiture') $index = 'Amueblado';
                if($key == 'ascensor') $index = 'Ascensor'; 
                if($key == 'calefaction') $index = 'Calefacción'; 
-               if($key == 'balcon') $index = 'Balcon'; 
+               if($key == 'balcon') $index = 'Balcón'; 
                if($key == 'gas') $index = 'Gas'; 
                if($key == 'swiming') $index = 'Piscina'; 
                if($key == 'internet') $index = 'Wifi'; 
@@ -90,10 +119,11 @@ class Anounces extends Model
                if($key == 'near_underground') $index = 'Cerca del metro'; 
                if($key == 'near_tren') $index = 'Cerca del tren'; 
                if($key == 'near_school') $index = 'Cerca de colegios'; 
-               if($key == 'near_airport') $index = 'Cerca del eropuerto';  
+               if($key == 'near_airport') $index = 'Cerca del aeropuerto';  
                //asignamos la imagen correspondiente a cada caracteristica
-               //y cambiamos el nombre de las keys para las vistas.
-               $result[$index] =   [ $value, $icons[$key] ] ;              
+               //y cambiamos el nombre de las keys para las vistas para no enseñar los campos de las tablas.
+               //y lo metemos todo en un array
+               $result[$index] = [ $value, $icons[$key] ] ;              
            }
 
            return $result;

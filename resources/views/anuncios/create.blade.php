@@ -72,8 +72,8 @@ if(!$anounce_id ){
           @endif
 
           <div class="alert alert-warning alert-dismissible fade show" role="alert" >
-            Los campos con un asterisco rojo son obligatorios. Los demás campos puede dejarlos vacios y rellenar solo los que 
-            creas que son los mas importantes. A más datos, más posibilidad de conseguir tu propósito. Hay que incluir mínimo una imagen
+            Los campos con un asterisco rojo son obligatorios. Los demás campos puede dejarlos vacíos y rellenar solo los que 
+            creas que son los más importantes. A más datos, más posibilidad de conseguir tu propósito. Hay que incluir mínimo 1 imagen
             y máximo 5.
         
             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
@@ -90,7 +90,7 @@ if(!$anounce_id ){
 
 <br>
       <div class="card">
-        <div class="card-header">{{ __('El título y la descripción hacen mas atractivo tu anuncio.') }}</div>
+        <div class="card-header">{{ __('El título y la descripción hacen más atractivo tu anuncio.') }}</div>
 
 <div class="card-body">
 <div class="form-row">       
@@ -124,14 +124,14 @@ if(!$anounce_id ){
 <div class="col-md-9">
 <br />
 <div class="card" >
-<div class="card-header" >{{ __('¿Que perfil buscas?') }}</div>
+<div class="card-header" >{{ __('¿Qué perfil buscas?') }}</div>
 
 <div class="card-body">
 
 <div class="form-row">
     
     <div class="form-group col-md-6">
-      <label for="lookfor_who_sex">{{ __('¿Que prefieres?') }}</label>
+      <label for="lookfor_who_sex">{{ __('¿Qué prefieres?') }}</label>
       
       <select id="lookfor_who_sex" class="form-control @error('lookfor_who_sex') is-invalid @enderror" name="lookfor_who_sex"  value="{{ old('lookfor_who_sex') }}"  >
         <option selected> {{  $anuncio ? $anuncio->lookfor_who_sex :  old('lookfor_who_sex')  }}</option>
@@ -193,7 +193,7 @@ if(!$anounce_id ){
 
 <br />
 <div class="card">
-<div class="card-header" >{{ __('Dirección y datos extra') }}</div>
+<div class="card-header" >{{ __('Dirección y otros datos') }}</div>
 
 <div class="card-body">
 

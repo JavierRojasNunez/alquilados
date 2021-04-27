@@ -22,22 +22,29 @@
     </div>
     <div class="row">
         <div class="col-12" >
-            <div class="card-header detail">Precio y dirección</div>
+            <div class="card-header detail">Precio, dirección y contacto</div>
         </div>
         <div class="col-10 detail" >
         <div class="data-1">
-            <span class="price-detail">{{$anuncio->price}} € </span> <span class="city">{{$anuncio->city_rent}}</span> - <b>{{$anuncio->province_rent}}</b> - {{$anuncio->type_rent}} en {{$anuncio->type}} 
+            <span class="price-detail">{{$anuncio->price}} € </span> <span class="city">{{$anuncio->city_rent}}</span> - <b>{{$anuncio->province_rent}}</b> - {{$anuncio->type_rent}} en {{$anuncio->type}} {{$anuncio->payment_period}}
             </div>
         
             <div class="data-2">
-                 Situada en  {{$anuncio->street_rent}}  {{$anuncio->adress_rent}}   nº {{$anuncio->num_street_rent}} &nbsp;&nbsp;&nbsp; Piso  {{$anuncio->flat_street_rent}}  &nbsp; &nbsp;&nbsp;cp {{$anuncio->cp_rent}}
+                 Situada en  {{$anuncio->street_rent}}  {{$anuncio->adress_rent}}   nº{{$anuncio->num_street_rent}} &nbsp;&nbsp;&nbsp; Piso:  {{$anuncio->flat_street_rent}}  &nbsp; &nbsp;&nbsp;cp {{$anuncio->cp_rent}} &nbsp; {{$available}}
             </div>
             <div class="d-flex p-1 data-caracteristicas">
-                <img src="../icons/dormitorio.png" class="icons-small" title="Dormitorios" alt="Dormitorios"> &nbsp; {{$anuncio->num_rooms}}
+                <img src="../icons/dormitorio.png" class="icons-small" title="Dormitorios" alt="Dormitorios"> &nbsp; {{$anuncio->num_rooms}} 
                 &nbsp; &nbsp; &nbsp; 
                 <img src="../icons/bath.png" class="icons-small" title="Baños" alt="Baños"> &nbsp; {{$anuncio->num_baths}}
                 &nbsp; &nbsp; &nbsp; 
                 <img src="../icons/superficie.png" class="icons-small" title="Superficie" alt="Superficie"> &nbsp; {{$anuncio->meter2}} m&sup2;
+               
+            </div>
+            <div class="d-flex p-1 data-caracteristicas">
+                
+                <img src="../icons/phone.png" class="icons-small" id="anouce_phone" title="Télefono" alt="Télefono"> &nbsp; {{$anuncio->phone}}
+                &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
+                <img src="../icons/email.png" class="icons-small" title="Email" alt="Email"> &nbsp; {{$anuncio->user->email}}
             </div>
             
         </div>
@@ -52,7 +59,7 @@
           
     <div class="row">
         <div class="col-12" >
-            <div class="card-header detail">Caracteristicas</div>
+            <div class="card-header detail">Características</div>
         </div>
         <div class="col-12">
         <div class="row">
