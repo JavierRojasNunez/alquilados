@@ -69,9 +69,12 @@ class HomeController extends Controller
 
     public function detail(Anounces $anounce){
 
+        //obtenemos las caracteristicas del anuncio para las vistas
         $caracteristics = $anounce->getCaracteristics();
+        //obtenemos los requisitos y los formateamos para las vistas
         $requeriments = $anounce->getRequeriments();
-        //vamoa a ver si esta disponible consultando la fecha
+        //dd($requeriments);
+        //vamos a ver si esta disponible consultando la fecha
         //dd($anounce->available_date);
         $availabe = $anounce->setAvailabe($anounce->available_date);
 
@@ -92,6 +95,7 @@ class HomeController extends Controller
             'search' => false,
             'caracteristics_images'=>$caracteristics,
             'available' => $availabe,
+            'requeriments' => $requeriments,
         ]);
 
 
