@@ -20,7 +20,6 @@ window.Vue = require('vue').default;
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
 Vue.component('user-component', require('./components/UserComponent.vue').default);
 Vue.component('my-profile-component', require('./components/MyProfileComponent.vue').default);
-Vue.component('example-component', require('./components/ExampleComponent.vue').default);
 Vue.component('form-component', require('./components/FormComponent.vue').default);
 Vue.component('product-component', require('./components/ProductComponent.vue').default);
 Vue.component('my-products-component', require('./components/MyProductsComponent.vue').default);
