@@ -27,7 +27,7 @@ public function verify($user_id, Request $request) {
         return response()->json(["msg" => "Problems whith this verifycation, contact."], 400);
     }
 
-   aqui mandar respuesta o redirigir a vista return redirect()->to('/');
+   //aqui mandar respuesta o redirigir a vista return redirect()->to('/');
 }
 
 public function resend() {

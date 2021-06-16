@@ -85,6 +85,9 @@
                                     <a class="dropdown-item" href="{{ route('my.anounce') }}">
                                         Mis anuncios
                                     </a>
+                                    <a class="dropdown-item" href="{{ route('profile') }}">
+                                      Mi perfil
+                                  </a>
                                     <a class="dropdown-item" href="{{ route('logout') }}"
                                        onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
@@ -102,6 +105,7 @@
             </div>
         </nav>
         @include('includes.anounceTypeModal')
+        
         <main class="py-4">
             <div class="search-bar" >
                 <div class="row justify-content-center">
@@ -275,6 +279,9 @@
              </div>
             @yield('content')
         </main>
+        
+        @include('footer')
+        
     </div>
 </body>
 </html>

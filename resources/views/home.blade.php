@@ -24,7 +24,12 @@
             </div>
         @endif
         </div>
-       
+        
+        
+         <my-products-component></my-products-component> 
+            
+        
+
         @foreach ($anuncios as $anuncio)
 
   
@@ -126,12 +131,12 @@
                     
                     <div class="card-phone">
                      
-                        <img src="icons/phone.png" class="icons"  title="Ver teléfono" alt="Ver teléfono">
+                        <a href=""><img src="icons/phone.png" class="icons contact"  title="Ver teléfono" alt="Ver teléfono"></a>
                     </div>
                    
                     <div class="card-mail">
                       
-                        <img src="icons/email.png" class="icons"  title="Enviar mensaje" alt="Enviar mensaje">
+                        <a href=""><img src="icons/email.png" class="icons contact"  title="Enviar mensaje" alt="Enviar mensaje"></a>
             
                     </div>
                 </div>
@@ -153,7 +158,7 @@
 </div>   
     <div class="col-md-12" style="clear: both" >
            
-        <h1>Últimos anuncios {{ $geoCity }}</h1>
+        <h1>Últimos anuncios {{ $geoCity ?? '' }}</h1>
         <br>
     <div class="row">
 
@@ -207,4 +212,5 @@
 
       
 </div>
+@include('includes.contactModal')
 @endsection

@@ -9,9 +9,12 @@ use Illuminate\Notifications\Notifiable;
 
 use Laravel\Passport\HasApiTokens;
 
-class User extends Authenticatable  implements MustVerifyEmail
+class User extends \TCG\Voyager\Models\User  implements MustVerifyEmail
+//class User extends Authenticatable  implements MustVerifyEmail
 {
     use HasApiTokens, HasFactory, Notifiable;
+
+    protected $table = 'users';
 
     /**
      * The attributes that are mass assignable.

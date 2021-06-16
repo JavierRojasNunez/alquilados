@@ -44,10 +44,12 @@ $(document).ready(function(){
     //servidor
     //var url = 'https://azimutweb.es/alquilados/public/index.php'; 
 
-    $("#anouce_phone").click(function(e){
+
+    //modal para mostrar datos de contacto
+    $(".icons-small.contact, .icons.contact").click(function(e){
         
         e.preventDefault();
-        $('#exampleModalCenter').modal('show');
+        $('#contact_modal').modal('show');
 
     });
     

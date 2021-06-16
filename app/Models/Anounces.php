@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Str;
 
 
 
@@ -44,7 +45,7 @@ class Anounces extends Model
     ];
 
     protected $requirements = [
-        'deposit', 'lookfor_who_job', 'lookfor_who_sex','lookfor_who_tabaco', 'lookfor_who_pet',
+        'deposit', 'lookfor_who_sex','lookfor_who_job', 'lookfor_who_tabaco', 'lookfor_who_pet',
     ];
 
     public function user(){
@@ -70,7 +71,47 @@ class Anounces extends Model
         ->select($this->requirements)
         ->where('id', $this->id)
         ->first();
-        return $requeriments;
+
+        $requeriment = [];
+        //formateamos para las vistas y asignamos 
+        foreach($requeriments as $key => $value){
+
+           if($key == 'deposit' && $value != null && $value != 0)
+           {
+                $index = 'Depósito inicial';
+                $requeriment[$index] = [$value . '€', 'deposit.png'];
+           }
+
+           if($key == 'lookfor_who_sex' && $value != null && Str::lower($value) != 'indiferente')
+           {
+                $index = 'Solo';
+                $requeriment[$index] = [$value, 'usuarios.png'];
+           }
+
+           if($key == 'lookfor_who_job' && $value != null && Str::lower($value) != 'indiferente')
+           {
+                $index = 'Para';
+                $icon = Str::lower($value) == 'estudiantes' ? 'colegios.png'  : 'profesional.png';
+                $requeriment[$index] = [$value,  $icon];
+           }
+
+           if($key == 'lookfor_who_tabaco')
+           {
+                $index = 'Fumadores';
+                $requeriment[$index] = $value ? ['Si', 'fumar-si.png'] : ['No', 'fumar-no.png'];
+           }
+
+           if($key == 'lookfor_who_pet')
+           {
+                $index = 'Mascotas';
+                $requeriment[$index] = $value ? ['Si', 'mascotas.png'] : ['No', 'mascotas-no.png'];
+           }
+
+        }
+        
+        return !empty($requeriment) 
+        ? $requeriment 
+        : false;
 
     }
 

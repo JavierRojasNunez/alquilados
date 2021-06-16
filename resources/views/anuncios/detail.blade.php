@@ -33,18 +33,18 @@
                  Situada en  {{$anuncio->street_rent}}  {{$anuncio->adress_rent}}   nº{{$anuncio->num_street_rent}} &nbsp;&nbsp;&nbsp; Piso:  {{$anuncio->flat_street_rent}}  &nbsp; &nbsp;&nbsp;cp {{$anuncio->cp_rent}} &nbsp; {{$available}}
             </div>
             <div class="d-flex p-1 data-caracteristicas">
-                <img src="../icons/dormitorio.png" class="icons-small" title="Dormitorios" alt="Dormitorios"> &nbsp; {{$anuncio->num_rooms}} 
+                <img src="../../icons/dormitorio.png" class="icons-small" title="Dormitorios" alt="Dormitorios"> &nbsp; {{$anuncio->num_rooms}} 
                 &nbsp; &nbsp; &nbsp; 
-                <img src="../icons/bath.png" class="icons-small" title="Baños" alt="Baños"> &nbsp; {{$anuncio->num_baths}}
+                <img src="../../icons/bath.png" class="icons-small" title="Baños" alt="Baños"> &nbsp; {{$anuncio->num_baths}}
                 &nbsp; &nbsp; &nbsp; 
-                <img src="../icons/superficie.png" class="icons-small" title="Superficie" alt="Superficie"> &nbsp; {{$anuncio->meter2}} m&sup2;
+                <img src="../../icons/superficie.png" class="icons-small" title="Superficie" alt="Superficie"> &nbsp; {{$anuncio->meter2}} m&sup2;
                
             </div>
             <div class="d-flex p-1 data-caracteristicas">
                 
-                <img src="../icons/phone.png" class="icons-small" id="anouce_phone" title="Télefono" alt="Télefono"> &nbsp; {{$anuncio->phone}}
+                <a href=""><img src="../../icons/phone.png" class="icons-small contact" id="anouce_phone" title="Télefono" alt="Télefono"></a>
                 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
-                <img src="../icons/email.png" class="icons-small" title="Email" alt="Email"> &nbsp; {{$anuncio->user->email}}
+                <a href=""><img src="../../icons/email.png" id="anouce_phone" class="icons-small contact" title="Email" alt="Email"></a>
             </div>
             
         </div>
@@ -53,12 +53,12 @@
         <div class="col-12" >
             <div class="card-header detail">Descripción</div>
         </div>
-        <div class="col-12 detail">{{ __($anuncio->descripcion) }}</div>
+        <div class="col-12 detail">{!! $anuncio->descripcion !!}</div>
         
     </div>
           
     <div class="row">
-        <div class="col-12" >
+        <div class="col-12">
             <div class="card-header detail">Características</div>
         </div>
         <div class="col-12">
@@ -69,7 +69,7 @@
         @if ($values[0] == 1)
             <div class="col-3 caracteristics">
                
-              <img src="../icons/{{$values[1]}}" width="25px" height="25px">
+              <img src="../../icons/{{$values[1]}}" width="25px" height="25px">
               {{$key}}              
             </div>
             
@@ -79,8 +79,59 @@
          </div>   
         </div>
     </div>        
-</div>
 
+    @if($requeriments)
+    <div class="row">
+        <div class="col-12">
+            <div class="card-header detail">Requisitos</div>
+        </div>
+        <div class="col-12">
+        <div class="row">
+        @foreach($requeriments as $key => $values)
+
+        
+        
+            <div class="col-3 caracteristics">
+               
+              <img src="../../icons/{{$values[1]}}" width="25px" height="25px">
+              {{$key}} {{$values[0]}}             
+            </div>
+            
+        
+
+        @endforeach
+         </div>   
+        </div>
+    </div>
+    @endif
+
+    @if($anuncio->observations != null)
+
+    <div class="row">
+        <div class="col-12">
+            <div class="card-header detail">Observaciones</div>
+        </div>
+        <div class="col-12">
+        <div class="row">
+        
+        
+        
+            <div class="col-12 detail">
+               
+              {{$anuncio->observations}}            
+            </div>
+            
+        
+
+       
+         </div>   
+        </div>
+    </div>
+
+    @endif
+
+</div>
+@include('includes.contactModal')
 
 
 

@@ -1,11 +1,35 @@
+
+#app{
+  height: 100% !important;
+}
 .py-4{
   margin-top: 27px !important;
+  height: 100% !important;
 
 }
+
 body{
+  
   background-color: rgba(230, 225, 225, 0.671);
+  min-height: 100%;
 }
 
+.footer{
+ 
+  height: 50px; 
+  bottom: 0px;
+  width:100%; 
+
+  
+  /*margin-top: 40px;*/
+  background-color: #f07f16;
+  color:rgb(5, 5, 5) !important;
+  font-size: 16px;
+}
+.footer-text{
+  padding: 10px;
+  text-align: center;
+}
 
 
 a{
@@ -493,12 +517,14 @@ border-radius: 2px;
   }
 
   .col-12.detail, .col-3.caracteristics,
-  .col-10.detail{
+  .col-10.detail, .col-4.caracteristics{
     margin-bottom: 25px;
     padding-left: 25px;
     padding-right: 25px;
  
   }
+
+  
 
   
 

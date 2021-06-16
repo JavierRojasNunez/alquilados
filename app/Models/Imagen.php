@@ -11,6 +11,8 @@ class Imagen extends Model
 
     protected $table = 'images';
 
+    const DEFAULT_IMG = "/anuncios/default.jpg";
+
     protected $fillable = [
         'user_id', 'anounces_id', 'imageName',
     ];
@@ -20,6 +22,9 @@ class Imagen extends Model
         'remember_token', 'user_id',
     ];
 
+    protected $appends = ['img_url'];
+
+
     public function user(){
         return $this->belongsTo(User::class);
     }
@@ -28,7 +33,10 @@ class Imagen extends Model
         return $this->belongsTo(Anounces::class);
     }
 
-    
+    public function getImgUrlAttribute()
+    {
+        return $this->imageName == null ? url('/images/'. self::DEFAULT_IMG) : url('/images/'. $this->user_id . '/' . $this->imageName);
+    }
 
 
     

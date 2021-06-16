@@ -45,7 +45,27 @@ Route::post('/guardar/imagenes', [App\Http\Controllers\ImagenController::class, 
 Route::get('/cities/{city_id}', [App\Http\Controllers\CitiesController::class, 'getCities']);
 Route::get('/adress/{char}/{province_id}', [App\Http\Controllers\CitiesController::class, 'getAdress']);
 
+//export excel
+Route::get('/export/users', [App\Http\Controllers\ExcelController::class, 'UserExport']);
+
+//Import excel
+Route::get('/import/products', [App\Http\Controllers\ExcelController::class, 'productImport']);
 //consumo api
 Route::get('/api-anuncios/{id?}', [App\Http\Controllers\GetApiDataController::class, 'getAll'])->middleware(['auth', 'verified']);
 
+//rutas vue
+Route::post('/producto', [App\Http\Controllers\ProductController::class, 'store'])->middleware(['auth', 'verified']);
 
+Route::get('/producto/{product_id}', [App\Http\Controllers\ProductController::class, 'show'])->middleware(['auth', 'verified']);
+Route::delete('/eliminar-producto/{product_id}', [App\Http\Controllers\ProductController::class, 'delete'])->middleware(['auth', 'verified']);
+Route::get('/todos-productos', [App\Http\Controllers\ProductController::class, 'all'])->middleware(['auth', 'verified']);
+Route::put('/actualizar-producto/{product_id}', [App\Http\Controllers\ProductController::class, 'update'])->middleware(['auth', 'verified']);
+
+//rutas perfil user
+
+Route::get('/mi-perfil', [App\Http\Controllers\UserController::class, 'get'])->name('profile')->middleware(['auth', 'verified']);
+Route::resource('/perfil', App\Http\Controllers\UserController::class)->middleware(['auth', 'verified']);
+
+Route::group(['prefix' => 'admin'], function () {
+   // Voyager::routes();
+});

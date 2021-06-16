@@ -1,10 +1,9 @@
 
-
-<footer class="bg-light text-center text-lg-start">
-  <!-- Copyright -->
-  <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2)">
-    © 2020 Copyright:
-    <a class="text-dark" href="https://mdbootstrap.com/">MDBootstrap.com</a>
+<div class="footer">
+  <div class="footer-text">
+    <span>Desarrrollado por Javier Rojas © 
+    <a href="https://azimutweb.es" target="_blank"> 
+      azimut Web</span></a>
+  
+    </div>
   </div>
-  <!-- Copyright -->
-</footer>

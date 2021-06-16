@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\newAdd;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
@@ -263,6 +264,8 @@ class saveAdController extends Controller
 
                 if($anuncio->save()){
     
+                    //lanzamos evento de creacion de nuevo anuncio
+                    event(new newAdd($anuncio));
                     $lastInsertId = $anuncio->id;
     
                     //subir imagenes al server y no se esta editando
