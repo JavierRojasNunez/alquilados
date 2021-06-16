@@ -18,7 +18,7 @@ class UserController extends Controller
     public function get()
     {
         return view::make('user.user_profile');
-    }    
+    }
     /**
      * Display a listing of the resource.
      *
@@ -27,18 +27,8 @@ class UserController extends Controller
     public function index()
     {
         return User::where('id', Auth::user()->id)->get()->first();
-    }    
+    }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }   
 
     /**
      * Update the specified resource in storage.

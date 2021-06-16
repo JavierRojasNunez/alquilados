@@ -26,34 +26,28 @@ class HomeController extends Controller
      */
     public function index(Request $request)
     {
-        
 
-        
-        if ($request->hasCookie('city')){
+        if ($request->hasCookie('city')) {
 
             $city = $request->cookie('city');
             $selections = Anounces::where('city_rent', Str::lower($city))
-            ->limit(4)
-            ->orderByDesc('id')
-            ->get();
-
-        }else{
+                ->limit(4)
+                ->orderByDesc('id')
+                ->get();
+        } else {
 
             $city = false;
             $selections = Anounces::select('*')
-            ->limit(4)
-            ->orderByDesc('id')
-            ->get();
-
+                ->limit(4)
+                ->orderByDesc('id')
+                ->get();
         }
-        
-        
 
         $anuncios = Anounces::paginate(6)->onEachSide(0);
 
         //dd($anuncios);
 
-        if($anuncios == null || $selections == null){
+        if ($anuncios == null || $selections == null) {
             return view('errors.404');
         }
 
@@ -63,51 +57,46 @@ class HomeController extends Controller
             'geoCity' => $city,
             'search' => false,
         ]);
-
-
     }
 
-    public function detail(Anounces $anounce){
+    public function detail(Anounces $anounce)
+    {
 
         //obtenemos las caracteristicas del anuncio para las vistas
         $caracteristics = $anounce->getCaracteristics();
         //obtenemos los requisitos y los formateamos para las vistas
         $requeriments = $anounce->getRequeriments();
-        //dd($requeriments);
         //vamos a ver si esta disponible consultando la fecha
-        //dd($anounce->available_date);
         $availabe = $anounce->setAvailabe($anounce->available_date);
 
         $selections = Anounces::select('*')
-        ->limit(4)
-        ->orderByDesc('id')
-        ->get();
+            ->limit(4)
+            ->orderByDesc('id')
+            ->get();
 
-        if($anounce == null || $selections == null){
+        if ($anounce == null || $selections == null) {
             return view('errors.404');
         }
 
-        //dd($anounce);
         return view('anuncios.detail', [
             'anuncio' => $anounce,
             'selections' => $selections,
             'geoCity' => false,
             'search' => false,
-            'caracteristics_images'=>$caracteristics,
+            'caracteristics_images' => $caracteristics,
             'available' => $availabe,
             'requeriments' => $requeriments,
         ]);
-
-
     }
 
-    public function redirectRegister(){
+    public function redirectRegister()
+    {
 
         $anuncios = Anounces::paginate(6);
         $selections = Anounces::select('*')
-        ->limit(4)
-        ->orderByDesc('id')
-        ->get();
+            ->limit(4)
+            ->orderByDesc('id')
+            ->get();
 
 
         $mensaje = 'Genial!! el registro fué bien. Te hemos enviado un email para que verifiques tu cuenta.';
@@ -117,6 +106,5 @@ class HomeController extends Controller
             'selections' => $selections,
             'search' => false,
         ])->with(['statuss_' => $mensaje]);
-
     }
 }

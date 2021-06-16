@@ -19,27 +19,21 @@ class ExcelController extends Controller
      * @return Response
      */
     public function UserExport()
-    {       
-    
+    {
+
         $fileyear = Carbon::now()->year;
         $fileMonth = Carbon::now()->month;
         $fileName = $fileMonth . '-' . $fileyear;
-        Excel::store(new UsersExport('User'), 'exports/users/'. $fileName .'/users.xlsx', 'public');
+        Excel::store(new UsersExport('User'), 'exports/users/' . $fileName . '/users.xlsx', 'public');
         return Excel::download(new UsersExport('User'), 'users.xlsx');
-
-    
     }
 
-    public function productImport() 
+    public function productImport()
     {
         $ok = Excel::import(new ProductsImport, 'ventas2.csv');
 
-        if ($ok)
-        {
+        if ($ok) {
             return redirect()->route('home')->with(['statuss_' => 'productos subidos a la bbdd con exito']);
         }
-        
-
     }
-
 }

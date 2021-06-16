@@ -16,7 +16,7 @@
         @delete="deleteUser(index)">
     </user-component>
 
-        
+       
     </div>
     </div>
 </template>
@@ -25,12 +25,16 @@
     export default {
         data() {
             return {
-                users: ''
+                users: '',
+                saludo: ''
             }
         },
         mounted() {
+
+            let hola = 'hola';
             axios.get('/alquilados/public/perfil').then((response) => {
                 this.users = response.data;
+                this.saludo = hola;
             });
         },
         methods: {           

@@ -17,7 +17,8 @@ class ProductController extends Controller
         return Product::all();
     }
 
-    public  function store(Request $request){
+    public  function store(Request $request)
+    {
 
         $product = new Product();
         $product->reference = $request->reference;
@@ -26,17 +27,15 @@ class ProductController extends Controller
         $product->quantity = $request->quantity;
         $product->save();
 
-        if($product)
-        {
+        if ($product) {
             return $product;
-            
         }
 
         return false;
-
     }
 
-    public  function update(Request $request, Product $product){
+    public  function update(Request $request, Product $product)
+    {
 
         $product = Product::findorfail($request->product_id);
 
@@ -47,41 +46,35 @@ class ProductController extends Controller
 
         $product->save();
 
-        if($product)
-        {
+        if ($product) {
             return $product;
         }
 
         return false;
-
     }
 
-    public  function show(Request $request ,Product $product)
+    public  function show(Request $request, Product $product)
     {
-        
+
         $product = Product::findorfail($request->product_id);
-        
-        if($product)
-        {
+
+        if ($product) {
             return $product;
         }
 
         return false;
     }
 
-    public  function delete(Request $request ,Product $product)
+    public  function delete(Request $request, Product $product)
     {
-        
+
         $product = Product::findorfail($request->product_id);
         $product->delete();
 
-        if($product)
-        {
+        if ($product) {
             return $product;
         }
 
         return false;
     }
-
-    
 }

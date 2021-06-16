@@ -31,4 +31,7 @@ Vue.component('my-products-component', require('./components/MyProductsComponent
 
 const app = new Vue({
     el: '#app',
+    data:{
+        message: 'Hola vue',
+    }
 });

@@ -22,13 +22,13 @@ class AuthApiController extends Controller
     public function signup(Request $request)
     {
 
-        if(!$request){
+        if (!$request) {
             return response()->json(['message' => 'You don´t send any data.'], 200);
         }
-        
+
         $userExists = User::where("email", $request->email)->exists();
 
-        if($userExists){
+        if ($userExists) {
             return response()->json(['message' => 'Not created, user allready exist!.'], 406);
         }
 
@@ -38,12 +38,12 @@ class AuthApiController extends Controller
             'password' => ['required', 'string', 'min:8'],
         ]);
 
-  
 
-        if ($verify->fails()) { 
-            return response()->json(['error'=>$verify->errors()], 401);            
+
+        if ($verify->fails()) {
+            return response()->json(['error' => $verify->errors()], 401);
         }
-       
+
         /*$user = new User([
 
             'name' => $request->name,
@@ -53,8 +53,7 @@ class AuthApiController extends Controller
 
         ]);*/
 
-        try
-        {
+        try {
             $user = User::create([
                 'name' => $request->name,
                 'email' => $request->email,
@@ -62,33 +61,28 @@ class AuthApiController extends Controller
                 'password' => Hash::make($request->password),
 
             ])->sendEmailVerificationNotification();
-
-        }catch(Exception $e){
+        } catch (Exception $e) {
 
             return response()->json(['message' => 'Not created, Problems whith data base, please try again!.'], 406);
-            
         }
-        
-        return response()->json(['message' => 'Successfully created user! You can login After confirm your email.'], $this->HttpstatusCode);
 
-        
-            
+        return response()->json(['message' => 'Successfully created user! You can login After confirm your email.'], $this->HttpstatusCode);
     }
 
     public function login(Request $request)
     {
-        
-        
+
+
         $verify = Validator::make($request->all(), [
             'email' => ['required', 'string', 'email'],
             'password' => ['required', 'string', 'min:8'],
             'remember_me' => ['boolean'],
         ]);
 
-  
 
-        if ($verify->fails()) { 
-            return response()->json(['error'=>$verify->errors()], 401);            
+
+        if ($verify->fails()) {
+            return response()->json(['error' => $verify->errors()], 401);
         }
 
 
@@ -96,13 +90,15 @@ class AuthApiController extends Controller
 
         if (!Auth::attempt($credentials)) {
             return response()->json([
-                'message' => 'Unauthorized'], 401);
+                'message' => 'Unauthorized'
+            ], 401);
         }
 
 
-        if(Auth::user()->email_verified_at === null){
+        if (Auth::user()->email_verified_at === null) {
             return response()->json([
-                'message' => 'Unauthorized. Yoy must verify your email account'], 401);
+                'message' => 'Unauthorized. Yoy must verify your email account'
+            ], 401);
         }
 
         $user = $request->user();
@@ -117,7 +113,8 @@ class AuthApiController extends Controller
             'access_token' => $tokenResult->accessToken,
             'token_type' => 'Bearer',
             'expires_at' => Carbon::parse(
-                $tokenResult->token->expires_at)
+                $tokenResult->token->expires_at
+            )
                 ->toDateTimeString(),
         ]);
     }
@@ -126,7 +123,7 @@ class AuthApiController extends Controller
     {
         $request->user()->token()->revoke();
         return response()->json(['message' =>
-            'Successfully logged out']);
+        'Successfully logged out']);
     }
 
     public function user(Request $request)

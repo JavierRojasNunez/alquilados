@@ -18,26 +18,25 @@ class Imagen extends Model
     ];
 
     protected $hidden = [
-        
+
         'remember_token', 'user_id',
     ];
 
     protected $appends = ['img_url'];
 
 
-    public function user(){
+    public function user()
+    {
         return $this->belongsTo(User::class);
     }
 
-    public function anounces(){
+    public function anounces()
+    {
         return $this->belongsTo(Anounces::class);
     }
 
     public function getImgUrlAttribute()
     {
-        return $this->imageName == null ? url('/images/'. self::DEFAULT_IMG) : url('/images/'. $this->user_id . '/' . $this->imageName);
+        return $this->imageName == null ? url('/images/' . self::DEFAULT_IMG) : url('/images/' . $this->user_id . '/' . $this->imageName);
     }
-
-
-    
 }

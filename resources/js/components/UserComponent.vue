@@ -7,19 +7,20 @@
             <div class="form-group">  
                 <label v-if="editMode" for="name">Nombre</label>
                 <input v-if="editMode" type="text" class="form-control"  v-model="user.name" >
-                <h5 v-else>{{ user.name }}</h5>
+                <h5 v-else>Nombre: {{ user.name }}</h5>
             </div>
             
             <div class="form-group">  
                 <label v-if="editMode" for="name">Apellidos</label>
                 <input v-if="editMode" type="text" class="form-control" v-model="user.surname">
-                <h5 v-else>{{ user.surname }}</h5>
+                <h5 v-else>Apellidos: {{ user.surname }}</h5>
             </div>
             <div class="form-group">  
                 <label v-if="editMode" for="name">Email</label>
                 <input v-if="editMode" type="text" disabled class="form-control" v-model="user.email" aria-describedby="emailHelp">
-                 <small v-if="editMode" id="emailHelp" class="form-text text-muted">Por razones de seguridad para cambiar el email contacte con el admin de la web.</small>
-                <h5 v-else>{{ user.email }}</h5>
+                <small v-if="editMode" id="emailHelp" class="form-text text-muted">Por razones de seguridad para cambiar el email contacte con el admin de la web.</small>             
+                <p v-if="!editMode">Email</p>
+                <h5 v-if="!editMode">{{ user.email }}</h5>
             </div>
             
  </form>
