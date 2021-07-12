@@ -52,7 +52,7 @@ return [
     |
     */
 
-    'url' => env('APP_URL', 'https://localhost/alquilados/public'),
+    'url' => env('APP_URL', 'https://azimutweb.es/alquilados/public'),
 
     'asset_url' => env('ASSET_URL', null),
 

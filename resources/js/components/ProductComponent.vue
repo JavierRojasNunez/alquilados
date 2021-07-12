@@ -15,6 +15,7 @@
 
             <input v-if="editMode" type="text" class="form-control" v-model="product.quantity">
             <p v-else>{{ product.quantity }}</p>
+            <p v-if="!editMode">{{calculateSum(product.quantity , 5)}}</p>
  
         </div>
 
@@ -24,6 +25,9 @@
             </button>
             <button v-else class="btn btn-primary" v-on:click="onClickEdit()">
                 Editar
+            </button>
+            <button v-if="editMode" class="btn btn-primary" v-on:click="onClickCancel()">
+                cancelar
             </button>
 
             <button class="btn btn-danger" v-on:click="onClickDelete()">
@@ -38,7 +42,9 @@
         props: ['product'],
         data() {
             return {
-                editMode: false
+                editMode: false,
+                
+                
             };
         },
         mounted() {
@@ -53,6 +59,9 @@
             onClickEdit() {
                 this.editMode = true;
             },
+            onClickCancel() {
+                this.editMode = false;
+            },
             onClickUpdate() {
                 const params = {
                     reference: this.product.reference,
@@ -65,6 +74,9 @@
                     const product = response.data;
                     this.$emit('update', product);
                 });
+            },
+            calculateSum(value1, value2){
+                return value1 + value2;        
             }
         }
     }

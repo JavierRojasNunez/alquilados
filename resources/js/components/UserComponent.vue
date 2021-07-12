@@ -67,8 +67,8 @@
                     email: this.user.email
                     
                 };
-                
-                axios.put(`/alquilados/public/perfil/${this.user.id}`, params).then((response) => {
+               // axios.put(`/alquilados/public/perfil/${this.user.id}`, params).then((response) => {
+                axios.put(`https://azimutweb.es/alquilados/public/index.php/perfil/${this.user.id}`, params).then((response) => {
                     this.editMode = false;
                     const user = response.data;
                     this.$emit('update', user);

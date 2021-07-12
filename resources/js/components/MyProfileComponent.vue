@@ -32,7 +32,7 @@
         mounted() {
 
             let hola = 'hola';
-            axios.get('/alquilados/public/perfil').then((response) => {
+            axios.get('https://azimutweb.es/alquilados/public/index.php/perfil').then((response) => {
                 this.users = response.data;
                 this.saludo = hola;
             });

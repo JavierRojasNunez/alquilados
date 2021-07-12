@@ -1,8 +1,8 @@
 
 if(navigator.geolocation){
     //servidor
-    //var url = 'https://azimutweb.es/alquilados/public/index.php'; 
-    var url = 'http://localhost/alquilados/public';
+    var url = 'https://azimutweb.es/alquilados/public/index.php'; 
+    //var url = 'http://localhost/alquilados/public';
     //intentamos obtener las coordenadas del usuario
     navigator.geolocation.getCurrentPosition(function(objPosicion){
         //almacenamos en variables la longitud y latitud
@@ -40,9 +40,9 @@ $(document).ready(function(){
 
     
     
-    var url = 'http://localhost/alquilados/public';   
+    //var url = 'http://localhost/alquilados/public';   
     //servidor
-    //var url = 'https://azimutweb.es/alquilados/public/index.php'; 
+    var url = 'https://azimutweb.es/alquilados/public/index.php'; 
 
 
     //modal para mostrar datos de contacto

@@ -43,7 +43,7 @@ class HomeController extends Controller
                 ->get();
         }
 
-        $anuncios = Anounces::paginate(6)->onEachSide(0);
+        $anuncios = Anounces::simplePaginate(6);
 
         //dd($anuncios);
 

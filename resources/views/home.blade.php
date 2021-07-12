@@ -25,7 +25,7 @@
         </div>
 
 
-        <my-products-component></my-products-component>
+        <!--  <my-products-component></my-products-component> -->
 
 
 
@@ -234,5 +234,7 @@
 
 
         </div>
-        @include('includes.contactModal')
-        @endsection
+    </div>
+</div>
+@include('includes.contactModal')
+@endsection
