@@ -137,7 +137,7 @@
                                     {{$anuncio->num_street_rent}}.
                                 </div>
                                 <div class="data-4">
-                                    {{ Str::limit($anuncio->descripcion, 250)}}
+                                    {{ Str::limit(strip_tags($anuncio->descripcion), 250)}}
                                 </div>
                             </a>
                         </div>
@@ -208,7 +208,7 @@
                                     <span class="price">{{$anuncio->price}} € </span> <span
                                         class="city-small">{{$anuncio->city_rent}}</span>
                                 </div>
-                                <p class="card-text">{{ Str::limit($anuncio->descripcion, 100)}}</p>
+                                <p class="card-text">{{ Str::limit(strip_tags($anuncio->descripcion), 100)}}</p>
                             </div>
 
                             <div class="data-caracteristicas-small">

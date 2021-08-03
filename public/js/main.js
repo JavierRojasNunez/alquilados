@@ -38,7 +38,7 @@ if(navigator.geolocation){
 
 $(document).ready(function(){
 
-    
+    $(".carousel-control-prev").hide();
     
     //var url = 'http://localhost/alquilados/public';   
     //servidor
@@ -399,7 +399,7 @@ $(document).ready(function(){
 
 
     });
-
+ 
     function currentPhoto(anounce_id){
 
         var currentPhoto;
@@ -428,6 +428,7 @@ $(document).ready(function(){
         $("#current-photo"+anounce_id).text(currentPhoto_id);
         $(".carousel-control-next."+anounce_id).show();
 
+        
         if(currentPhoto_id == 1){
             $(".carousel-control-prev."+anounce_id).hide();
         }else{

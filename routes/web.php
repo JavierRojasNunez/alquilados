@@ -69,3 +69,8 @@ Route::resource('/perfil', App\Http\Controllers\UserController::class)->middlewa
 Route::group(['prefix' => 'admin'], function () {
    // Voyager::routes();
 });
+
+//chats 
+Route::get('/chat',      [App\Http\Controllers\ChatsController::class, 'index'])->middleware(['auth', 'verified']);
+Route::get('/messages',  [App\Http\Controllers\ChatsController::class, 'fetchMessages'])->middleware(['auth', 'verified']);
+Route::post('/messages', [App\Http\Controllers\ChatsController::class, 'sendMessage'])->middleware(['auth', 'verified']);

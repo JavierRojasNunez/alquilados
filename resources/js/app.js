@@ -23,13 +23,65 @@ Vue.component('my-profile-component', require('./components/MyProfileComponent.v
 Vue.component('form-component', require('./components/FormComponent.vue').default);
 Vue.component('product-component', require('./components/ProductComponent.vue').default);
 Vue.component('my-products-component', require('./components/MyProductsComponent.vue').default);
+Vue.component('chat-messages-component', require('./components/ChatMessagesComponent.vue').default);
+Vue.component('chat-form-component', require('./components/ChatFormComponent.vue').default);
+
+
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
-const app = new Vue({
+ 
+
+
+ const app = new Vue({
     el: '#app',
+
+    data: {
+        messages: []
+    },
+
+    created() {
+        this.fetchMessages();
+      
+        Echo.private('chat')
+        .listen('MessageSent', (e) => {
+        
+          this.messages.push({
+            message: e.message.message,
+            user: e.user
+          });
+          
+        });
+        //this.scrollToElement();
+        
+    },
+    mounted() {
+     // this.scrollToElement();
+    },
     
+
+    methods: {
+        fetchMessages() {
+            axios.get('/alquilados/public/messages').then(response => {
+                this.messages = response.data;
+            });
+          //  this.scrollToElement();
+        },
+
+        
+
+        addMessage(message) {
+          
+            this.messages.push(message);
+
+            axios.post('/alquilados/public/messages', message).then(response => {
+              console.log(response.data);
+            });
+        }
+    }
 });
+
+
